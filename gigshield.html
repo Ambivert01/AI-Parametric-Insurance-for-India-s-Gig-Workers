@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GigShield — AI-Powered Parametric Income Insurance</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04080F;
+  --bg2:#070D1A;
+  --bg3:#0A1120;
+  --orange:#FF6B2C;
+  --orange2:#FF8C55;
+  --cyan:#00D9FF;
+  --green:#10B981;
+  --purple:#8B5CF6;
+  --red:#EF4444;
+  --text:#E2E8F0;
+  --muted:#64748B;
+  --border:#1E293B;
+  --card:#0D1729;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;line-height:1.6}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(4,8,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--orange)}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.5px;transition:color .2s}
+.nav-links a:hover{color:var(--orange)}
+.nav-badge{background:linear-gradient(135deg,var(--orange),#FF3D00);padding:6px 16px;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:1px;color:white}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,107,44,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,44,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(255,107,44,.12) 0%,transparent 70%);pointer-events:none}
+.hero-glow2{position:absolute;top:40%;left:20%;width:400px;height:400px;background:radial-gradient(ellipse,rgba(0,217,255,.06) 0%,transparent 70%);pointer-events:none}
+.hackathon-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,44,.1);border:1px solid rgba(255,107,44,.3);padding:6px 18px;border-radius:30px;font-size:.8rem;color:var(--orange);font-weight:600;letter-spacing:.5px;margin-bottom:28px;animation:fadeUp .6s ease both}
+.hackathon-badge::before{content:'';width:8px;height:8px;background:var(--orange);border-radius:50%;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,9vw,8rem);line-height:.95;letter-spacing:3px;margin-bottom:20px;animation:fadeUp .7s ease .1s both}
+.hero h1 span{color:var(--orange)}
+.hero-sub{font-size:clamp(1rem,2vw,1.3rem);color:var(--muted);max-width:680px;margin:0 auto 40px;font-weight:400;animation:fadeUp .7s ease .2s both}
+.hero-sub strong{color:var(--text)}
+.hero-stats{display:flex;gap:48px;justify-content:center;margin-bottom:48px;animation:fadeUp .7s ease .3s both}
+.stat{text-align:center}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--orange)}
+.stat-label{font-size:.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s ease .4s both}
+.btn-primary{background:linear-gradient(135deg,var(--orange),#FF3D00);color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.95rem;letter-spacing:.5px;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(255,107,44,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(255,107,44,.5)}
+.btn-sec{background:transparent;color:var(--cyan);padding:14px 32px;border-radius:8px;border:1px solid rgba(0,217,255,.3);text-decoration:none;font-weight:600;font-size:.95rem;transition:all .2s}
+.btn-sec:hover{background:rgba(0,217,255,.08);border-color:var(--cyan)}
+.hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:.75rem;letter-spacing:2px;animation:fadeUp .7s ease .6s both}
+.hero-scroll::after{content:'';width:1px;height:40px;background:linear-gradient(var(--orange),transparent)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION COMMON */
+section{padding:100px 40px}
+.section-tag{display:inline-block;background:rgba(255,107,44,.1);border:1px solid rgba(255,107,44,.25);color:var(--orange);font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+.section-tag.cyan{background:rgba(0,217,255,.08);border-color:rgba(0,217,255,.2);color:var(--cyan)}
+.section-tag.green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2);color:var(--green)}
+.section-tag.purple{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2);color:var(--purple)}
+h2.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;letter-spacing:2px;margin-bottom:12px}
+.section-desc{color:var(--muted);font-size:1rem;max-width:560px;line-height:1.7}
+.container{max-width:1200px;margin:0 auto}
+
+/* PROBLEM */
+.problem{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px}
+.problem-cards{display:flex;flex-direction:column;gap:16px}
+.prob-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px;transition:border-color .3s}
+.prob-card:hover{border-color:rgba(255,107,44,.3)}
+.prob-icon{font-size:1.8rem;width:48px;text-align:center;flex-shrink:0}
+.prob-text strong{display:block;font-size:.95rem;font-weight:600;margin-bottom:4px}
+.prob-text span{font-size:.82rem;color:var(--muted)}
+.loss-meter{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
+.loss-title{font-size:1rem;font-weight:600;margin-bottom:20px;color:var(--text)}
+.meter-row{margin-bottom:20px}
+.meter-label{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.meter-label span:last-child{color:var(--red);font-weight:700}
+.meter-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.meter-fill{height:100%;border-radius:4px;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.m-rain{background:linear-gradient(90deg,#3B82F6,#60A5FA);width:0}
+.m-aqi{background:linear-gradient(90deg,#F59E0B,#FCD34D);width:0}
+.m-heat{background:linear-gradient(90deg,#EF4444,#FCA5A5);width:0}
+.m-curfew{background:linear-gradient(90deg,#8B5CF6,#C4B5FD);width:0}
+
+/* HOW IT WORKS */
+.hiw{background:var(--bg2)}
+.hiw-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;position:relative}
+.hiw-steps::before{content:'';position:absolute;top:40px;left:calc(16.6% + 24px);right:calc(16.6% + 24px);height:2px;background:linear-gradient(90deg,var(--orange),var(--cyan));z-index:0}
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;position:relative;z-index:1;transition:transform .3s,border-color .3s}
+.step-card:hover{transform:translateY(-6px);border-color:rgba(255,107,44,.3)}
+.step-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;margin:0 auto 20px}
+.s1 .step-num{background:rgba(255,107,44,.15);border:2px solid var(--orange);color:var(--orange)}
+.s2 .step-num{background:rgba(0,217,255,.1);border:2px solid var(--cyan);color:var(--cyan)}
+.s3 .step-num{background:rgba(16,185,129,.1);border:2px solid var(--green);color:var(--green)}
+.step-card h3{font-size:1.1rem;font-weight:700;margin-bottom:12px}
+.step-card p{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* LIVE TRIGGER DEMO */
+.demo-section{background:var(--bg3);position:relative;overflow:hidden}
+.demo-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(0,217,255,.04) 0%,transparent 70%)}
+.demo-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:60px;align-items:start}
+.demo-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.demo-panel-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.02)}
+.demo-panel-header span{font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot-red{background:#EF4444}
+.dot-yellow{background:#F59E0B}
+.dot-green{background:#10B981}
+.demo-triggers{padding:20px}
+.trigger-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border);background:rgba(255,255,255,.02);cursor:pointer;transition:all .3s}
+.trigger-item:hover{border-color:rgba(255,107,44,.3);background:rgba(255,107,44,.04)}
+.trigger-item.active{border-color:var(--orange);background:rgba(255,107,44,.08);animation:triggerPulse .5s ease}
+@keyframes triggerPulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+.trigger-left{display:flex;align-items:center;gap:12px}
+.trigger-icon{font-size:1.3rem}
+.trigger-name{font-size:.9rem;font-weight:600}
+.trigger-val{font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.trigger-status{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:.5px}
+.status-watch{background:rgba(100,116,139,.15);color:var(--muted);border:1px solid var(--border)}
+.status-alert{background:rgba(255,107,44,.15);color:var(--orange);border:1px solid rgba(255,107,44,.3);animation:blink 1s ease infinite}
+.status-fire{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+.timeline{padding:20px}
+.tl-item{display:flex;gap:14px;margin-bottom:16px;animation:slideIn .4s ease both}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.tl-dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.tl-time{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:2px}
+.tl-msg{font-size:.82rem;color:var(--text)}
+.tl-msg strong{color:var(--green)}
+.simulate-btn{width:100%;margin-top:10px;padding:14px;background:linear-gradient(135deg,var(--orange),#FF3D00);color:white;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .3s;box-shadow:0 0 20px rgba(255,107,44,.2)}
+.simulate-btn:hover{box-shadow:0 0 40px rgba(255,107,44,.4);transform:translateY(-1px)}
+.simulate-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.payout-toast{display:none;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:16px;margin-top:16px;animation:toastIn .5s ease}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.payout-toast.show{display:block}
+.toast-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.toast-top strong{color:var(--green);font-size:1rem}
+.toast-detail{font-size:.8rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+/* AI FEATURES */
+.ai-section{background:var(--bg)}
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
+.ai-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.ai-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:0;transition:opacity .3s}
+.ai-card:hover{border-color:rgba(255,107,44,.25);transform:translateY(-4px)}
+.ai-card:hover::before{opacity:1}
+.ai-card-icon{font-size:2rem;margin-bottom:16px}
+.ai-card h3{font-size:1rem;font-weight:700;margin-bottom:10px}
+.ai-card p{font-size:.82rem;color:var(--muted);line-height:1.7}
+.ai-card .tag{display:inline-block;background:rgba(255,107,44,.1);color:var(--orange);font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:6px;margin-top:14px;letter-spacing:.5px}
+.premium-viz{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;margin-top:20px;grid-column:1/-1}
+.pv-title{font-size:1rem;font-weight:700;margin-bottom:24px}
+.pv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pv-city{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.pv-city-name{font-size:.8rem;color:var(--muted);margin-bottom:8px;font-weight:500}
+.pv-price{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--orange);line-height:1}
+.pv-week{font-size:.7rem;color:var(--muted)}
+.pv-bar{height:4px;background:var(--border);border-radius:2px;margin-top:12px;overflow:hidden}
+.pv-fill{height:100%;border-radius:2px}
+
+/* FRAUD DEFENSE */
+.fraud-section{background:var(--bg2)}
+.fraud-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center;margin-top:60px}
+.fraud-layers{display:flex;flex-direction:column;gap:12px}
+.fraud-layer{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:all .3s;cursor:default}
+.fraud-layer:hover{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.04);transform:translateX(4px)}
+.fl-num{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted);width:28px;flex-shrink:0}
+.fl-icon{font-size:1.2rem;width:32px;text-align:center;flex-shrink:0}
+.fl-text strong{display:block;font-size:.85rem;font-weight:600}
+.fl-text span{font-size:.75rem;color:var(--muted)}
+.fl-check{margin-left:auto;color:var(--green);font-size:1rem}
+.fraud-score-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
+.fsp-title{font-size:1rem;font-weight:700;margin-bottom:24px}
+.score-ring{width:160px;height:160px;margin:0 auto 24px;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .bg-ring{stroke:var(--border)}
+.score-ring .score-arc{stroke:var(--green);stroke-dasharray:440;stroke-dashoffset:396;stroke-linecap:round;transition:stroke-dashoffset 1s ease,stroke .5s}
+.score-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-val{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--green)}
+.score-sub{font-size:.7rem;color:var(--muted);letter-spacing:1px}
+.score-badges{display:flex;flex-wrap:wrap;gap:8px}
+.sbadge{font-size:.72rem;padding:4px 12px;border-radius:20px;font-weight:600}
+.sbadge.pass{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.sbadge.fail{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.sbadge.warn{background:rgba(245,158,11,.1);color:#F59E0B;border:1px solid rgba(245,158,11,.2)}
+.tier-response{margin-top:24px;display:flex;flex-direction:column;gap:8px}
+.tier{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;font-size:.8rem}
+.t-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15)}
+.t-yellow{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15)}
+.t-orange{background:rgba(255,107,44,.08);border:1px solid rgba(255,107,44,.15)}
+.t-red{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15)}
+.t-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* BLOCKCHAIN */
+.chain-section{background:var(--bg3)}
+.chain-flow{display:flex;align-items:center;gap:0;margin-top:60px;overflow-x:auto;padding-bottom:16px}
+.chain-block{background:var(--card);border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:24px 20px;min-width:180px;text-align:center;flex-shrink:0;transition:all .3s}
+.chain-block:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 0 30px rgba(139,92,246,.15)}
+.chain-block-icon{font-size:1.8rem;margin-bottom:12px}
+.chain-block h4{font-size:.85rem;font-weight:700;margin-bottom:8px}
+.chain-block p{font-size:.72rem;color:var(--muted);line-height:1.5}
+.chain-hash{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--purple);margin-top:8px;word-break:break-all}
+.chain-arrow{color:var(--purple);font-size:1.5rem;padding:0 12px;flex-shrink:0;opacity:.7}
+.chain-live{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:30px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:14px;max-width:600px;margin-left:auto;margin-right:auto}
+.chain-live::before{content:'';width:8px;height:8px;background:var(--purple);border-radius:50%;animation:pulse 1.5s ease infinite}
+.chain-live span{font-size:.82rem;color:var(--muted)}
+.chain-live strong{color:var(--purple)}
+
+/* ARCHITECTURE */
+.arch-section{background:var(--bg)}
+.arch-diagram{margin-top:60px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px;position:relative;overflow:hidden}
+.arch-diagram::before{content:'SYSTEM ARCHITECTURE';position:absolute;top:16px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:3px}
+.arch-layers{display:flex;flex-direction:column;gap:16px}
+.arch-row{display:flex;gap:12px;align-items:center}
+.arch-label{font-size:.65rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;width:80px;flex-shrink:0;text-align:right;padding-right:12px;border-right:1px solid var(--border)}
+.arch-boxes{display:flex;gap:10px;flex-wrap:wrap;flex:1}
+.arch-box{padding:10px 16px;border-radius:8px;font-size:.75rem;font-weight:600;border:1px solid;white-space:nowrap}
+.ab-orange{background:rgba(255,107,44,.1);border-color:rgba(255,107,44,.3);color:var(--orange)}
+.ab-cyan{background:rgba(0,217,255,.08);border-color:rgba(0,217,255,.25);color:var(--cyan)}
+.ab-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25);color:var(--green)}
+.ab-purple{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.25);color:var(--purple)}
+.ab-muted{background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.25);color:var(--muted)}
+.arch-row-line{width:2px;background:var(--border);align-self:stretch;margin:0 auto;height:16px;display:block}
+
+/* INNOVATIONS */
+.inno-section{background:var(--bg2)}
+.inno-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:60px}
+.inno-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .3s;position:relative}
+.inno-card:hover{border-color:rgba(0,217,255,.25);transform:translateY(-4px)}
+.inno-card .num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(255,107,44,.15);line-height:1;position:absolute;top:16px;right:16px}
+.inno-card .icon{font-size:1.6rem;margin-bottom:12px}
+.inno-card h3{font-size:.9rem;font-weight:700;margin-bottom:8px}
+.inno-card p{font-size:.75rem;color:var(--muted);line-height:1.6}
+.inno-card .wow{display:inline-block;background:rgba(0,217,255,.08);border:1px solid rgba(0,217,255,.2);color:var(--cyan);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-top:10px;letter-spacing:.5px}
+
+/* ROADMAP */
+.roadmap{background:var(--bg3)}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.phase-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s}
+.phase-card:hover{transform:translateY(-4px)}
+.phase-header{padding:24px;border-bottom:1px solid var(--border)}
+.phase-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;line-height:1;opacity:.15}
+.phase-title{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.phase-period{font-size:.75rem;color:var(--muted)}
+.phase-body{padding:24px}
+.phase-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.82rem}
+.phase-item::before{content:'→';color:var(--orange);flex-shrink:0;margin-top:1px}
+.p1 .phase-num{color:var(--orange)}
+.p1 .phase-header{border-top:3px solid var(--orange)}
+.p2 .phase-num{color:var(--cyan)}
+.p2 .phase-header{border-top:3px solid var(--cyan)}
+.p3 .phase-num{color:var(--green)}
+.p3 .phase-header{border-top:3px solid var(--green)}
+
+/* METRICS */
+.metrics-section{background:var(--bg)}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.metric-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+.mc-orange::after{background:linear-gradient(90deg,var(--orange),#FF3D00)}
+.mc-cyan::after{background:linear-gradient(90deg,var(--cyan),#0099BB)}
+.mc-green::after{background:linear-gradient(90deg,var(--green),#059669)}
+.mc-purple::after{background:linear-gradient(90deg,var(--purple),#6D28D9)}
+.metric-val{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;margin-bottom:8px}
+.mc-orange .metric-val{color:var(--orange)}
+.mc-cyan .metric-val{color:var(--cyan)}
+.mc-green .metric-val{color:var(--green)}
+.mc-purple .metric-val{color:var(--purple)}
+.metric-label{font-size:.8rem;color:var(--muted);line-height:1.4}
+
+/* FOOTER CTA */
+.footer-cta{background:var(--bg2);padding:120px 40px;text-align:center;position:relative;overflow:hidden}
+.footer-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,107,44,.08) 0%,transparent 70%)}
+.footer-cta h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);letter-spacing:3px;margin-bottom:16px;position:relative}
+.footer-cta p{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto 40px;position:relative}
+.footer-cta .ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;gap:16px}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:var(--orange)}
+.footer-info{font-size:.78rem;color:var(--muted);text-align:center}
+.footer-stack{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-stats{gap:24px}
+  .problem-grid,.fraud-layout,.demo-layout,.arch-row{grid-template-columns:1fr}
+  .hiw-steps,.ai-grid,.inno-grid,.phases,.metrics-grid,.pv-grid{grid-template-columns:1fr 1fr}
+  .hiw-steps::before{display:none}
+  .chain-flow{flex-direction:column;align-items:flex-start}
+  .chain-arrow{transform:rotate(90deg)}
+  nav .nav-links{display:none}
+}
+@media(max-width:600px){
+  section{padding:60px 20px}
+  .hiw-steps,.ai-grid,.inno-grid,.phases,.metrics-grid,.pv-grid{grid-template-columns:1fr}
+  .ai-card.premium-viz .pv-grid{grid-template-columns:1fr 1fr}
+}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Gig<span>Shield</span></div>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#howitworks">How It Works</a></li>
+    <li><a href="#ai">AI Engine</a></li>
+    <li><a href="#fraud">Fraud Defense</a></li>
+    <li><a href="#blockchain">Blockchain</a></li>
+    <li><a href="#innovations">Innovations</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+  <div class="nav-badge">DEVTrails 2026</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hackathon-badge">Guidewire DEVTrails 2026 · Powered by EY</div>
+  <h1>GIG<span>SHIELD</span></h1>
+  <p class="hero-sub">India's first <strong>AI-powered parametric income insurance</strong> for 12 million gig delivery workers. <strong>Zero forms. Zero calls. Zero delays.</strong> Money in UPI before they even open their delivery app.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">12M</div><div class="stat-label">Delivery Workers</div></div>
+    <div class="stat"><div class="stat-val">₹0</div><div class="stat-label">Current Safety Net</div></div>
+    <div class="stat"><div class="stat-val">&lt;15<span style="font-size:1.5rem">min</span></div><div class="stat-label">Payout SLA</div></div>
+    <div class="stat"><div class="stat-val">17</div><div class="stat-label">Fraud Layers</div></div>
+  </div>
+  <div class="hero-ctas">
+    <a href="#howitworks" class="btn-primary">See How It Works</a>
+    <a href="#innovations" class="btn-sec">View Innovations →</a>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-tag">The Crisis</div>
+    <h2 class="section-title">ONE STORM.<br>30% INCOME GONE.</h2>
+    <p class="section-desc">India's gig delivery workers are the backbone of our digital economy — with zero financial backbone of their own.</p>
+    <div class="problem-grid reveal">
+      <div class="problem-cards">
+        <div class="prob-card">
+          <div class="prob-icon">🌧️</div>
+          <div class="prob-text"><strong>Heavy Rain Halts Deliveries</strong><span>Mumbai monsoon. Roads flood. Zero orders. Rider earns ₹0 for 6 hours — no compensation, no warning.</span></div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">💨</div>
+          <div class="prob-text"><strong>AQI Spike Grounds Riders</strong><span>Delhi AQI crosses 480. GRAP IV advisory. Outdoor activity restricted. 2 full days of income wiped.</span></div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">🚫</div>
+          <div class="prob-text"><strong>Sudden Curfews, Strikes</strong><span>Section 144. Unplanned bandh. Platform cancels all orders instantly. Rider had 4 peak hours remaining.</span></div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">📵</div>
+          <div class="prob-text"><strong>Platform App Crashes</strong><span>Swiggy down for 2.5 hours on Sunday evening — highest-order period of the week. Zero assignments possible.</span></div>
+        </div>
+      </div>
+      <div class="loss-meter">
+        <div class="loss-title">📊 Average Income Loss Per Disruption Event</div>
+        <div class="meter-row">
+          <div class="meter-label"><span>🌧️ Heavy Rain (Mumbai, Monsoon)</span><span>-28% monthly</span></div>
+          <div class="meter-bar"><div class="meter-fill m-rain"></div></div>
+        </div>
+        <div class="meter-row">
+          <div class="meter-label"><span>💨 AQI Spike (Delhi, Nov)</span><span>-22% monthly</span></div>
+          <div class="meter-bar"><div class="meter-fill m-aqi"></div></div>
+        </div>
+        <div class="meter-row">
+          <div class="meter-label"><span>🌡️ Extreme Heat (Rajasthan, May)</span><span>-19% monthly</span></div>
+          <div class="meter-bar"><div class="meter-fill m-heat"></div></div>
+        </div>
+        <div class="meter-row">
+          <div class="meter-label"><span>🚫 Curfew / Bandh (Any City)</span><span>-33% monthly</span></div>
+          <div class="meter-bar"><div class="meter-fill m-curfew"></div></div>
+        </div>
+        <div style="margin-top:20px;padding:14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;font-size:.82rem;color:var(--red)">
+          ⚠️ <strong>40% of riders earn under ₹15,000/month.</strong> A single disruption day = 20–33% of monthly income. No traditional insurance covers this.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="howitworks">
+  <div class="container">
+    <div class="section-tag cyan">Parametric Engine</div>
+    <h2 class="section-title">HOW GIGSHIELD<br>WORKS</h2>
+    <p class="section-desc">No claim filing. No proof of loss. No waiting. The moment a verified disruption event is detected — money moves automatically.</p>
+    <div class="hiw-steps reveal">
+      <div class="step-card s1">
+        <div class="step-num">01</div>
+        <h3>Real-Time Trigger Detection</h3>
+        <p>Our trigger engine polls 6+ external APIs every 15 minutes — weather, AQI, traffic, curfew alerts, platform status. When a parametric condition is met (e.g. rainfall > 50mm/6hr), the event is flagged and dual-source verified within 5 minutes.</p>
+      </div>
+      <div class="step-card s2">
+        <div class="step-num">02</div>
+        <h3>AI Fraud Check + Policy Match</h3>
+        <p>All active policies in the affected zone are matched instantly. Our 17-layer fraud engine runs sensor fusion, cell tower geography, device fingerprinting, and behavioral analysis in parallel. Legitimate claims are cleared in under 3 minutes.</p>
+      </div>
+      <div class="step-card s3">
+        <div class="step-num">03</div>
+        <h3>Instant Payout + Blockchain Log</h3>
+        <p>Razorpay UPI transfer initiated. Money hits the rider's wallet in under 15 minutes from event detection. Every payout is simultaneously logged on Ethereum testnet — immutable, verifiable, zero disputes. WhatsApp notification sent automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO -->
+<section class="demo-section" id="demo">
+  <div class="container">
+    <div class="section-tag">Live Simulation</div>
+    <h2 class="section-title">WATCH THE<br>TRIGGER FIRE</h2>
+    <p class="section-desc">Click "Simulate Rain Event" to see GigShield's full automated claim pipeline in action — from detection to payout.</p>
+    <div class="demo-layout reveal">
+      <div class="demo-panel">
+        <div class="demo-panel-header">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span style="margin-left:8px">Trigger Monitor — Mumbai Zone</span>
+        </div>
+        <div class="demo-triggers">
+          <div class="trigger-item" id="tr-rain">
+            <div class="trigger-left"><div class="trigger-icon">🌧️</div><div><div class="trigger-name">Heavy Rain</div><div class="trigger-val" id="rain-val">Current: 12mm → Threshold: 50mm</div></div></div>
+            <div class="trigger-status status-watch" id="rain-status">WATCHING</div>
+          </div>
+          <div class="trigger-item" id="tr-aqi">
+            <div class="trigger-left"><div class="trigger-icon">💨</div><div><div class="trigger-name">AQI Spike</div><div class="trigger-val">Current: 156 → Threshold: 400</div></div></div>
+            <div class="trigger-status status-watch">WATCHING</div>
+          </div>
+          <div class="trigger-item" id="tr-heat">
+            <div class="trigger-left"><div class="trigger-icon">🌡️</div><div><div class="trigger-name">Extreme Heat</div><div class="trigger-val">Current: 38°C → Threshold: 45°C</div></div></div>
+            <div class="trigger-status status-watch">WATCHING</div>
+          </div>
+          <div class="trigger-item" id="tr-curfew">
+            <div class="trigger-left"><div class="trigger-icon">🚫</div><div><div class="trigger-name">Curfew Alert</div><div class="trigger-val">Scanning social + police feeds...</div></div></div>
+            <div class="trigger-status status-watch">WATCHING</div>
+          </div>
+          <div class="trigger-item" id="tr-app">
+            <div class="trigger-left"><div class="trigger-icon">📵</div><div><div class="trigger-name">Platform Outage</div><div class="trigger-val">Swiggy: ONLINE ✓ | Zomato: ONLINE ✓</div></div></div>
+            <div class="trigger-status status-watch">WATCHING</div>
+          </div>
+          <button class="simulate-btn" id="sim-btn" onclick="simulateEvent()">⚡ Simulate Heavy Rain Event</button>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div class="demo-panel-header">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <span style="margin-left:8px">Claim Pipeline — Auto Processing</span>
+        </div>
+        <div class="timeline" id="timeline">
+          <div style="padding:30px;text-align:center;color:var(--muted);font-size:.85rem">
+            ⏳ Waiting for trigger event...<br>Click "Simulate" to start the pipeline
+          </div>
+        </div>
+        <div class="payout-toast" id="payout-toast">
+          <div class="toast-top">✅ <strong>PAYOUT COMPLETE — ₹350 CREDITED</strong></div>
+          <div class="toast-detail">Rider: Ravi Kumar | Zone: Andheri-W<br>Event: Heavy Rain 65mm | Time: &lt;13 min<br>UPI: ravik@paytm | TX: RZP_2026031983xx<br>Blockchain: 0x7a4f...3b2c (Sepolia Testnet)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section class="ai-section" id="ai">
+  <div class="container">
+    <div class="section-tag">Intelligence Layer</div>
+    <h2 class="section-title">AI/ML THAT<br>POWERS IT ALL</h2>
+    <p class="section-desc">Every premium, every trigger, every fraud score is computed by machine learning models trained on real Indian weather and income data.</p>
+    <div class="ai-grid reveal">
+      <div class="ai-card">
+        <div class="ai-card-icon">🧠</div>
+        <h3>XGBoost Risk Scorer</h3>
+        <p>Hyper-personalized weekly premium per rider. 12+ features: zone flood-risk, monsoon seasonality, shift hours, delivery platform, historical disruption frequency. Retrains on live claim data.</p>
+        <div class="tag">XGBoost · scikit-learn</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">🔍</div>
+        <h3>Isolation Forest Anomaly Detector</h3>
+        <p>Unsupervised ML identifies unusual claim patterns — temporal bursts, GPS clusters, multi-account rings — without human labeling. Catches fraud patterns that rule-based systems miss entirely.</p>
+        <div class="tag">Isolation Forest · DBSCAN</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">🌦️</div>
+        <h3>Predictive Claims Forecaster</h3>
+        <p>TensorFlow model predicts next week's claim probability per zone using 7-day weather forecasts. Feeds the insurer dashboard with advance warning — shifting from reactive claims to proactive risk management.</p>
+        <div class="tag">TensorFlow · Keras</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">📰</div>
+        <h3>Social Signal NLP</h3>
+        <p>Real-time NLP parsing of Twitter/X feeds, Telegram groups, and news in Hindi, Marathi, Tamil, and Bengali. Detects curfew announcements and coordinated fraud signals before claims arrive.</p>
+        <div class="tag">NLP · Twitter API v2</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">📱</div>
+        <h3>Behavioral Biometrics Engine</h3>
+        <p>Analyzes time-between-screens, swipe velocity, and typing cadence to distinguish genuine riders from bots or scripted fraud. Runs silently at every login and claim submission.</p>
+        <div class="tag">Behavioral AI</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">🌡️</div>
+        <h3>Sensor Fusion Authenticator</h3>
+        <p>Fuses accelerometer, gyroscope, barometer, cell tower geography, and Wi-Fi environment data to verify the physics of a rider's claimed location. Beats GPS spoofing at the hardware level.</p>
+        <div class="tag">Sensor Fusion · OpenCelliD</div>
+      </div>
+      <div class="premium-viz ai-card" style="grid-column:1/-1">
+        <div class="pv-title">📊 AI-Computed Weekly Premium — Hyper-Personalized by Zone & Season</div>
+        <div class="pv-grid">
+          <div class="pv-city">
+            <div class="pv-city-name">🌧️ Mumbai (Sep — Monsoon)</div>
+            <div class="pv-price">₹128</div>
+            <div class="pv-week">/ week · Pro Shield</div>
+            <div class="pv-bar"><div class="pv-fill" style="width:78%;background:linear-gradient(90deg,var(--orange),#FF3D00)"></div></div>
+          </div>
+          <div class="pv-city">
+            <div class="pv-city-name">💨 Delhi NCR (Nov — AQI)</div>
+            <div class="pv-price">₹87</div>
+            <div class="pv-week">/ week · Standard Shield</div>
+            <div class="pv-bar"><div class="pv-fill" style="width:53%;background:linear-gradient(90deg,#F59E0B,#FCD34D)"></div></div>
+          </div>
+          <div class="pv-city">
+            <div class="pv-city-name">🌿 Bengaluru (Mar — Dry)</div>
+            <div class="pv-price">₹34</div>
+            <div class="pv-week">/ week · Basic Shield</div>
+            <div class="pv-bar"><div class="pv-fill" style="width:21%;background:linear-gradient(90deg,var(--green),#059669)"></div></div>
+          </div>
+          <div class="pv-city">
+            <div class="pv-city-name">🌀 Chennai (Dec — Cyclone)</div>
+            <div class="pv-price">₹104</div>
+            <div class="pv-week">/ week · Pro Shield</div>
+            <div class="pv-bar"><div class="pv-fill" style="width:63%;background:linear-gradient(90deg,var(--purple),#6D28D9)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAUD DEFENSE -->
+<section class="fraud-section" id="fraud">
+  <div class="container">
+    <div class="section-tag" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:var(--red)">🚨 Anti-Spoofing</div>
+    <h2 class="section-title">17-LAYER<br>FRAUD DEFENSE</h2>
+    <p class="section-desc">A 500-rider GPS-spoofing syndicate drained a competitor platform. GigShield is built to be categorically immune to this class of attack.</p>
+    <div class="fraud-layout reveal">
+      <div class="fraud-layers">
+        <div class="fraud-layer"><span class="fl-num">L01</span><span class="fl-icon">📱</span><div class="fl-text"><strong>Device Fingerprint KYC</strong><span>IMEI + SIM + screen hash — one account per device</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L02</span><span class="fl-icon">📡</span><div class="fl-text"><strong>Cell Tower Geography</strong><span>Tower ID mapped to real address via OpenCelliD</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L03</span><span class="fl-icon">🏃</span><div class="fl-text"><strong>Accelerometer Physics Check</strong><span>Real riders have motion noise — spoofers are perfectly still</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L04</span><span class="fl-icon">🌀</span><div class="fl-text"><strong>Gyroscope Consistency</strong><span>Tilt/rotation patterns must match claimed environment</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L05</span><span class="fl-icon">📶</span><div class="fl-text"><strong>Wi-Fi SSID Environment Scan</strong><span>Commercial zone SSIDs vs home network fingerprint</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L06</span><span class="fl-icon">🛠️</span><div class="fl-text"><strong>Mock Location App Detection</strong><span>SDK-level permission check for spoofing apps</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L07</span><span class="fl-icon">📊</span><div class="fl-text"><strong>GPS Noise Analysis</strong><span>Real GPS has natural jitter — spoofed GPS is suspiciously perfect</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L08</span><span class="fl-icon">⚡</span><div class="fl-text"><strong>Temporal Burst Detection</strong><span>&gt;50 claims in 5 minutes = Telegram syndicate signal</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L09</span><span class="fl-icon">💬</span><div class="fl-text"><strong>Telegram Keyword Monitor</strong><span>Real-time NLP on gig-worker Telegram groups — proactive</span></div><span class="fl-check">✓</span></div>
+        <div class="fraud-layer"><span class="fl-num">L10–17</span><span class="fl-icon">🕸️</span><div class="fl-text"><strong>+ 8 More Layers</strong><span>Social graph clustering, payout dest. graph, behavioral biometrics, battery state, platform session logs, duplicate UPI detection, ring analysis, appeal audit</span></div><span class="fl-check">✓</span></div>
+      </div>
+      <div>
+        <div class="fraud-score-panel">
+          <div class="fsp-title">🔍 Live Fraud Score — Rider Claim Analysis</div>
+          <div class="score-ring" id="score-ring-wrap">
+            <svg viewBox="0 0 160 160" width="160" height="160">
+              <circle class="bg-ring" cx="80" cy="80" r="70" fill="none" stroke-width="8"/>
+              <circle class="score-arc" id="score-arc" cx="80" cy="80" r="70" fill="none" stroke-width="8"/>
+            </svg>
+            <div class="score-label">
+              <div class="score-val" id="score-display">12</div>
+              <div class="score-sub">FRAUD SCORE</div>
+            </div>
+          </div>
+          <div class="score-badges">
+            <span class="sbadge pass">✓ Cell Tower Match</span>
+            <span class="sbadge pass">✓ Physics Normal</span>
+            <span class="sbadge pass">✓ No Mock App</span>
+            <span class="sbadge pass">✓ GPS Jitter Real</span>
+            <span class="sbadge pass">✓ Platform Active</span>
+            <span class="sbadge pass">✓ No Burst Pattern</span>
+            <span class="sbadge pass">✓ No Ring Link</span>
+            <span class="sbadge warn">~ New Account</span>
+          </div>
+          <div class="tier-response" style="margin-top:20px">
+            <div style="font-size:.8rem;font-weight:700;margin-bottom:8px;color:var(--muted)">4-TIER RESPONSE SYSTEM</div>
+            <div class="tier t-green"><div class="t-dot" style="background:var(--green)"></div><strong style="color:var(--green);font-size:.8rem">Score 70–100</strong><span style="color:var(--muted)"> → Auto-Approve. Instant payout.</span></div>
+            <div class="tier t-yellow"><div class="t-dot" style="background:#F59E0B"></div><strong style="color:#F59E0B;font-size:.8rem">Score 45–69</strong><span style="color:var(--muted)"> → Pay + gentle 1-tap confirm.</span></div>
+            <div class="tier t-orange"><div class="t-dot" style="background:var(--orange)"></div><strong style="color:var(--orange);font-size:.8rem">Score 20–44</strong><span style="color:var(--muted)"> → Hold 2hr + optional selfie.</span></div>
+            <div class="tier t-red"><div class="t-dot" style="background:var(--red)"></div><strong style="color:var(--red);font-size:.8rem">Score 0–19</strong><span style="color:var(--muted)"> → Reject + 72hr appeal path.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOCKCHAIN -->
+<section class="chain-section" id="blockchain">
+  <div class="container">
+    <div class="section-tag purple">Blockchain Layer</div>
+    <h2 class="section-title">EVERY PAYOUT.<br>ON-CHAIN. FOREVER.</h2>
+    <p class="section-desc">Riders can scan a QR code and see their exact claim settlement on Etherscan. No insurance company in India offers this level of transparency.</p>
+    <div class="chain-flow reveal">
+      <div class="chain-block">
+        <div class="chain-block-icon">🌧️</div>
+        <h4>Trigger Event</h4>
+        <p>Weather API confirms 65mm rain. Dual-source verified. Event logged to IPFS.</p>
+        <div class="chain-hash">Block #8,234,112<br>IPFS: QmX4r9...f83a</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-icon">🔮</div>
+        <h4>Oracle Submits</h4>
+        <p>GigShield oracle signs and submits the verified event to the smart contract on Sepolia testnet.</p>
+        <div class="chain-hash">TX: 0x7a4f8b...3c2d<br>Gas: 0.0002 ETH</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-icon">📜</div>
+        <h4>Smart Contract</h4>
+        <p>GigShieldPolicy.sol emits TriggerLogged event. Matches active policies for affected zone.</p>
+        <div class="chain-hash">Contract: 0xAB9f...1E3C<br>Polygon Mumbai</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-icon">💸</div>
+        <h4>Off-Chain Payout</h4>
+        <p>Razorpay UPI transfer initiated. ₹350 hits rider's wallet in under 15 minutes.</p>
+        <div class="chain-hash">RZP: pay_OL8s...Xq12<br>UPI: ravik@paytm</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-block">
+        <div class="chain-block-icon">✅</div>
+        <h4>Claim Anchored</h4>
+        <p>Payout TX hash linked on-chain. Immutable audit trail. Rider scans QR → sees Etherscan proof.</p>
+        <div class="chain-hash">ClaimPaid event emitted<br>Block: #8,234,198</div>
+      </div>
+    </div>
+    <div class="chain-live reveal">
+      <span>Live Network: <strong>Ethereum Sepolia Testnet</strong> · Contract verified · IPFS audit logs · Payout settlement &lt; 15 min · Zero disputes possible</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="arch-section" id="architecture">
+  <div class="container">
+    <div class="section-tag cyan">System Design</div>
+    <h2 class="section-title">FULL STACK<br>ARCHITECTURE</h2>
+    <p class="section-desc">Microservices. Event-driven. Cloud-native. Built to scale from 500 pilot riders to 5 million across India.</p>
+    <div class="arch-diagram reveal">
+      <div class="arch-layers">
+        <div class="arch-row">
+          <span class="arch-label">Frontend</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-orange">React Native App</span>
+            <span class="arch-box ab-orange">Rider Dashboard</span>
+            <span class="arch-box ab-orange">WhatsApp Bot</span>
+            <span class="arch-box ab-orange">Admin Web Dashboard</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">Backend</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-cyan">Auth Service</span>
+            <span class="arch-box ab-cyan">Policy Engine</span>
+            <span class="arch-box ab-cyan">Claims Service</span>
+            <span class="arch-box ab-cyan">Payment Router</span>
+            <span class="arch-box ab-cyan">Notification Service</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">AI / ML</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-green">XGBoost Premium Model</span>
+            <span class="arch-box ab-green">TF Predictive Claims</span>
+            <span class="arch-box ab-green">Isolation Forest Fraud</span>
+            <span class="arch-box ab-green">NLP Social Monitor</span>
+            <span class="arch-box ab-green">Sensor Fusion Auth</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">Data</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-muted">MongoDB Atlas</span>
+            <span class="arch-box ab-muted">Redis Cache + Queue</span>
+            <span class="arch-box ab-muted">InfluxDB Time-Series</span>
+            <span class="arch-box ab-muted">Neo4j Graph DB</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">APIs</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-orange">OpenWeatherMap</span>
+            <span class="arch-box ab-orange">IMD India</span>
+            <span class="arch-box ab-orange">CPCB AQI</span>
+            <span class="arch-box ab-orange">Google Maps</span>
+            <span class="arch-box ab-orange">Twitter/X API v2</span>
+            <span class="arch-box ab-orange">Razorpay Test</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">Blockchain</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-purple">Solidity Smart Contract</span>
+            <span class="arch-box ab-purple">Node.js Oracle</span>
+            <span class="arch-box ab-purple">Ethereum Sepolia</span>
+            <span class="arch-box ab-purple">IPFS / Pinata</span>
+            <span class="arch-box ab-purple">Web3.js</span>
+          </div>
+        </div>
+        <div class="arch-row"><span class="arch-label"></span><div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4px 0"></div></div>
+        <div class="arch-row">
+          <span class="arch-label">DevOps</span>
+          <div class="arch-boxes">
+            <span class="arch-box ab-muted">Docker + Compose</span>
+            <span class="arch-box ab-muted">GitHub Actions CI/CD</span>
+            <span class="arch-box ab-muted">AWS Lambda</span>
+            <span class="arch-box ab-muted">MongoDB Atlas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INNOVATIONS -->
+<section class="inno-section" id="innovations">
+  <div class="container">
+    <div class="section-tag cyan">WOW Factors</div>
+    <h2 class="section-title">12 BREAKTHROUGH<br>INNOVATIONS</h2>
+    <p class="section-desc">Beyond the hackathon requirements — features that judges at international level have never seen combined in a single platform.</p>
+    <div class="inno-grid reveal">
+      <div class="inno-card"><span class="num">01</span><div class="icon">⛓️</div><h3>Blockchain Audit Trail</h3><p>Every payout logged on Ethereum. Riders verify their own claim on Etherscan via QR code. Zero disputes possible.</p><span class="wow">WORLD FIRST FOR GIG INSURANCE</span></div>
+      <div class="inno-card"><span class="num">02</span><div class="icon">🏆</div><h3>Loyalty Reward Pool</h3><p>Unclaimed premiums build a community fund. Big events trigger pool bonuses — riders help each other.</p><span class="wow">COMMUNITY MUTUAL AID</span></div>
+      <div class="inno-card"><span class="num">03</span><div class="icon">🔌</div><h3>Embedded Insurance API</h3><p>Architecture built for plug-in deployment inside Zomato/Swiggy apps. Zero-friction B2B distribution.</p><span class="wow">PLATFORM READY</span></div>
+      <div class="inno-card"><span class="num">04</span><div class="icon">🛡️</div><h3>AI Preventive Advisory</h3><p>"Heavy rain expected tomorrow. Stay safe — you're covered." Reduces claims AND saves rider safety.</p><span class="wow">PREVENTION &gt; CLAIMS</span></div>
+      <div class="inno-card"><span class="num">05</span><div class="icon">👥</div><h3>Community Social Proof</h3><p>"1,847 Zomato riders received ₹6.4L in payouts last week." Viral word-of-mouth insurance marketing.</p><span class="wow">SELF-MARKETING</span></div>
+      <div class="inno-card"><span class="num">06</span><div class="icon">📡</div><h3>IoT Sensor Network</h3><p>Flood sensors + AQI monitors at delivery hotspots. Hyper-local triggers that official APIs miss.</p><span class="wow">OWN SENSING INFRA</span></div>
+      <div class="inno-card"><span class="num">07</span><div class="icon">🤝</div><h3>P2P Mutual Pool</h3><p>Riders stake weekly tokens into a blockchain pool. Smart contract auto-distributes in events.</p><span class="wow">DEFI MEETS GIG INSURANCE</span></div>
+      <div class="inno-card"><span class="num">08</span><div class="icon">💬</div><h3>WhatsApp-Native UX</h3><p>Full insurance experience on WhatsApp — alerts, claim status, renewals. No app download needed.</p><span class="wow">WHERE RIDERS LIVE</span></div>
+      <div class="inno-card"><span class="num">09</span><div class="icon">🎮</div><h3>Safe Week Streak</h3><p>4 weeks no-claim = 5% discount. 8 weeks = 10%. 12 weeks = ₹100 cashback. Insurance as a game.</p><span class="wow">RETENTION MECHANIC</span></div>
+      <div class="inno-card"><span class="num">10</span><div class="icon">⚡</div><h3>Per-Shift Micro Cover</h3><p>₹8–₹15 per shift. Open app, tap start. GPS geofences zone. Auto-deactivates. Pay only when working.</p><span class="wow">UBER OF INSURANCE</span></div>
+      <div class="inno-card"><span class="num">11</span><div class="icon">💰</div><h3>Income Bridge Loan</h3><p>5-day cyclone? Coverage gap? Instant micro-loan via KreditBee — repaid from future weekly premiums.</p><span class="wow">INSURANCE AS CREDIT SCORE</span></div>
+      <div class="inno-card"><span class="num">12</span><div class="icon">🗺️</div><h3>Public Disruption Map</h3><p>Free real-time map of active parametric triggers across India. Public good + brand awareness engine.</p><span class="wow">PUBLIC INFRASTRUCTURE</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="metrics-section" id="metrics">
+  <div class="container">
+    <div class="section-tag green">Market Opportunity</div>
+    <h2 class="section-title">THE NUMBERS<br>ARE MASSIVE</h2>
+    <div class="metrics-grid reveal">
+      <div class="metric-card mc-orange"><div class="metric-val">12M</div><div class="metric-label">Gig delivery workers in India with zero income protection</div></div>
+      <div class="metric-card mc-cyan"><div class="metric-val">₹260Cr</div><div class="metric-label">Gross annual premium potential at 1M active policies</div></div>
+      <div class="metric-card mc-green"><div class="metric-val">90sec</div><div class="metric-label">Time from opening the app to having an active policy</div></div>
+      <div class="metric-card mc-purple"><div class="metric-val">&lt;15M</div><div class="metric-label">Minutes from disruption trigger to money in rider's UPI wallet</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="section-tag">Development Roadmap</div>
+    <h2 class="section-title">6-WEEK BUILD<br>PLAN</h2>
+    <p class="section-desc">Three phases, six weeks, one extraordinary product.</p>
+    <div class="phases reveal">
+      <div class="phase-card p1">
+        <div class="phase-header">
+          <div class="phase-num" style="color:var(--orange)">01</div>
+          <div class="phase-title">Ideation & Foundation</div>
+          <div class="phase-period">March 4 – 20 · Weeks 1–2</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Deep research on 12M gig workers + real disruption data</div>
+          <div class="phase-item">Parametric trigger thresholds defined with IMD data</div>
+          <div class="phase-item">XGBoost premium model v1 trained on synthetic data</div>
+          <div class="phase-item">System architecture + GitHub repo + this showcase</div>
+          <div class="phase-item">Adversarial defense strategy documented</div>
+          <div class="phase-item">2-minute strategy video submitted</div>
+        </div>
+      </div>
+      <div class="phase-card p2">
+        <div class="phase-header">
+          <div class="phase-num" style="color:var(--cyan)">02</div>
+          <div class="phase-title">Automation & Protection</div>
+          <div class="phase-period">March 21 – April 4 · Weeks 3–4</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Full onboarding: phone OTP, GPS zone, UPI payment</div>
+          <div class="phase-item">Policy engine: create, store, auto-renew weekly plans</div>
+          <div class="phase-item">3+ live API integrations: weather, AQI, traffic</div>
+          <div class="phase-item">Trigger engine: 15-min polling, auto-claim initiation</div>
+          <div class="phase-item">Razorpay sandbox: live simulated payout demo</div>
+          <div class="phase-item">Basic fraud: device fingerprint + GPS zone check</div>
+        </div>
+      </div>
+      <div class="phase-card p3">
+        <div class="phase-header">
+          <div class="phase-num" style="color:var(--green)">03</div>
+          <div class="phase-title">Scale & Optimise</div>
+          <div class="phase-period">April 5 – 17 · Weeks 5–6</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Advanced ML fraud: Isolation Forest + GPS spoof detection</div>
+          <div class="phase-item">Blockchain audit: all claims on Ethereum Sepolia</div>
+          <div class="phase-item">WhatsApp chatbot: alerts, renewals, claim status</div>
+          <div class="phase-item">Insurer dashboard: loss ratio, predictive heatmap</div>
+          <div class="phase-item">Loyalty pool + Safe Week streak gamification</div>
+          <div class="phase-item">5-min live demo: fake storm → auto payout → on-chain</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <h2>THE <span style="color:var(--orange)">DELIVERY</span><br>HEROES DESERVE THIS</h2>
+  <p>12 million riders. Zero safety net. GigShield changes that — one automated payout at a time.</p>
+  <div class="ctas">
+    <a href="#howitworks" class="btn-primary">See Full Demo Flow</a>
+    <a href="#fraud" class="btn-sec">View Fraud Defense →</a>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">GigShield</div>
+  <div class="footer-info">Guidewire DEVTrails 2026 · In Partnership with EY<br>Built by Team GigShield · Parul University</div>
+  <div class="footer-stack">React Native · Node.js · Python · MongoDB · XGBoost · TensorFlow · Ethereum · Razorpay</div>
+</footer>
+
+<script>
+// SCROLL REVEAL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') })
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// METER ANIMATION
+const meterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      setTimeout(() => { document.querySelector('.m-rain').style.width = '78%' }, 200);
+      setTimeout(() => { document.querySelector('.m-aqi').style.width = '62%' }, 400);
+      setTimeout(() => { document.querySelector('.m-heat').style.width = '54%' }, 600);
+      setTimeout(() => { document.querySelector('.m-curfew').style.width = '88%' }, 800);
+      meterObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelector('.loss-meter') && meterObs.observe(document.querySelector('.loss-meter'));
+
+// FRAUD SCORE ANIMATION
+const fraudObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const arc = document.getElementById('score-arc');
+      if(arc) {
+        // Score 12 = good (green). circumference = 440. offset = 440 - (12/100)*440 = 440 - 52.8 = 387.2
+        setTimeout(() => { arc.style.strokeDashoffset = '387'; }, 300);
+      }
+      fraudObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const fraudPanel = document.querySelector('.fraud-score-panel');
+if(fraudPanel) fraudObs.observe(fraudPanel);
+
+// SIMULATE EVENT
+let simRunning = false;
+function simulateEvent() {
+  if(simRunning) return;
+  simRunning = true;
+  const btn = document.getElementById('sim-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Simulating...';
+  
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+  document.getElementById('payout-toast').classList.remove('show');
+
+  const rainTrigger = document.getElementById('tr-rain');
+  const rainStatus = document.getElementById('rain-status');
+  const rainVal = document.getElementById('rain-val');
+  const arc = document.getElementById('score-arc');
+
+  const steps = [
+    { delay: 300, dot: '#3B82F6', time: '19:12:03', msg: 'OpenWeatherMap API: Andheri-W rainfall = <strong>65mm in 5hrs</strong>' },
+    { delay: 900, dot: '#3B82F6', time: '19:12:18', msg: 'Cross-checking IMD India API... Confirmed: 62mm ✓' },
+    { delay: 1600, dot: '#F59E0B', time: '19:12:34', msg: 'Dual-source verified. Event flagged → <strong>HEAVY RAIN TRIGGER ACTIVE</strong>' },
+    { delay: 2400, dot: '#8B5CF6', time: '19:12:41', msg: 'Matching policies: Found <strong>3 active riders</strong> in Andheri-W this week' },
+    { delay: 3100, dot: '#EF4444', time: '19:13:02', msg: 'Running 17-layer fraud engine on Rider: Ravi Kumar...' },
+    { delay: 3800, dot: '#10B981', time: '19:13:09', msg: '✅ Fraud Score: <strong>12/100 — CLEAN</strong>. Cell tower match ✓ Physics normal ✓' },
+    { delay: 4500, dot: '#10B981', time: '19:13:15', msg: 'Payout calculated: ₹350 (Standard Shield, 5hr disruption window)' },
+    { delay: 5200, dot: '#10B981', time: '19:13:22', msg: '<strong>Razorpay UPI initiated →</strong> ravik@paytm · TX: RZP_202603198312' },
+    { delay: 5900, dot: '#8B5CF6', time: '19:13:28', msg: 'Oracle submitting to Ethereum Sepolia... Block #8,234,198 confirmed' },
+    { delay: 6600, dot: '#10B981', time: '19:13:31', msg: '🎉 <strong>PAYOUT COMPLETE. ₹350 credited in 13 minutes 28 seconds.</strong>' },
+  ];
+
+  // Update rain trigger
+  setTimeout(() => {
+    rainVal.textContent = 'Current: 65mm ← THRESHOLD EXCEEDED 🚨';
+    rainStatus.textContent = 'FIRING';
+    rainStatus.className = 'trigger-status status-fire';
+    rainTrigger.classList.add('active');
+  }, 600);
+
+  steps.forEach(s => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'tl-item';
+      div.style.animationDelay = '0s';
+      div.innerHTML = `<div class="tl-dot" style="background:${s.dot}"></div><div><div class="tl-time">${s.time}</div><div class="tl-msg">${s.msg}</div></div>`;
+      timeline.appendChild(div);
+      timeline.scrollTop = timeline.scrollHeight;
+    }, s.delay);
+  });
+
+  // Update fraud arc during analysis
+  setTimeout(() => {
+    if(arc) { arc.style.stroke = '#EF4444'; arc.style.strokeDashoffset = '330'; }
+  }, 3100);
+  setTimeout(() => {
+    if(arc) { arc.style.stroke = '#10B981'; arc.style.strokeDashoffset = '387'; }
+    document.getElementById('score-display').textContent = '12';
+  }, 3800);
+
+  // Show payout toast
+  setTimeout(() => {
+    document.getElementById('payout-toast').classList.add('show');
+    btn.textContent = '🔄 Reset & Simulate Again';
+    btn.disabled = false;
+    btn.onclick = () => {
+      simRunning = false;
+      rainVal.textContent = 'Current: 12mm → Threshold: 50mm';
+      rainStatus.textContent = 'WATCHING';
+      rainStatus.className = 'trigger-status status-watch';
+      rainTrigger.classList.remove('active');
+      timeline.innerHTML = '<div style="padding:30px;text-align:center;color:var(--muted);font-size:.85rem">⏳ Waiting for trigger event...<br>Click "Simulate" to start the pipeline</div>';
+      document.getElementById('payout-toast').classList.remove('show');
+      btn.textContent = '⚡ Simulate Heavy Rain Event';
+      btn.onclick = simulateEvent;
+    };
+  }, 7000);
+}
+
+// Smooth scroll for nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

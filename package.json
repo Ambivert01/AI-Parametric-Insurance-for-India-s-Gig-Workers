@@ -1,0 +1,53 @@
+{
+  "name": "gigshield",
+  "version": "1.0.0",
+  "description": "AI-Powered Parametric Insurance Platform for India's Gig Delivery Workers",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "services/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:ml",
+    "install:ml": "pip3 install -r ml/trigger-engine/requirements.txt && pip3 install -r ml/fraud-service/requirements.txt && pip3 install -r ml/ml-service/requirements.txt",
+    "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:policy\" \"npm run dev:claims\" \"npm run dev:payment\" \"npm run dev:notification\" \"npm run dev:analytics\" \"npm run dev:oracle\" \"npm run dev:ml\" \"npm run dev:fraud\" \"npm run dev:trigger\" \"npm run dev:dashboard\"",
+    "dev:gateway": "npm run dev --workspace=services/api-gateway",
+    "dev:auth": "npm run dev --workspace=services/auth-service",
+    "dev:policy": "npm run dev --workspace=services/policy-service",
+    "dev:claims": "npm run dev --workspace=services/claims-service",
+    "dev:payment": "npm run dev --workspace=services/payment-service",
+    "dev:notification": "npm run dev --workspace=services/notification-service",
+    "dev:analytics": "npm run dev --workspace=services/analytics-service",
+    "dev:oracle": "npm run dev --workspace=services/blockchain-oracle",
+    "dev:ml": "cd ml/ml-service && uvicorn src.api.main:app --reload --port 8001",
+    "dev:fraud": "cd ml/fraud-service && uvicorn src.api.main:app --reload --port 8002",
+    "dev:trigger": "cd ml/trigger-engine && python -m src.main",
+    "dev:dashboard": "npm run dev --workspace=apps/web-dashboard",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "db:seed": "node packages/database/src/seeds/index.js",
+    "contracts:compile": "cd contracts && npx hardhat compile",
+    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.js --network sepolia",
+    "contracts:test": "cd contracts && npx hardhat test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.2.0",
+    "eslint": "^8.57.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml}": ["prettier --write"]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

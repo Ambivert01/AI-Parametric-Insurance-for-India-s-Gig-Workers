@@ -1,0 +1,47 @@
+{"level":"error","message":"MongoDB connection failed (attempt 1/5): The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:09.177Z"}
+{"level":"info","message":"Retrying in 2s...","timestamp":"2026-03-28T17:34:09.178Z"}
+{"level":"error","message":"MongoDB error: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:09.180Z"}
+{"level":"error","message":"MongoDB connection failed (attempt 2/5): The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:11.182Z"}
+{"level":"info","message":"Retrying in 4s...","timestamp":"2026-03-28T17:34:11.182Z"}
+{"level":"error","message":"MongoDB error: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:11.183Z"}
+{"level":"error","message":"MongoDB connection failed (attempt 3/5): The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:15.188Z"}
+{"level":"info","message":"Retrying in 8s...","timestamp":"2026-03-28T17:34:15.189Z"}
+{"level":"error","message":"MongoDB error: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:15.190Z"}
+{"level":"error","message":"MongoDB connection failed (attempt 4/5): The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:23.196Z"}
+{"level":"info","message":"Retrying in 16s...","timestamp":"2026-03-28T17:34:23.196Z"}
+{"level":"error","message":"MongoDB error: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2026-03-28T17:34:23.197Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-28T17:34:26.907Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-28T17:36:13.239Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.262Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-28T17:36:13.265Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-03-28T17:36:13.266Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.367Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-28T17:36:13.367Z"}
+{"level":"info","message":"Redis reconnecting in 200ms","timestamp":"2026-03-28T17:36:13.368Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.585Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-28T17:36:13.586Z"}
+{"level":"info","message":"Redis reconnecting in 300ms","timestamp":"2026-03-28T17:36:13.587Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.887Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-28T17:38:17.277Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-28T17:38:17.305Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-28T17:38:17.312Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-28T17:38:17.323Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-28T17:38:17.326Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-28T17:38:17.328Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-28T17:38:17.330Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-28T17:38:17.332Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-28T17:38:17.334Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-28T17:38:17.334Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-28T17:38:17.411Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-28T17:38:17.411Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [undefined]","timestamp":"2026-03-28T17:38:17.414Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-28T17:38:35.509Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-28T17:38:35.526Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-28T17:38:35.527Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-28T17:38:35.528Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-28T17:38:35.533Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-28T17:38:35.562Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-28T17:38:35.563Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-28T17:38:35.610Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-28T17:38:35.611Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-28T17:38:36.035Z"}

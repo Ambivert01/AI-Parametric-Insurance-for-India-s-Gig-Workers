@@ -25,6 +25,14 @@ const CITIES = [
   { id: "kolkata", label: "Kolkata" },
   { id: "ahmedabad", label: "Ahmedabad" },
 ];
+
+const VEHICLES = [
+  { id: "bike", label: "Bike", emoji: "🏍️" },
+  { id: "scooter", label: "Scooter", emoji: "🛵" },
+  { id: "cycle", label: "Cycle", emoji: "🚲" },
+  { id: "car", label: "Car", emoji: "🚗" },
+];
+
 const SHIFTS = [
   { id: "morning", label: "Morning", time: "6AM–12PM", emoji: "🌅" },
   { id: "afternoon", label: "Afternoon", time: "12PM–6PM", emoji: "☀️" },
@@ -47,16 +55,21 @@ const TIERS = [
 export default function AuthPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isNew, setIsNew] = useState(false);
+
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+
   const [name, setName] = useState("");
   const [platform, setPlatform] = useState("");
   const [city, setCity] = useState("");
+  const [vehicle, setVehicle] = useState("");
   const [shift, setShift] = useState("");
   const [income, setIncome] = useState(0);
+
   const [tier, setTier] = useState("STANDARD");
   const [autoRenew, setAutoRenew] = useState(false);
   const [riskScore, setRiskScore] = useState(null);
@@ -157,7 +170,7 @@ export default function AuthPage() {
 
         platform,
 
-        vehicleType: "bike",
+        vehicleType: vehicle,
 
         shiftPattern: shift,
 
@@ -273,7 +286,7 @@ export default function AuthPage() {
                 textAlign: "center",
               }}
             >
-              Step {step - 2} of 7
+              Step {step - 2} of 8
             </p>
           </div>
         )}
@@ -523,6 +536,59 @@ export default function AuthPage() {
 
         {step === 6 && (
           <div className="card page-enter">
+            <h2 style={{ marginBottom: "var(--s4)" }}>
+              Which vehicle do you use?
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "var(--s3)",
+                marginBottom: "var(--s5)",
+              }}
+            >
+              {VEHICLES.map((v) => (
+                <button
+                  key={v.id}
+                  className={`platform-chip ${vehicle === v.id ? "selected" : ""}`}
+                  style={{
+                    flexDirection: "column",
+                    gap: 4,
+                    padding: "var(--s4)",
+                    textAlign: "center",
+                  }}
+                  onClick={() => setVehicle(v.id)}
+                >
+                  <span style={{ fontSize: "1.5rem" }}>{v.emoji}</span>
+
+                  <span
+                    style={{
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {v.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="btn btn-primary btn-full"
+              onClick={() => {
+                if (!vehicle) return toast.error("Select vehicle");
+                setStep(7);
+              }}
+              disabled={!vehicle}
+            >
+              Continue →
+            </button>
+          </div>
+        )}
+
+        {step === 7 && (
+          <div className="card page-enter">
             <h2 style={{ marginBottom: "var(--s4)" }}>When do you deliver?</h2>
             <div
               style={{
@@ -558,7 +624,7 @@ export default function AuthPage() {
               className="btn btn-primary btn-full"
               onClick={() => {
                 if (!shift) return toast.error("Select shift");
-                setStep(7);
+                setStep(8);
               }}
               disabled={!shift}
             >
@@ -567,7 +633,7 @@ export default function AuthPage() {
           </div>
         )}
 
-        {step === 7 && (
+        {step === 8 && (
           <div className="card page-enter">
             <h2 style={{ marginBottom: "var(--s4)" }}>
               Daily earnings on a good day?
@@ -757,7 +823,7 @@ export default function AuthPage() {
 
         {isNew && step > 2 && step < 9 && (
           <div className="step-dots" style={{ marginTop: "var(--s6)" }}>
-            {[3, 4, 5, 6, 7, 9].map((s, i) => (
+            {[3, 4, 5, 6, 7, 8, 9].map((s, i) => (
               <div
                 key={i}
                 className={`step-dot ${step === s ? "active" : step > s ? "done" : ""}`}

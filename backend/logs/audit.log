@@ -477,3 +477,101 @@
 {"body":{"cityId":"pune","declaredDailyIncome":500,"language":"hi","name":"BCD","notificationPrefs":{},"platform":"amazon","shiftPattern":"evening","vehicleType":"bike"},"duration":75,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [75ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T16:04:22.056Z","userId":"69ca9e3968bcc11b19227968"}
 {"level":"info","message":"Socket disconnected: 69ca9e3968bcc11b19227968","timestamp":"2026-03-30T16:04:57.575Z"}
 {"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-01.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T16:07:43.217Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T16:16:08.593Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T16:16:08.600Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T16:16:08.603Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T16:16:08.607Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T16:16:08.608Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T16:16:08.609Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T16:16:08.609Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T16:16:08.610Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T16:16:08.611Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T16:16:08.611Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T16:16:08.629Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T16:16:08.629Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T16:16:08.630Z"}
+{"body":{},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/health → 404 [1ms]","query":{},"statusCode":404,"timestamp":"2026-03-30T16:17:04.641Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/health → 404 [0ms]","query":{},"statusCode":404,"timestamp":"2026-03-30T16:17:15.329Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/health → 404 [0ms]","query":{},"statusCode":404,"timestamp":"2026-03-30T16:17:16.080Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /favicon.ico → 404 [0ms]","query":{},"statusCode":404,"timestamp":"2026-03-30T16:18:35.276Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-03-30T17:02:49.719Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T17:03:00.108Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-03-30T17:03:00.166Z"}
+{"level":"info","message":"[DEV] OTP for ******3210: 989802","timestamp":"2026-03-30T17:13:20.262Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3210","timestamp":"2026-03-30T17:13:20.263Z","userId":null}
+{"body":{"phone":"9876543210"},"duration":7,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [7ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:13:20.265Z"}
+{"existingUserId":"69ca9e3968bcc11b19227968","fingerprint":"560312205d08de9389239acf1f012b5df65e63320badac47d670996a706ed6d7","fraud":true,"level":"warn","message":"FRAUD: score=80 rider=69caaf3fff580f43e1d232cc","phone":"******3210","reason":"multi_account","riderId":"69caaf3fff580f43e1d232cc","score":80,"timestamp":"2026-03-30T17:13:35.349Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******3210","timestamp":"2026-03-30T17:13:35.425Z","userId":"69caaf3fff580f43e1d232cc"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9876543210"},"duration":160,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [160ms]","query":{},"statusCode":201,"timestamp":"2026-03-30T17:13:35.426Z"}
+{"level":"info","message":"Socket connected: 69caaf3fff580f43e1d232cc [rider]","timestamp":"2026-03-30T17:13:35.474Z"}
+{"action":"ONBOARDING_COMPLETED","audit":true,"city":"mumbai","level":"info","message":"AUDIT: ONBOARDING_COMPLETED","platform":"zomato","timestamp":"2026-03-30T17:13:54.059Z","userId":"69caaf3fff580f43e1d232cc"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":300,"language":"hi","name":"AAAAA","notificationPrefs":{},"platform":"zomato","shiftPattern":"morning","vehicleType":"bike"},"duration":93,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [93ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:13:54.062Z","userId":"69caaf3fff580f43e1d232cc"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774890900882-b5b4629f","timestamp":"2026-03-30T17:15:00.883Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T17:15:00.907Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T17:15:01.986Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T17:15:02.132Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T17:15:02.284Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T17:15:02.473Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T17:15:02.622Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T17:15:02.772Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T17:15:02.987Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T17:15:03.137Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T17:15:03.289Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T17:15:03.499Z"}
+{"level":"info","message":"Socket disconnected: 69caaf3fff580f43e1d232cc","timestamp":"2026-03-30T17:18:42.759Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774891800156-51b71dad","timestamp":"2026-03-30T17:30:00.157Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T17:30:00.167Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T17:30:00.627Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T17:30:00.780Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T17:30:00.940Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T17:30:01.091Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T17:30:01.341Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T17:30:01.495Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T17:30:01.645Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T17:30:01.853Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T17:30:02.124Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T17:30:02.467Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 018867","timestamp":"2026-03-30T17:43:06.558Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T17:43:06.558Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":5,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [5ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:43:06.559Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T17:43:35.143Z","userId":"69ca9e3968bcc11b19227968"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":81,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [81ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:43:35.144Z"}
+{"level":"info","message":"Socket connected: 69ca9e3968bcc11b19227968 [rider]","timestamp":"2026-03-30T17:43:35.236Z"}
+{"level":"info","message":"Socket disconnected: 69ca9e3968bcc11b19227968","timestamp":"2026-03-30T17:44:35.264Z"}
+{"level":"info","message":"[DEV] OTP for ******6377: 507066","timestamp":"2026-03-30T17:44:58.270Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******6377","timestamp":"2026-03-30T17:44:58.271Z","userId":null}
+{"body":{"phone":"9977456377"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:44:58.272Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774892700449-6d15afdd","timestamp":"2026-03-30T17:45:00.450Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T17:45:00.459Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T17:45:00.872Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T17:45:01.010Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T17:45:01.154Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T17:45:01.293Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T17:45:01.432Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T17:45:01.577Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T17:45:01.778Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T17:45:01.918Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T17:45:02.058Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T17:45:02.236Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******6377","timestamp":"2026-03-30T17:45:07.181Z","userId":"69cab6a3ff580f43e1d2330c"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9977456377"},"duration":93,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [93ms]","query":{},"statusCode":201,"timestamp":"2026-03-30T17:45:07.182Z"}
+{"level":"info","message":"Socket connected: 69cab6a3ff580f43e1d2330c [rider]","timestamp":"2026-03-30T17:45:07.228Z"}
+{"action":"ONBOARDING_COMPLETED","audit":true,"city":"mumbai","level":"info","message":"AUDIT: ONBOARDING_COMPLETED","platform":"zomato","timestamp":"2026-03-30T17:48:44.501Z","userId":"69cab6a3ff580f43e1d2330c"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":300,"language":"hi","name":"ABCD","notificationPrefs":{},"platform":"zomato","shiftPattern":"evening","vehicleType":"car"},"duration":70,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [70ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:48:44.503Z","userId":"69cab6a3ff580f43e1d2330c"}
+{"level":"info","message":"Socket disconnected: 69cab6a3ff580f43e1d2330c","timestamp":"2026-03-30T17:48:57.891Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 798676","timestamp":"2026-03-30T17:49:05.447Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T17:49:05.447Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [2ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T17:49:05.448Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T17:50:00.170Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T17:50:00.181Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T17:50:00.184Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T17:50:00.189Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T17:50:00.190Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T17:50:00.191Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T17:50:00.191Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T17:50:00.192Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T17:50:00.193Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T17:50:00.193Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T17:50:00.212Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T17:50:00.212Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T17:50:00.213Z"}

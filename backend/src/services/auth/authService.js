@@ -1,21 +1,30 @@
-const User = require('../../models/User');
-const { redis, KEYS } = require('../../config/redis');
+const User = require("../../models/User");
+const { redis, KEYS } = require("../../config/redis");
 const {
-  generateOTP, generateAccessToken, generateRefreshToken,
-  verifyRefreshToken, hashData, generateDeviceFingerprint,
-  generateToken, maskPhone,
-} = require('../../utils/crypto');
-const { TTL, BUSINESS_RULES, KYC_STATUS } = require('../../config/constants');
-const logger = require('../../utils/logger');
+  generateOTP,
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+  hashData,
+  generateDeviceFingerprint,
+  generateToken,
+  maskPhone,
+} = require("../../utils/crypto");
+const { TTL, BUSINESS_RULES, KYC_STATUS } = require("../../config/constants");
+const logger = require("../../utils/logger");
+const { normalizePhone } = require("./authValidation");
 
 // ─── Mock OTP sending (replace with Twilio in production) ─
 const sendOTPViaSMS = async (phone, otp) => {
-  if (process.env.NODE_ENV === 'production' && process.env.TWILIO_ACCOUNT_SID) {
-    const twilio = require('twilio');
-    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+  if (process.env.NODE_ENV === "production" && process.env.TWILIO_ACCOUNT_SID) {
+    const twilio = require("twilio");
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN,
+    );
     await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-      .verifications.create({ to: `+91${phone}`, channel: 'sms' });
+      .verifications.create({ to: `+91${phone}`, channel: "sms" });
   } else {
     // Development: log OTP to console
     logger.info(`[DEV] OTP for ${maskPhone(phone)}: ${otp}`);
@@ -23,32 +32,36 @@ const sendOTPViaSMS = async (phone, otp) => {
 };
 
 const verifyOTPViaTwilio = async (phone, otp) => {
-  if (process.env.NODE_ENV === 'production' && process.env.TWILIO_ACCOUNT_SID) {
-    const twilio = require('twilio');
-    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+  if (process.env.NODE_ENV === "production" && process.env.TWILIO_ACCOUNT_SID) {
+    const twilio = require("twilio");
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN,
+    );
     const check = await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
       .verificationChecks.create({ to: `+91${phone}`, code: otp });
-    return check.status === 'approved';
+    return check.status === "approved";
   }
   // Dev: accept any 6-digit code, or stored OTP
   return true;
 };
 
-// ══════════════════════════════════════════════════════════
 // Auth Service Methods
-// ══════════════════════════════════════════════════════════
-
-/**
+/*
  * Step 1: Send OTP to phone number
  */
-const sendOTP = async (phone) => {
+const sendOTP = async (phoneRaw) => {
+  const phone = normalizePhone(phoneRaw);
   // Rate check: max attempts per hour
   const attemptsKey = KEYS.otpAttempts(phone);
   const attempts = await redis.incr(attemptsKey);
   if (attempts === 1) await redis.expire(attemptsKey, TTL.OTP_ATTEMPTS);
   if (attempts > BUSINESS_RULES.MAX_OTP_ATTEMPTS) {
-    throw Object.assign(new Error('Too many OTP requests. Try again in 1 hour.'), { statusCode: 429 });
+    throw Object.assign(
+      new Error("Too many OTP requests. Try again in 1 hour."),
+      { statusCode: 429 },
+    );
   }
 
   const otp = generateOTP(6);
@@ -56,27 +69,32 @@ const sendOTP = async (phone) => {
   await redis.set(KEYS.otpCode(phone), otpHash, TTL.OTP_CODE);
 
   await sendOTPViaSMS(phone, otp);
-  logger.audit('OTP_SENT', null, { phone: maskPhone(phone) });
+  logger.audit("OTP_SENT", null, { phone: maskPhone(phone) });
   return { sent: true, expiresInSeconds: TTL.OTP_CODE };
 };
 
 /**
  * Step 2: Verify OTP and issue tokens
  */
-const verifyOTP = async (phone, otp, deviceData) => {
+const verifyOTP = async (phoneRaw, otp, deviceData) => {
+  const phone = normalizePhone(phoneRaw);
   // 1. Check stored OTP hash
   const storedHash = await redis.get(KEYS.otpCode(phone));
   if (!storedHash) {
-    throw Object.assign(new Error('OTP expired or not found. Request a new one.'), { statusCode: 400 });
+    throw Object.assign(
+      new Error("OTP expired or not found. Request a new one."),
+      { statusCode: 400 },
+    );
   }
 
   const inputHash = hashData(otp);
-  const isValid = process.env.NODE_ENV === 'test'
-    ? otp === '123456'
-    : inputHash === storedHash;
+  const isValid =
+    process.env.NODE_ENV === "test"
+      ? otp === "123456"
+      : inputHash === storedHash;
 
   if (!isValid) {
-    throw Object.assign(new Error('Invalid OTP'), { statusCode: 400 });
+    throw Object.assign(new Error("Invalid OTP"), { statusCode: 400 });
   }
 
   // 2. Delete OTP after use
@@ -90,9 +108,34 @@ const verifyOTP = async (phone, otp, deviceData) => {
   if (isNewUser) {
     user = new User({
       phone,
-      name: 'Rider',   // will be updated during onboarding
+
+      name: "Rider",
+
       phoneVerified: true,
-      kyc: { status: KYC_STATUS.PHONE_VERIFIED },
+
+      trustScore: 70,
+
+      fraudScore: 0,
+
+      fraudFlags: [],
+
+      isUnderReview: false,
+
+      kyc: {
+        status: KYC_STATUS.PHONE_VERIFIED,
+
+        verifiedAt: new Date(),
+      },
+
+      devices: [],
+
+      riskProfile: {
+        accountAgeHours: 0,
+
+        claimHistoryCount: 0,
+
+        lastFraudCheckAt: null,
+      },
     });
   } else {
     user.phoneVerified = true;
@@ -102,39 +145,111 @@ const verifyOTP = async (phone, otp, deviceData) => {
   // 4. Register device
   if (deviceData) {
     const fingerprint = generateDeviceFingerprint(deviceData);
-    const existingDevice = user.devices.find(d => d.fingerprint === fingerprint);
+
+    // LOW ENTROPY DEVICE CHECK (ANTI-BOT)
+    // prevents fake devices with empty metadata
+
+    const isLowEntropyFingerprint =
+      !deviceData?.deviceModel &&
+      !deviceData?.os &&
+      !deviceData?.ipAddress &&
+      !deviceData?.userAgent;
+
+    if (isLowEntropyFingerprint) {
+      logger.fraud(user._id, 40, "low_entropy_device", {
+        deviceData,
+      });
+
+      user.fraudFlags.push("low_entropy_device");
+
+      user.fraudScore = Math.max(user.fraudScore, 35);
+    }
+
+    const existingDevice = user.devices.find(
+      (d) => d.fingerprint === fingerprint,
+    );
     if (!existingDevice) {
       // Check: is this fingerprint already on another account? (multi-account detection)
       const otherUser = await User.findOne({
-        'devices.fingerprint': fingerprint,
+        "devices.fingerprint": fingerprint,
         _id: { $ne: user._id },
       });
       if (otherUser) {
-        logger.fraud(user._id, 80, 'multi_account', {
+        logger.fraud(user._id, 80, "multi_account", {
           fingerprint,
           existingUserId: otherUser._id,
           phone: maskPhone(phone),
         });
-        user.fraudFlags.push('multi_account_device');
+        user.fraudFlags.push("multi_account_device");
         user.fraudScore = Math.max(user.fraudScore, 50);
       }
 
       user.devices.push({
         fingerprint,
+
         model: deviceData.deviceModel,
+
         os: deviceData.os,
+
         osVersion: deviceData.osVersion,
+
         appVersion: deviceData.appVersion,
+
         isMockLocation: deviceData.isMockLocation || false,
+
         hasMockApps: deviceData.hasMockApps || false,
+
+        isRooted: deviceData.isRooted || false,
+
+        isEmulator: deviceData.isEmulator || false,
+
+        batteryLevel: deviceData.batteryLevel,
+
+        networkType: deviceData.networkType,
+
         ipAddress: deviceData.ipAddress,
+
         userAgent: deviceData.userAgent,
+
+        timezone: deviceData.timezone,
+
+        screenRes: deviceData.screenRes,
+
+        fcmToken: deviceData.fcmToken,
+
         lastSeen: new Date(),
       });
 
+      // device risk scoring
+      if (deviceData.isRooted) {
+        user.fraudFlags.push("rooted_device");
+
+        user.fraudScore = Math.max(user.fraudScore, 40);
+      }
+
+      if (deviceData.isEmulator) {
+        user.fraudFlags.push("emulator_device");
+
+        user.fraudScore = Math.max(user.fraudScore, 60);
+      }
+
+      if (deviceData.networkType === "wifi" && deviceData.ipAddress) {
+        const ipUsers = await User.countDocuments({
+          "devices.ipAddress": deviceData.ipAddress,
+        });
+
+        if (ipUsers > 5) {
+          user.fraudFlags.push("high_shared_network");
+
+          user.fraudScore = Math.max(user.fraudScore, 25);
+        }
+      }
+
       if (deviceData.isMockLocation || deviceData.hasMockApps) {
-        logger.fraud(user._id, 60, 'mock_location_detected_at_registration', { fingerprint });
-        user.fraudFlags.push('mock_location_app_detected');
+        logger.fraud(user._id, 60, "mock_location_detected_at_registration", {
+          fingerprint,
+        });
+        user.fraudFlags.push("mock_location_app_detected");
         user.fraudScore = Math.max(user.fraudScore, 60);
         user.isUnderReview = true;
       }
@@ -144,17 +259,45 @@ const verifyOTP = async (phone, otp, deviceData) => {
     }
   }
 
+  // adjust trust baseline
+
+  if (user.fraudScore > 50) {
+    user.trustScore = 50;
+  }
+
+  if (user.fraudFlags.includes("multi_account_device")) {
+    user.trustScore -= 10;
+  }
+
+  if (user.trustScore < 30) {
+    user.isUnderReview = true;
+  }
+
   await user.save();
 
   // 5. Issue tokens
-  const payload = { userId: user._id.toString(), role: user.role, phone: maskPhone(phone) };
+  const payload = {
+    userId: user._id.toString(),
+    role: user.role,
+    phone: maskPhone(phone),
+  };
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 
-  // Cache session
-  await redis.set(KEYS.session(user._id.toString()), user.toObject(), TTL.SESSION_CACHE);
+  await redis.set(
+    KEYS.refreshToken(user._id.toString()),
+    hashData(refreshToken),
+    TTL.REFRESH_TOKEN,
+  );
 
-  logger.audit(isNewUser ? 'USER_REGISTERED' : 'USER_LOGIN', user._id, {
+  // Cache session
+  await redis.set(
+    KEYS.session(user._id.toString()),
+    user.toObject(),
+    TTL.SESSION_CACHE,
+  );
+
+  logger.audit(isNewUser ? "USER_REGISTERED" : "USER_LOGIN", user._id, {
     phone: maskPhone(phone),
     isNewUser,
   });
@@ -170,7 +313,9 @@ const verifyOTP = async (phone, otp, deviceData) => {
       role: user.role,
       isNewUser,
       kycStatus: user.kyc?.status,
-      onboardingComplete: !!user.riderProfile,
+      onboardingComplete: Boolean(
+        user.riderProfile?.cityId && user.riderProfile?.platform,
+      ),
     },
   };
 };
@@ -181,15 +326,23 @@ const verifyOTP = async (phone, otp, deviceData) => {
 const refreshAccessToken = async (refreshToken) => {
   const { valid, payload, error } = verifyRefreshToken(refreshToken);
   if (!valid) {
-    throw Object.assign(new Error(`Invalid refresh token: ${error}`), { statusCode: 401 });
+    throw Object.assign(new Error(`Invalid refresh token: ${error}`), {
+      statusCode: 401,
+    });
   }
 
-  const user = await User.findById(payload.userId).select('isActive isBlocked role').lean();
+  const user = await User.findById(payload.userId)
+    .select("isActive isBlocked role")
+    .lean();
   if (!user || !user.isActive || user.isBlocked) {
-    throw Object.assign(new Error('User unavailable'), { statusCode: 401 });
+    throw Object.assign(new Error("User unavailable"), { statusCode: 401 });
   }
 
-  const newPayload = { userId: payload.userId, role: user.role, phone: payload.phone };
+  const newPayload = {
+    userId: payload.userId,
+    role: user.role,
+    phone: payload.phone,
+  };
   const newAccessToken = generateAccessToken(newPayload);
 
   return { accessToken: newAccessToken, expiresIn: TTL.JWT_ACCESS };
@@ -200,10 +353,10 @@ const refreshAccessToken = async (refreshToken) => {
  */
 const logout = async (token, userId) => {
   // Add to blacklist for remaining TTL
-  await redis.set(KEYS.blacklist(token), '1', TTL.TOKEN_BLACKLIST);
+  await redis.set(KEYS.blacklist(token), "1", TTL.TOKEN_BLACKLIST);
   // Clear session cache
   await redis.del(KEYS.session(userId));
-  logger.audit('USER_LOGOUT', userId);
+  logger.audit("USER_LOGOUT", userId);
 };
 
 /**
@@ -211,28 +364,103 @@ const logout = async (token, userId) => {
  */
 const completeOnboarding = async (userId, profileData) => {
   const user = await User.findById(userId);
-  if (!user) throw Object.assign(new Error('User not found'), { statusCode: 404 });
+  if (!user)
+    throw Object.assign(new Error("User not found"), { statusCode: 404 });
 
   user.name = profileData.name;
-  user.language = profileData.language || 'hi';
+  user.language = profileData.language || "hi";
   user.riderProfile = {
     platform: profileData.platform,
+
     vehicleType: profileData.vehicleType,
+
     shiftPattern: profileData.shiftPattern,
+
     declaredDailyIncome: profileData.declaredDailyIncome,
+
     cityId: profileData.cityId,
+
     pincode: profileData.pincode,
+
     zone: profileData.zone,
+
+    onboardingCompletedAt: new Date(),
   };
-  user.notificationPrefs = profileData.notificationPrefs || user.notificationPrefs;
+
+  /* zone-city validation */
+  if (
+    profileData.zone &&
+    !profileData.zone.toLowerCase().includes(profileData.cityId)
+  ) {
+    logger.warn("ZONE_CITY_MISMATCH", {
+      userId,
+      zone: profileData.zone,
+      city: profileData.cityId,
+    });
+  }
+
+  const incomeBandScore =
+    profileData.declaredDailyIncome < 300
+      ? 0.3
+      : profileData.declaredDailyIncome < 800
+        ? 0.6
+        : 1.0;
+
+  user.riskProfile = {
+    cityId: profileData.cityId,
+
+    incomeBand:
+      profileData.declaredDailyIncome < 300
+        ? "LOW"
+        : profileData.declaredDailyIncome < 800
+          ? "MEDIUM"
+          : "HIGH",
+
+    incomeBandScore, // ML-friendly numeric feature
+
+    shiftPattern: profileData.shiftPattern,
+
+    initialTrustScore: user.trustScore,
+
+    createdAt: new Date(),
+  };
+
+  user.notificationPrefs =
+    profileData.notificationPrefs || user.notificationPrefs;
+
+  /* segmentation tags */
+
+  user.segmentTags = [
+    profileData.platform,
+
+    profileData.vehicleType,
+
+    profileData.shiftPattern,
+
+    profileData.cityId,
+  ];
 
   await user.save();
 
   // Invalidate session cache so fresh data is loaded
   await redis.del(KEYS.session(userId));
 
-  logger.audit('ONBOARDING_COMPLETED', userId, { platform: profileData.platform, city: profileData.cityId });
+  logger.audit("ONBOARDING_COMPLETED", userId, {
+    platform: profileData.platform,
+    city: profileData.cityId,
+  });
+
+  if (!user.riderProfile.cityId) {
+    throw new Error("CITY_REQUIRED_FOR_POLICY");
+  }
+
   return user;
 };
 
-module.exports = { sendOTP, verifyOTP, refreshAccessToken, logout, completeOnboarding };
+module.exports = {
+  sendOTP,
+  verifyOTP,
+  refreshAccessToken,
+  logout,
+  completeOnboarding,
+};

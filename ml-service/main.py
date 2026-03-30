@@ -37,10 +37,7 @@ def verify_secret(x_service_secret: str = Header(default="")):
     if x_service_secret != ML_SECRET and os.getenv("NODE_ENV") not in ("test", None):
         raise HTTPException(status_code=401, detail="Invalid service secret")
 
-# ══════════════════════════════════════════════════════════
 # PREMIUM MODEL
-# ══════════════════════════════════════════════════════════
-
 class PremiumRequest(BaseModel):
     cityId: str
     platform: str
@@ -170,9 +167,8 @@ def calculate_premium(req: PremiumRequest, _=Depends(verify_secret)):
         mlModelVersion="rf_v1",
     )
 
-# ══════════════════════════════════════════════════════════
+
 # FRAUD MODEL — Isolation Forest
-# ══════════════════════════════════════════════════════════
 
 class FraudRequest(BaseModel):
     trustScore: float = Field(..., ge=0, le=100)
@@ -268,9 +264,8 @@ def score_fraud(req: FraudRequest, _=Depends(verify_secret)):
         confidence=round(abs(fraud_prob - 0.5) * 2, 3),
     )
 
-# ──────────────────────────────────────────────────────────
 # Health
-# ──────────────────────────────────────────────────────────
+
 @app.get("/health")
 def health():
     # Pre-load models on health check
@@ -287,10 +282,8 @@ def health():
     }
 
 
-# ══════════════════════════════════════════════════════════
 # PREDICTIVE CLAIMS MODEL — Weekly zone risk
 # Feeds admin dashboard "Predicted Claims Next Week"
-# ══════════════════════════════════════════════════════════
 
 class ZoneRiskRequest(BaseModel):
     cityId: str
@@ -340,10 +333,9 @@ def predict_zone_risk(req: ZoneRiskRequest, _=Depends(verify_secret)):
         confidence=0.72,
     )
 
-# ══════════════════════════════════════════════════════════
+
 # RAIN IMAGE DETECTION — Orange tier selfie verification
 # In production: use Google Vision / AWS Rekognition
-# ══════════════════════════════════════════════════════════
 
 class RainImageRequest(BaseModel):
     imageBase64: str = Field(..., description="Base64 encoded image from rider selfie")
@@ -381,10 +373,7 @@ def detect_rain_in_image(req: RainImageRequest, _=Depends(verify_secret)):
         detectedFeatures=["insufficient_image_quality"],
     )
 
-# ══════════════════════════════════════════════════════════
 # SENSOR FUSION — Physics consistency scoring
-# ══════════════════════════════════════════════════════════
-
 class SensorFusionRequest(BaseModel):
     accelerometerVariance: float = 0.0
     gyroscopeVariance: float = 0.0

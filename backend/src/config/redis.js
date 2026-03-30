@@ -62,6 +62,7 @@ const KEYS = {
   fraudScore:     (riderId)   => `fraud:score:${riderId}`,
   dashboardStats: ()          => `dashboard:stats:global`,
   loyaltyPool:    ()          => `loyalty:pool:balance`,
+  refreshToken: (userId) => `refresh_token:${userId}`,
 };
 
 // ─── Common Redis operations ───────────────────────────────────────────────

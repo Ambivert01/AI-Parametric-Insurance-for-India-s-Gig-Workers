@@ -45,3 +45,435 @@
 {"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-28T17:38:35.609Z"}
 {"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-28T17:38:35.610Z"}
 {"level":"info","message":"All queues closed","timestamp":"2026-03-28T17:38:36.035Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:35:35.827Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:35:35.835Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:35:35.839Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:35:35.843Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:35:35.844Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:35:35.845Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:35:35.845Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:35:35.846Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:35:35.847Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:35:35.847Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:35:35.882Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:35:35.882Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:35:35.883Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 705964","timestamp":"2026-03-30T06:41:57.103Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:41:57.103Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:41:57.104Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 463256","timestamp":"2026-03-30T06:42:27.649Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:42:27.649Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [1ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:42:27.649Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 916922","timestamp":"2026-03-30T06:42:47.123Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:42:47.123Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [1ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:42:47.123Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"916922","phone":"9974563769"},"level":"error","message":"Unhandled Error: secretOrPrivateKey must have a value","method":"POST","path":"/api/v1/auth/otp/verify","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/node_modules/jsonwebtoken/sign.js:111:20)\n    at generateAccessToken (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/utils/crypto.js:71:14)\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:284:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:44:59.573Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":177,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 500 [177ms]","query":{},"statusCode":500,"timestamp":"2026-03-30T06:44:59.574Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774853100032-36bcf10e","timestamp":"2026-03-30T06:45:00.032Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T06:45:00.040Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T06:45:01.332Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T06:45:01.477Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T06:45:01.620Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T06:45:01.835Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T06:45:01.975Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T06:45:02.130Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T06:45:02.271Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T06:45:02.417Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T06:45:02.557Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T06:45:02.780Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 991076","timestamp":"2026-03-30T06:45:09.849Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:45:09.849Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [2ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:45:09.849Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"991076","phone":"9974563769"},"level":"error","message":"Unhandled Error: secretOrPrivateKey must have a value","method":"POST","path":"/api/v1/auth/otp/verify","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/node_modules/jsonwebtoken/sign.js:111:20)\n    at generateAccessToken (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/utils/crypto.js:71:14)\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:284:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:45:25.957Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":80,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 500 [80ms]","query":{},"statusCode":500,"timestamp":"2026-03-30T06:45:25.957Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-30T06:45:44.009Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:48:40.833Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T06:48:40.840Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:48:40.841Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T06:48:40.841Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T06:48:40.841Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:48:40.853Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:48:40.854Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:48:40.872Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:48:40.873Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T06:48:41.342Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:48:44.621Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:48:44.632Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:48:44.636Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:48:44.641Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:48:44.642Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:48:44.642Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:48:44.643Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:48:44.644Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:48:44.645Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:48:44.645Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:48:44.663Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:48:44.663Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:48:44.665Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 977855","timestamp":"2026-03-30T06:48:55.848Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:48:55.849Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:48:55.850Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"977855","phone":"9974563769"},"level":"error","message":"Unhandled Error: KEYS.refreshToken is not a function","method":"POST","path":"/api/v1/auth/otp/verify","stack":"TypeError: KEYS.refreshToken is not a function\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:288:10)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:49:07.733Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":69,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 500 [69ms]","query":{},"statusCode":500,"timestamp":"2026-03-30T06:49:07.733Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:51:00.345Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:51:00.354Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:51:00.357Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:51:00.360Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:51:00.362Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:51:00.363Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:51:00.363Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:51:00.364Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:51:00.365Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:51:00.371Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:51:00.397Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:51:00.398Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:51:00.399Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:51:11.819Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T06:51:11.826Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:51:11.826Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T06:51:11.826Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T06:51:11.827Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:51:11.837Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:51:11.837Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:51:11.860Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:51:11.861Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T06:51:12.333Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-01.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:51:14.177Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:51:14.186Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:51:14.191Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:51:14.197Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:51:14.199Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:51:14.200Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:51:14.201Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:51:14.202Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:51:14.203Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:51:14.203Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:51:14.219Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:51:14.219Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:51:14.221Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 566242","timestamp":"2026-03-30T06:51:22.978Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T06:51:22.979Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:51:22.980Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T06:51:34.292Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":107,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [107ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T06:51:34.292Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-30T06:51:44.573Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [0ms]","query":{},"statusCode":400,"timestamp":"2026-03-30T06:51:51.397Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:59:47.142Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:59:47.150Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:59:47.154Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:59:47.159Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:59:47.160Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:59:47.161Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:59:47.161Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:59:47.162Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:59:47.163Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:59:47.163Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:59:47.181Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:59:47.181Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:59:47.182Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:59:49.285Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T06:59:49.298Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:59:49.298Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T06:59:49.299Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T06:59:49.300Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:59:49.308Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:59:49.309Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T06:59:49.327Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T06:59:49.328Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T06:59:49.795Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-01.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T06:59:51.750Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T06:59:51.757Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T06:59:51.760Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T06:59:51.765Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T06:59:51.766Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T06:59:51.767Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T06:59:51.767Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T06:59:51.768Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T06:59:51.769Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T06:59:51.769Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T06:59:51.788Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T06:59:51.788Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T06:59:51.789Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774854000789-86426e8e","timestamp":"2026-03-30T07:00:00.790Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T07:00:00.810Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T07:00:01.381Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T07:00:01.523Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T07:00:01.663Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T07:00:02.048Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T07:00:02.563Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T07:00:03.452Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T07:00:05.326Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T07:00:06.452Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T07:00:06.846Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T07:00:07.161Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 606167","timestamp":"2026-03-30T07:00:10.803Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T07:00:10.803Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T07:00:10.805Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T07:00:20.777Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":66,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [66ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T07:00:20.777Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T07:01:03.477Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T07:01:03.483Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T07:01:03.483Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T07:01:03.483Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T07:01:03.484Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T07:01:03.496Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T07:01:03.497Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T07:01:03.516Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T07:01:03.516Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T07:01:03.985Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T10:49:31.140Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T10:49:31.148Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T10:49:31.151Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T10:49:31.155Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T10:49:31.156Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T10:49:31.157Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T10:49:31.157Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T10:49:31.158Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T10:49:31.159Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T10:49:31.159Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T10:49:31.180Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T10:49:31.180Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T10:49:31.182Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 552482","timestamp":"2026-03-30T10:56:01.012Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T10:56:01.012Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T10:56:01.013Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T10:56:19.468Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":101,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [101ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T10:56:19.469Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 748562","timestamp":"2026-03-30T10:57:06.655Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T10:57:06.656Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [2ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T10:57:06.656Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T10:57:27.157Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":61,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [61ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T10:57:27.158Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774868400338-124b9f04","timestamp":"2026-03-30T11:00:00.339Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T11:00:00.356Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T11:00:00.949Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T11:00:01.101Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T11:00:01.269Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T11:00:01.414Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T11:00:01.561Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T11:00:02.077Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T11:00:03.452Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T11:00:04.963Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T11:00:06.105Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T11:00:06.474Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 640376","timestamp":"2026-03-30T11:00:38.272Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T11:00:38.272Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [2ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T11:00:38.273Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T11:01:00.012Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":62,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [62ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T11:01:00.013Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-30T11:01:25.995Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 562202","timestamp":"2026-03-30T11:03:40.445Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T11:03:40.445Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [1ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T11:03:40.445Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T11:03:58.346Z","userId":"69ca1beb3933556b338676c4"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":67,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [67ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T11:03:58.346Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T11:05:05.946Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T11:35:45.600Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T11:35:45.611Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T11:35:45.615Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T11:35:45.621Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T11:35:45.623Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T11:35:45.624Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T11:35:45.624Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T11:35:45.625Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T11:35:45.625Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T11:35:45.626Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T11:35:45.667Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T11:35:45.667Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T11:35:45.669Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 291232","timestamp":"2026-03-30T11:38:04.388Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T11:38:04.388Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T11:38:04.389Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******3769","timestamp":"2026-03-30T11:38:16.345Z","userId":"69ca60a838bacd32f47bb971"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":119,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [119ms]","query":{},"statusCode":201,"timestamp":"2026-03-30T11:38:16.346Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [4ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:46.607Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:47.851Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:48.554Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:48.738Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:48.964Z"}
+{"body":{"cityId":"mumbai","declaredDailyIncome":500,"language":"hi","name":"XYZ","platform":"zomato","shiftPattern":"full_day","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T11:44:49.234Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774871100833-c3f9cc48","timestamp":"2026-03-30T11:45:00.835Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T11:45:00.871Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T11:45:01.477Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T11:45:01.626Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T11:45:01.862Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T11:45:02.006Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T11:45:02.152Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T11:45:02.377Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T11:45:02.616Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T11:45:02.770Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T11:45:02.907Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T11:45:03.050Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T12:39:25.459Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-03-30T12:39:25.464Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T12:42:07.265Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T12:42:07.292Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T12:42:07.292Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T12:42:07.293Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T12:42:07.294Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T12:42:07.312Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T12:42:07.312Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T12:42:07.333Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T12:42:07.333Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T12:42:07.792Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T12:42:10.557Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T12:42:10.565Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T12:42:10.570Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T12:42:10.575Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T12:42:10.576Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T12:42:10.577Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T12:42:10.578Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T12:42:10.579Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T12:42:10.580Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T12:42:10.580Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T12:42:10.608Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T12:42:10.609Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T12:42:10.610Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 418928","timestamp":"2026-03-30T12:42:30.727Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T12:42:30.728Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:42:30.729Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-30T12:42:43.592Z","userId":"69ca60a838bacd32f47bb971"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":84,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [84ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:42:43.593Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:00.550Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":20,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [20ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:43:00.581Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:00.594Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:03.397Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":36,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [36ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:43:03.443Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:03.457Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:04.312Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":36,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [36ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:43:04.358Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:43:04.366Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.317Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":27,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [27ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:11.356Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.371Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.480Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":257,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [257ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:11.745Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.752Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.872Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":25,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [25ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:11.913Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:11.933Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.049Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":19,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [19ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.077Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.089Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.231Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":31,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [31ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.271Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.285Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.407Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":17,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [17ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.436Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.457Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.586Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":27,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [27ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.628Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.642Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.772Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":18,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [18ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.801Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.819Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.935Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":18,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [18ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:12.963Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:12.983Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.122Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":21,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [21ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:13.154Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.167Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.308Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":19,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [19ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:13.339Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.346Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.488Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":30,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [30ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:13.530Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.538Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.677Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":20,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [20ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:13.730Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.740Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.878Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":17,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [17ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:44:13.906Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:44:13.925Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774874700641-9288116e","timestamp":"2026-03-30T12:45:00.641Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T12:45:00.650Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T12:45:01.418Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T12:45:01.556Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T12:45:01.699Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T12:45:01.965Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T12:45:02.105Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T12:45:02.347Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T12:45:02.839Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T12:45:03.157Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T12:45:03.391Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T12:45:03.532Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:47.223Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":37,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [37ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:45:47.275Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:47.302Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:48.334Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":28,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [28ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:45:48.367Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:48.374Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:50.095Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":60,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [60ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:45:50.163Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:45:50.171Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:46:08.772Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":46,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [46ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T12:46:08.823Z"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":500,"language":"hi","name":"ABBC","platform":"swiggy","shiftPattern":"afternoon","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T12:46:08.830Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T12:46:49.702Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-02.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T13:31:20.841Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T13:31:20.852Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T13:31:20.855Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T13:31:20.859Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T13:31:20.860Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T13:31:20.861Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T13:31:20.862Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T13:31:20.863Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T13:31:20.863Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T13:31:20.864Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T13:31:20.881Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T13:31:20.881Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T13:31:20.882Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T13:34:44.440Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-30T13:34:44.446Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T13:34:44.447Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-03-30T13:34:44.447Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T13:34:44.447Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T13:34:44.459Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T13:34:44.459Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-03-30T13:34:44.478Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-03-30T13:34:44.480Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-03-30T13:34:44.955Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T15:59:35.280Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T15:59:35.291Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T15:59:35.295Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T15:59:35.298Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T15:59:35.299Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T15:59:35.299Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T15:59:35.300Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T15:59:35.300Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T15:59:35.301Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T15:59:35.301Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T15:59:35.336Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T15:59:35.336Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T15:59:35.337Z"}
+{"body":{},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /dashboard → 401 [2ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.836Z"}
+{"body":{},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /stats → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.839Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /balance → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.841Z"}
+{"body":{},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /dashboard → 401 [1ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.843Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /stats → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.844Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /balance → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T15:59:43.845Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774886400347-13d8b137","timestamp":"2026-03-30T16:00:00.353Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T16:00:00.380Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T16:00:00.961Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T16:00:01.098Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T16:00:01.237Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T16:00:01.378Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T16:00:01.625Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T16:00:01.966Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T16:00:02.841Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T16:00:06.273Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T16:00:07.177Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T16:00:07.745Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 422442","timestamp":"2026-03-30T16:00:44.128Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-30T16:00:44.129Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T16:00:44.129Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******3769","timestamp":"2026-03-30T16:00:57.179Z","userId":"69ca9e3968bcc11b19227968"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":83,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [83ms]","query":{},"statusCode":201,"timestamp":"2026-03-30T16:00:57.180Z"}
+{"level":"info","message":"Socket connected: 69ca9e3968bcc11b19227968 [rider]","timestamp":"2026-03-30T16:00:57.201Z"}
+{"body":{"cityId":"pune","declaredDailyIncome":500,"language":"hi","name":"BCD","platform":"amazon","shiftPattern":"evening","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T16:01:15.558Z"}
+{"body":{"cityId":"pune","declaredDailyIncome":500,"language":"hi","name":"BCD","platform":"amazon","shiftPattern":"evening","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T16:01:19.029Z"}
+{"body":{"cityId":"pune","declaredDailyIncome":500,"language":"hi","name":"BCD","platform":"amazon","shiftPattern":"evening","vehicleType":"bike"},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 401 [0ms]","query":{},"statusCode":401,"timestamp":"2026-03-30T16:01:29.177Z"}
+{"action":"ONBOARDING_COMPLETED","audit":true,"city":"pune","level":"info","message":"AUDIT: ONBOARDING_COMPLETED","platform":"amazon","timestamp":"2026-03-30T16:04:22.054Z","userId":"69ca9e3968bcc11b19227968"}
+{"body":{"cityId":"pune","declaredDailyIncome":500,"language":"hi","name":"BCD","notificationPrefs":{},"platform":"amazon","shiftPattern":"evening","vehicleType":"bike"},"duration":75,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [75ms]","query":{},"statusCode":200,"timestamp":"2026-03-30T16:04:22.055Z","userId":"69ca9e3968bcc11b19227968"}
+{"level":"info","message":"Socket disconnected: 69ca9e3968bcc11b19227968","timestamp":"2026-03-30T16:04:57.575Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-01.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T16:07:43.215Z"}

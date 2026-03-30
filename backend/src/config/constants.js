@@ -1,7 +1,5 @@
-// ══════════════════════════════════════════════════════════
 // GigShield — Constants (Single Source of Truth)
 // Never hardcode these values anywhere else in the codebase
-// ══════════════════════════════════════════════════════════
 
 // ─── User Roles ──────────────────────────────────────────
 const ROLES = {
@@ -332,10 +330,23 @@ const SOCKET_EVENTS = {
   POLICY_ACTIVATED: 'policy:activated',
 };
 
+const SUPPORTED_CITIES = [
+  "mumbai",
+  "delhi",
+  "bengaluru",
+  "hyderabad",
+  "chennai",
+  "kolkata",
+  "pune",
+  "ahmedabad",
+  "jaipur",
+  "lucknow"
+];
+
 module.exports = {
   ROLES, PLATFORMS, VEHICLE_TYPES, SHIFT_PATTERNS,
   COVERAGE_TIERS, TRIGGER_TYPES, POLICY_STATUS, CLAIM_STATUS,
   FRAUD_TIERS, PAYMENT_CHANNELS, PAYMENT_STATUS, KYC_STATUS,
   CITIES, SEASONAL_MULTIPLIERS, LOYALTY_DISCOUNTS,
-  RATE_LIMITS, TTL, BUSINESS_RULES, HTTP, QUEUES, SOCKET_EVENTS,
+  RATE_LIMITS, TTL, BUSINESS_RULES, HTTP, QUEUES, SOCKET_EVENTS, SUPPORTED_CITIES,
 };

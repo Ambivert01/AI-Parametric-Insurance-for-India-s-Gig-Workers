@@ -15,7 +15,7 @@ export default function PaymentsPageImpl() {
   useEffect(() => {
     Promise.all([
       paymentAPI.getHistory(1, 20).then(r => { setPayouts(r.data.data || []); setTotal(r.data.meta?.pagination?.total || 0); }),
-      walletAPI.getBalance().then(r => setWallet(r.data.data)),
+      walletAPI.balance().then(r => setWallet(r.data.data)),
     ]).finally(() => setLoading(false));
   }, []);
 

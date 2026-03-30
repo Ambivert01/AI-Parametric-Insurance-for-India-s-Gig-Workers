@@ -14,7 +14,7 @@ export const useSocket = () => {
   useEffect(() => {
     if (!isAuthenticated || !accessToken || connected.current) return;
 
-    socketInstance = io('/', {
+    socketInstance = io('http://localhost:5000', {
       auth: { token: accessToken },
       transports: ['websocket', 'polling'],
       reconnectionDelay: 1000,

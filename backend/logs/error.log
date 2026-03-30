@@ -10,3 +10,69 @@
 {"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.366Z"}
 {"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.585Z"}
 {"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-03-28T17:36:13.887Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"916922","phone":"9974563769"},"level":"error","message":"Unhandled Error: secretOrPrivateKey must have a value","method":"POST","path":"/api/v1/auth/otp/verify","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/node_modules/jsonwebtoken/sign.js:111:20)\n    at generateAccessToken (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/utils/crypto.js:71:14)\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:284:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:44:59.573Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T06:45:00.040Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T06:45:01.333Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T06:45:01.477Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T06:45:01.620Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T06:45:01.835Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T06:45:01.975Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T06:45:02.130Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T06:45:02.271Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T06:45:02.417Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T06:45:02.558Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"991076","phone":"9974563769"},"level":"error","message":"Unhandled Error: secretOrPrivateKey must have a value","method":"POST","path":"/api/v1/auth/otp/verify","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/node_modules/jsonwebtoken/sign.js:111:20)\n    at generateAccessToken (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/utils/crypto.js:71:14)\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:284:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:45:25.957Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"977855","phone":"9974563769"},"level":"error","message":"Unhandled Error: KEYS.refreshToken is not a function","method":"POST","path":"/api/v1/auth/otp/verify","stack":"TypeError: KEYS.refreshToken is not a function\n    at Object.verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authService.js:288:10)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async verifyOTP (/home/ambivert/AMBIVERT/TECH/GITHUB/PROJECTS/Insurance/AI-Parametric-Insurance-for-India-s-Gig-Workers/backend/src/services/auth/authController.js:18:20)","timestamp":"2026-03-30T06:49:07.733Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T07:00:00.810Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T07:00:01.381Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T07:00:01.523Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T07:00:01.663Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T07:00:02.048Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T07:00:02.563Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T07:00:03.452Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T07:00:05.326Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T07:00:06.452Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T07:00:06.846Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T11:00:00.356Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T11:00:00.949Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T11:00:01.101Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T11:00:01.269Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T11:00:01.414Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T11:00:01.561Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T11:00:02.077Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T11:00:03.452Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T11:00:04.963Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T11:00:06.105Z"}
+{"level":"error","message":"Uncaught Exception: EIO: i/o error, write","timestamp":"2026-03-30T11:05:05.951Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T11:45:00.871Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T11:45:01.477Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T11:45:01.626Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T11:45:01.862Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T11:45:02.006Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T11:45:02.152Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T11:45:02.377Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T11:45:02.616Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T11:45:02.770Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T11:45:02.907Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T12:45:00.650Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T12:45:01.418Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T12:45:01.557Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T12:45:01.699Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T12:45:01.965Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T12:45:02.106Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T12:45:02.347Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T12:45:02.839Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T12:45:03.157Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T12:45:03.391Z"}
+{"level":"error","message":"Uncaught Exception: write EIO","timestamp":"2026-03-30T12:46:49.707Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T16:00:00.380Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T16:00:00.961Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T16:00:01.098Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T16:00:01.237Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T16:00:01.378Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T16:00:01.625Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T16:00:01.967Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T16:00:02.841Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T16:00:06.274Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T16:00:07.177Z"}
+{"level":"error","message":"Uncaught Exception: EIO: i/o error, write","timestamp":"2026-03-30T16:07:43.219Z"}

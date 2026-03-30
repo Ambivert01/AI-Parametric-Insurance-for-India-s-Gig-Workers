@@ -575,3 +575,67 @@
 {"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T17:50:00.212Z"}
 {"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T17:50:00.212Z"}
 {"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T17:50:00.213Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774893600502-6108467f","timestamp":"2026-03-30T18:00:00.503Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T18:00:00.541Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T18:00:01.153Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T18:00:01.320Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T18:00:01.572Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T18:00:01.906Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T18:00:03.602Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T18:00:04.093Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T18:00:04.710Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T18:00:05.050Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T18:00:05.260Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T18:00:05.454Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774894500919-0e03fff3","timestamp":"2026-03-30T18:15:00.920Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T18:15:00.927Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T18:15:01.434Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T18:15:01.679Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T18:15:01.828Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T18:15:01.973Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T18:15:02.116Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T18:15:02.296Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T18:15:02.440Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T18:15:02.586Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T18:15:02.729Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T18:15:02.869Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-30T18:24:08.502Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-30T18:24:08.523Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-30T18:24:08.531Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-30T18:24:08.542Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-30T18:24:08.545Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-30T18:24:08.547Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-30T18:24:08.549Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-30T18:24:08.551Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-30T18:24:08.552Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-30T18:24:08.553Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-30T18:24:08.602Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-30T18:24:08.602Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-30T18:24:08.605Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774895400759-9023a72d","timestamp":"2026-03-30T18:30:00.761Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T18:30:00.797Z"}
+{"level":"info","message":"Cache cleared: weather=0, aqi=0 keys","timestamp":"2026-03-30T18:30:00.815Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T18:30:01.389Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T18:30:01.535Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T18:30:01.681Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T18:30:01.831Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T18:30:02.125Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T18:30:03.007Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T18:30:03.906Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T18:30:04.191Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T18:30:04.336Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T18:30:04.475Z"}
+{"level":"info","message":"Daily analytics snapshot computed for 2026-03-30","timestamp":"2026-03-30T18:30:06.361Z"}
+{"level":"info","message":"Queue [analytics] job 1 completed","timestamp":"2026-03-30T18:30:06.369Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774896300197-b0891e2e","timestamp":"2026-03-30T18:45:00.197Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T18:45:00.202Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T18:45:00.679Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T18:45:00.835Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T18:45:01.038Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T18:45:01.193Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T18:45:01.396Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T18:45:02.574Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T18:45:02.951Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T18:45:03.134Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T18:45:03.397Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T18:45:03.594Z"}

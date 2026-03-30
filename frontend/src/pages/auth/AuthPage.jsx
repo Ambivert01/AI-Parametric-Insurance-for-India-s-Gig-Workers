@@ -34,11 +34,13 @@ const VEHICLES = [
 ];
 
 const SHIFTS = [
-  { id: "morning", label: "Morning", time: "6AM–12PM", emoji: "🌅" },
-  { id: "afternoon", label: "Afternoon", time: "12PM–6PM", emoji: "☀️" },
-  { id: "evening", label: "Evening", time: "6PM–12AM", emoji: "🌆" },
-  { id: "full_day", label: "Full Day", time: "6AM–10PM", emoji: "💪" },
+  { id: "full_time", label: "Full time", emoji: "💪" },
+  { id: "part_time", label: "Part time", emoji: "⌛" },
+  { id: "night_shift", label: "Night shift", emoji: "🌙" },
+  { id: "weekend_only", label: "Weekend only", emoji: "📅" },
+  { id: "flexible", label: "Flexible", emoji: "🔄" }
 ];
+
 const INCOME = [
   { id: 300, label: "Under ₹400", sub: "~₹300/day" },
   { id: 500, label: "₹400–₹600", sub: "Average" },

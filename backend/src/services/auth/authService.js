@@ -407,6 +407,8 @@ const completeOnboarding = async (userId, profileData) => {
         : 1.0;
 
   user.riskProfile = {
+    ...user.riskProfile,
+
     cityId: profileData.cityId,
 
     incomeBand:
@@ -416,13 +418,13 @@ const completeOnboarding = async (userId, profileData) => {
           ? "MEDIUM"
           : "HIGH",
 
-    incomeBandScore, // ML-friendly numeric feature
+    incomeBandScore,
 
     shiftPattern: profileData.shiftPattern,
 
     initialTrustScore: user.trustScore,
 
-    createdAt: new Date(),
+    onboardingCompletedAt: new Date(),
   };
 
   user.notificationPrefs =

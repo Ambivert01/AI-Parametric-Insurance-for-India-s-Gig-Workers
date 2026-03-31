@@ -34,11 +34,12 @@ const VEHICLES = [
 ];
 
 const SHIFTS = [
-  { id: "full_time", label: "Full time", emoji: "💪" },
-  { id: "part_time", label: "Part time", emoji: "⌛" },
-  { id: "night_shift", label: "Night shift", emoji: "🌙" },
-  { id: "weekend_only", label: "Weekend only", emoji: "📅" },
-  { id: "flexible", label: "Flexible", emoji: "🔄" }
+  { id: "morning", label: "Morning", emoji: "🌅" },
+  { id: "afternoon", label: "Afternoon", emoji: "☀️" },
+  { id: "evening", label: "Evening", emoji: "🌆" },
+  { id: "night", label: "Night", emoji: "🌙" },
+  { id: "full_day", label: "Full day", emoji: "💪" },
+  { id: "split", label: "Split shift", emoji: "⏱️" },
 ];
 
 const INCOME = [
@@ -165,7 +166,7 @@ export default function AuthPage() {
     setLoading(true);
 
     try {
-      await authAPI.onboard({
+      const res = await authAPI.onboard({
         name,
 
         language: "hi",
@@ -182,6 +183,8 @@ export default function AuthPage() {
       });
 
       toast.success("🎉 Welcome to GigShield!");
+
+      dispatch(authActions.setUser(res.data.user));
 
       navigate("/dashboard");
     } catch (err) {

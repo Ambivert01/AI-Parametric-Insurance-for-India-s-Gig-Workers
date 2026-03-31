@@ -639,3 +639,199 @@
 {"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T18:45:03.135Z"}
 {"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T18:45:03.397Z"}
 {"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T18:45:03.595Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774897200588-2f02635c","timestamp":"2026-03-30T19:00:00.589Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T19:00:00.594Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T19:00:01.050Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T19:00:01.199Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T19:00:01.472Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T19:00:01.651Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T19:00:01.813Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T19:00:01.980Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T19:00:02.494Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T19:00:02.889Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T19:00:03.621Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T19:00:04.331Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774898100887-3e3bb6ce","timestamp":"2026-03-30T19:15:00.887Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-30T19:15:00.893Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-30T19:15:01.350Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-30T19:15:01.494Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-30T19:15:01.638Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-30T19:15:01.781Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-30T19:15:01.988Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-30T19:15:02.129Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-30T19:15:02.271Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-30T19:15:02.501Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-30T19:15:02.647Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-30T19:15:02.791Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-03-30T19:22:39.170Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-03-30T19:22:39.170Z"}
+{"level":"info","message":"SIGTERM received. Shutting down gracefully...","timestamp":"2026-03-30T19:22:39.236Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-31T04:38:28.331Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-31T04:38:28.340Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-31T04:38:28.343Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-31T04:38:28.346Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-31T04:38:28.347Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-31T04:38:28.348Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-31T04:38:28.349Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-31T04:38:28.349Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-31T04:38:28.350Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-31T04:38:28.350Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-31T04:38:28.386Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-31T04:38:28.386Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-31T04:38:28.387Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 505247","timestamp":"2026-03-31T04:39:26.790Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-31T04:39:26.790Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T04:39:26.792Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******3769","timestamp":"2026-03-31T04:39:38.296Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":155,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [155ms]","query":{},"statusCode":201,"timestamp":"2026-03-31T04:39:38.297Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T04:39:38.319Z"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [3ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:40:06.977Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [2ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:40:11.649Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [2ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:40:18.454Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:40:32.386Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:41:32.221Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:43:07.636Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:43:08.630Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"ABCDE","platform":"dunzo","shiftPattern":"flexible","vehicleType":"car"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:43:09.604Z","userId":"69cb500a5df928462b36842e"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T04:43:17.489Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 731274","timestamp":"2026-03-31T04:44:08.718Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-31T04:44:08.719Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [2ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T04:44:08.719Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [1ms]","query":{},"statusCode":400,"timestamp":"2026-03-31T04:44:26.046Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-31T04:44:39.938Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":41,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [41ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T04:44:39.939Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T04:44:39.973Z"}
+{"action":"ONBOARDING_COMPLETED","audit":true,"city":"bengaluru","level":"info","message":"AUDIT: ONBOARDING_COMPLETED","platform":"zepto","timestamp":"2026-03-31T04:44:56.522Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"cityId":"bengaluru","declaredDailyIncome":750,"language":"hi","name":"ABCDEF","notificationPrefs":{},"platform":"zepto","shiftPattern":"full_day","vehicleType":"car"},"duration":60,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [60ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T04:44:56.523Z","userId":"69cb500a5df928462b36842e"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774932300477-88a41983","timestamp":"2026-03-31T04:45:00.478Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-31T04:45:00.494Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-31T04:45:01.642Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-31T04:45:01.789Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-31T04:45:02.043Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-31T04:45:02.184Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-31T04:45:02.333Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-31T04:45:02.556Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T04:45:02.706Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T04:45:02.849Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T04:45:03.070Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T04:45:03.214Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774933200738-f547281a","timestamp":"2026-03-31T05:00:00.739Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-31T05:00:00.750Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-31T05:00:01.209Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-31T05:00:01.363Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-31T05:00:01.580Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-31T05:00:01.745Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-31T05:00:01.896Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-31T05:00:02.119Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T05:00:02.334Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T05:00:02.943Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T05:00:04.203Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T05:00:04.710Z"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T05:02:02.442Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-31T05:08:59.973Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-31T05:08:59.984Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-31T05:08:59.988Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-31T05:08:59.992Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-31T05:08:59.992Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-31T05:08:59.993Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-31T05:08:59.993Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-31T05:08:59.994Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-31T05:08:59.994Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-31T05:08:59.995Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-31T05:09:00.009Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-31T05:09:00.009Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-31T05:09:00.010Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774934100127-07df39a0","timestamp":"2026-03-31T05:15:00.128Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-31T05:15:00.135Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-31T05:15:00.700Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-31T05:15:00.839Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-31T05:15:00.973Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-31T05:15:01.113Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-31T05:15:01.250Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-31T05:15:01.390Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T05:15:01.628Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T05:15:01.766Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T05:15:01.906Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T05:15:02.046Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774935000621-39c0be25","timestamp":"2026-03-31T05:30:00.623Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-31T05:30:00.652Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-31T05:30:01.112Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-31T05:30:01.333Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-31T05:30:01.488Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-31T05:30:01.632Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-31T05:30:01.782Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-31T05:30:02.356Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T05:30:03.581Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T05:30:04.395Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T05:30:05.048Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T05:30:05.187Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-03-31T06:35:32.991Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-03-31T06:35:43.379Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-03-31T06:35:43.394Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-31T06:40:44.359Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-31T06:40:44.382Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-31T06:40:44.394Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-31T06:41:10.693Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-31T06:41:10.715Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-31T06:41:10.722Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-03-31T06:42:06.162Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-03-31T06:42:06.189Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-03-31T06:42:06.200Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-03-31T06:42:06.212Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-03-31T06:42:06.214Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-03-31T06:42:06.217Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-03-31T06:42:06.218Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-03-31T06:42:06.221Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-03-31T06:42:06.223Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-03-31T06:42:06.224Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-03-31T06:42:06.279Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-03-31T06:42:06.279Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-03-31T06:42:06.282Z"}
+{"body":{},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /me → 401 [4ms]","query":{},"statusCode":401,"timestamp":"2026-03-31T06:42:25.272Z"}
+{"body":{},"duration":2,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /me → 401 [2ms]","query":{},"statusCode":401,"timestamp":"2026-03-31T06:42:25.278Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":36,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [36ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:42:25.633Z"}
+{"body":{"refreshToken":"[REDACTED]"},"duration":28,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /refresh → 200 [28ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:42:25.635Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 471042","timestamp":"2026-03-31T06:42:32.295Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-31T06:42:32.296Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":5,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [5ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:42:32.297Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-31T06:42:47.649Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":104,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [104ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:42:47.650Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T06:42:47.743Z"}
+{"action":"USER_LOGOUT","audit":true,"level":"info","message":"AUDIT: USER_LOGOUT","timestamp":"2026-03-31T06:42:58.339Z","userId":"69cb500a5df928462b36842e"}
+{"body":{},"duration":6,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /logout → 200 [6ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:42:58.341Z","userId":"69cb500a5df928462b36842e"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T06:42:58.372Z"}
+{"level":"info","message":"[DEV] OTP for ******6623: 529622","timestamp":"2026-03-31T06:43:09.246Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******6623","timestamp":"2026-03-31T06:43:09.246Z","userId":null}
+{"body":{"phone":"7889456623"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:43:09.247Z"}
+{"existingUserId":"69cb500a5df928462b36842e","fingerprint":"560312205d08de9389239acf1f012b5df65e63320badac47d670996a706ed6d7","fraud":true,"level":"warn","message":"FRAUD: score=80 rider=69cb6d079e0b5331ff147195","phone":"******6623","reason":"multi_account","riderId":"69cb6d079e0b5331ff147195","score":80,"timestamp":"2026-03-31T06:43:19.626Z"}
+{"action":"USER_REGISTERED","audit":true,"isNewUser":true,"level":"info","message":"AUDIT: USER_REGISTERED","phone":"******6623","timestamp":"2026-03-31T06:43:19.668Z","userId":"69cb6d079e0b5331ff147195"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"7889456623"},"duration":105,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 201 [105ms]","query":{},"statusCode":201,"timestamp":"2026-03-31T06:43:19.670Z"}
+{"level":"info","message":"Socket connected: 69cb6d079e0b5331ff147195 [rider]","timestamp":"2026-03-31T06:43:19.713Z"}
+{"action":"ONBOARDING_COMPLETED","audit":true,"city":"ahmedabad","level":"info","message":"AUDIT: ONBOARDING_COMPLETED","platform":"amazon","timestamp":"2026-03-31T06:43:29.204Z","userId":"69cb6d079e0b5331ff147195"}
+{"body":{"cityId":"ahmedabad","declaredDailyIncome":750,"language":"hi","name":"dsfadfsa","notificationPrefs":{},"platform":"amazon","shiftPattern":"night","vehicleType":"car"},"duration":73,"ip":"::ffff:127.0.0.1","level":"info","message":"PUT /onboarding → 200 [73ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:43:29.207Z","userId":"69cb6d079e0b5331ff147195"}
+{"action":"USER_LOGOUT","audit":true,"level":"info","message":"AUDIT: USER_LOGOUT","timestamp":"2026-03-31T06:43:33.923Z","userId":"69cb6d079e0b5331ff147195"}
+{"body":{},"duration":6,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /logout → 200 [6ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:43:33.924Z","userId":"69cb6d079e0b5331ff147195"}
+{"level":"info","message":"Socket disconnected: 69cb6d079e0b5331ff147195","timestamp":"2026-03-31T06:43:33.975Z"}
+{"level":"info","message":"[DEV] OTP for ******3769: 392351","timestamp":"2026-03-31T06:43:54.877Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******3769","timestamp":"2026-03-31T06:43:54.877Z","userId":null}
+{"body":{"phone":"9974563769"},"duration":4,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [4ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:43:54.878Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******3769","timestamp":"2026-03-31T06:44:07.835Z","userId":"69cb500a5df928462b36842e"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0"},"otp":"[REDACTED]","phone":"9974563769"},"duration":63,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [63ms]","query":{},"statusCode":200,"timestamp":"2026-03-31T06:44:07.836Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T06:44:07.920Z"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T06:44:10.264Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T06:44:10.816Z"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T06:44:13.922Z"}
+{"level":"info","message":"Socket connected: 69cb500a5df928462b36842e [rider]","timestamp":"2026-03-31T06:44:14.924Z"}
+{"level":"info","message":"Socket disconnected: 69cb500a5df928462b36842e","timestamp":"2026-03-31T06:44:16.985Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1774939500338-864bd06c","timestamp":"2026-03-31T06:45:00.340Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Invalid URL","timestamp":"2026-03-31T06:45:00.369Z"}
+{"level":"error","message":"Weather API failed for DELHI: Invalid URL","timestamp":"2026-03-31T06:45:01.000Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Invalid URL","timestamp":"2026-03-31T06:45:01.152Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Invalid URL","timestamp":"2026-03-31T06:45:01.298Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Invalid URL","timestamp":"2026-03-31T06:45:01.447Z"}
+{"level":"error","message":"Weather API failed for PUNE: Invalid URL","timestamp":"2026-03-31T06:45:01.603Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Invalid URL","timestamp":"2026-03-31T06:45:01.769Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T06:45:01.967Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T06:45:02.117Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T06:45:02.270Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T06:45:02.416Z"}

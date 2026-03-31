@@ -4,9 +4,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    accessToken: localStorage.getItem("gs_at") || null,
-    refreshToken: localStorage.getItem("gs_rt") || null,
-    isAuthenticated: !!localStorage.getItem("gs_at"),
+    accessToken: localStorage.getItem("accessToken") || null,
+    refreshToken: localStorage.getItem("refreshToken") || null,
+    isAuthenticated: !!localStorage.getItem("accessToken"),
     onboardingComplete: false,
   },
   reducers: {

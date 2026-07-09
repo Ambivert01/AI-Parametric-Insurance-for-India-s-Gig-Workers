@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { publicAPI } from '../../services/api';
 
 export default function PublicMapPage() {
@@ -13,8 +14,8 @@ export default function PublicMapPage() {
 
   return (
     <div style={{minHeight:'100vh',background:'var(--bg-primary)',padding:'var(--s8)',fontFamily:'var(--font-body)'}}>
-      <link rel="stylesheet" href="/src/index.css"/>
       <div style={{maxWidth:900,margin:'0 auto'}}>
+        <Link to="/" style={{color:'var(--text-muted)',fontSize:'0.875rem',textDecoration:'none',display:'inline-block',marginBottom:'var(--s5)'}}>← Back to GigShield</Link>
         <div style={{textAlign:'center',marginBottom:'var(--s8)'}}>
           <div style={{fontSize:'3rem',marginBottom:'var(--s3)'}}>🗺️</div>
           <h1 style={{fontFamily:'var(--font-display)',color:'var(--text-primary)',marginBottom:'var(--s2)'}}>GigShield Live Map</h1>
@@ -45,6 +46,9 @@ export default function PublicMapPage() {
               ))}
             </div>
           ):<p style={{color:'var(--text-muted)',textAlign:'center',padding:'var(--s8)'}}>No active triggers right now. All clear! ✅</p>}
+        </div>
+        <div style={{textAlign:'center',marginTop:'var(--s8)'}}>
+          <Link to="/auth" className="btn btn-primary btn-lg" style={{textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Get Protected →</Link>
         </div>
       </div>
     </div>

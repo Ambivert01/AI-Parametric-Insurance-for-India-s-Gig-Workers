@@ -16,6 +16,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import { lazy, Suspense, useEffect } from "react";
 import { authAPI } from "./services/api.js";
 import { authActions } from "./store/index.js";
+import LandingPage from "./pages/public/LandingPage";
+import PublicMapPage from "./pages/public/PublicMapPage";
 
 const PolicyPage = lazy(() => import("./pages/rider/PolicyPage"));
 const ClaimsPage = lazy(() => import("./pages/rider/ClaimsPage"));
@@ -55,6 +57,20 @@ function Guard({ children, admin = false }) {
   return children;
 }
 
+// Previously "/" always bounced an unauthenticated visitor straight to
+// /auth with zero context on what GigShield is. Now: authenticated users
+// still land on the same AppLayout dashboard shell as before; unauthenticated
+// visitors see the public landing page instead of an OTP screen.
+function RootShell() {
+  const { isAuthenticated } = useSelector(selectAuth);
+  const loc = useLocation();
+  if (!isAuthenticated) {
+    if (loc.pathname === "/") return <LandingPage />;
+    return <Navigate to="/auth" state={{ from: loc }} replace />;
+  }
+  return <AppLayout />;
+}
+
 function AppRoutes() {
   const dispatch = useDispatch();
 
@@ -65,7 +81,7 @@ function AppRoutes() {
 
       try {
         const res = await authAPI.me();
-        dispatch(authActions.setUser(res.data.user));
+        dispatch(authActions.setUser(res.data.data.user));
       } catch {
         localStorage.clear();
       }
@@ -78,14 +94,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
-      <Route
-        path="/"
-        element={
-          <Guard>
-            <AppLayout />
-          </Guard>
-        }
-      >
+      <Route path="/risk-map" element={<PublicMapPage />} />
+      <Route path="/" element={<RootShell />}>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<RiderDashboard />} />
         <Route
@@ -195,7 +205,7 @@ function AppRoutes() {
           }
         />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

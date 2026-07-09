@@ -230,11 +230,23 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
 const verifyBankAccount = async (riderId, upiId) => {
   // In production: use Razorpay Fund Account Validation API
   // For now: mock successful verification
+  const { KYC_STATUS } = require('../../config/constants');
+  const user = await User.findById(riderId).select('kyc.status kyc.selfieUrl kyc.aadhaarHash').lean();
+  const hasAadhaar = !!user?.kyc?.aadhaarHash;
+  const hasSelfie = !!user?.kyc?.selfieUrl;
+  // kyc.status must reflect bank verification too — previously this only flipped
+  // bankDetails.verified and left kyc.status stuck at AADHAAR_VERIFIED forever,
+  // so BANK_VERIFIED/FULL were unreachable dead enum values.
+  const nextKycStatus = hasAadhaar && hasSelfie ? KYC_STATUS.FULL
+    : hasAadhaar ? KYC_STATUS.BANK_VERIFIED
+    : user?.kyc?.status || KYC_STATUS.PHONE_VERIFIED;
+
   await User.findByIdAndUpdate(riderId, {
     $set: {
       'bankDetails.upiId': encrypt(upiId),
       'bankDetails.verified': true,
       'bankDetails.verifiedAt': new Date(),
+      'kyc.status': nextKycStatus,
     },
   });
   await redis.del(KEYS.session(riderId.toString()));

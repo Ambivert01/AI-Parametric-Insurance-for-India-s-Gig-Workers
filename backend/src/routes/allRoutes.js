@@ -7,12 +7,21 @@ const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const { validate, limiters } = require('../middleware/index');
 const {
-  getPremiumQuote, createPolicy, activatePolicy,
+  getPremiumQuote, getRiskAssessmentAndRecommendation, createPolicy, activatePolicy,
   getActivePolicyForRider,
 } = require('../services/policy/policyService');
 const { createPremiumOrder, verifyPremiumPayment } = require('../services/payment/paymentService');
 const { sendSuccess, sendNotFound, sendBadRequest } = require('../utils/response');
 const { ROLES, COVERAGE_TIERS } = require('../config/constants');
+
+// GET /api/v1/policies/recommend — AI Risk Assessment + Plan Recommendation
+// (Worker Journey Steps 2-3). Requires Step 1 profile (riderProfile.cityId) to exist.
+router.get('/recommend', authenticate, async (req, res, next) => {
+  try {
+    const result = await getRiskAssessmentAndRecommendation(req.user._id);
+    sendSuccess(res, result);
+  } catch (err) { next(err); }
+});
 
 // GET /api/v1/policies/quote?tier=STANDARD
 router.get('/quote', authenticate, async (req, res, next) => {

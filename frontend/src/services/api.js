@@ -13,7 +13,7 @@ api.interceptors.request.use((c) => {
 });
 
 api.interceptors.response.use(
-  (r) => r.data,
+  (r) => r, // pass through the full axios response — every page reads res.data.data to reach the payload
   async (e) => {
     const o = e.config;
 
@@ -44,7 +44,9 @@ api.interceptors.response.use(
       }
     }
 
-    return Promise.reject(e.response?.data || e);
+    // Preserve the full axios error (with .response.data.error.message intact) —
+    // every catch block in the app reads err.response?.data?.error?.message.
+    return Promise.reject(e);
   },
 );
 
@@ -57,39 +59,47 @@ export const authAPI = {
   onboard: (d) => api.put("/auth/onboarding", d),
 };
 export const policyAPI = {
-  quote: (tier) => api.get("/policies/quote", { params: { tier } }),
+  getQuote: (tier) => api.get("/policies/quote", { params: { tier } }),
+  recommend: () => api.get("/policies/recommend"),
   create: (tier, isAutoRenew) => api.post("/policies", { tier, isAutoRenew }),
-  confirmPayment: (id, d) => api.post(`/policies/${id}/confirm-payment`, d),
-  active: () => api.get("/policies/active"),
-  list: (p = 1) => api.get("/policies", { params: { page: p } }),
+  confirmPayment: (id, paymentId, signature, orderId) =>
+    api.post(`/policies/${id}/confirm-payment`, { paymentId, signature, orderId }),
+  getActive: () => api.get("/policies/active"),
+  getHistory: (p = 1, limit = 10) => api.get("/policies", { params: { page: p, limit } }),
   toggleAutoRenew: (e) => api.patch("/policies/auto-renew", { enabled: e }),
   shiftQuote: (lat, lon) =>
     api.get("/policies/shift/quote", { params: { lat, lon } }),
-  activateShift: (d) => api.post("/policies/shift/activate", d),
-  activeShift: () => api.get("/policies/shift/active"),
+  activateShift: (tier, lat, lon) =>
+    api.post("/policies/shift/activate", { tier, lat, lon }),
+  getActiveShift: () => api.get("/policies/shift/active"),
+  deactivateShift: () => api.delete("/policies/shift/active"),
 };
 export const claimsAPI = {
-  list: (p = 1) => api.get("/claims", { params: { page: p } }),
-  get: (id) => api.get(`/claims/${id}`),
-  appeal: (id, reason, evidenceUrls = []) =>
+  getAll: (p = 1, limit = 10) => api.get("/claims", { params: { page: p, limit } }),
+  getById: (id) => api.get(`/claims/${id}`),
+  submitAppeal: (id, reason, evidenceUrls = []) =>
     api.post(`/claims/${id}/appeal`, { reason, evidenceUrls }),
   selfie: (id, imageBase64) =>
     api.post(`/claims/${id}/selfie`, { imageBase64 }),
 };
 export const paymentAPI = {
   verifyBank: (upiId) => api.post("/payments/verify-bank", { upiId }),
-  history: (p = 1) => api.get("/payments/history", { params: { page: p } }),
+  getHistory: (p = 1, limit = 20) => api.get("/payments/history", { params: { page: p, limit } }),
 };
 export const kycAPI = {
-  status: () => api.get("/kyc/status"),
+  getStatus: () => api.get("/kyc/status"),
   selfie: (b64) => api.post("/kyc/selfie", { imageBase64: b64 }),
-  aadhaar: (num, name) =>
+  verifyAadhaar: (num, name) =>
     api.post("/kyc/aadhaar", { aadhaarNumber: num, name }),
+  // Bank/UPI verification lives on the payments endpoint server-side, but the
+  // Profile page's KYC checklist calls it as kycAPI.verifyBank — kept here as
+  // the same call so that checklist doesn't need a second import.
+  verifyBank: (upiId) => api.post("/payments/verify-bank", { upiId }),
 };
 export const analyticsAPI = {
   riderDashboard: () => api.get("/analytics/dashboard"),
-  adminDashboard: () => api.get("/admin/dashboard"),
-  heatmap: () => api.get("/admin/heatmap"),
+  getAdminDashboard: () => api.get("/admin/dashboard"),
+  getHeatmap: () => api.get("/admin/heatmap"),
   predictions: () => api.get("/admin/predictions"),
   triggers: (p = 1) => api.get("/admin/triggers", { params: { page: p } }),
   injectTrigger: (d) => api.post("/admin/triggers/inject", d),
@@ -105,8 +115,9 @@ export const analyticsAPI = {
 };
 export const communityAPI = {
   stats: (cityId) => api.get("/community/stats", { params: { cityId } }),
-  pool: () => api.get("/community/pool"),
-  leaderboard: () => api.get("/community/leaderboard"),
+  getStats: (cityId) => api.get("/community/stats", { params: { cityId } }),
+  getPool: () => api.get("/community/pool"),
+  getLeaderboard: () => api.get("/community/leaderboard"),
 };
 export const walletAPI = {
   balance: () => api.get("/wallet/balance"),
@@ -119,8 +130,8 @@ export const notifAPI = {
   updatePrefs: (prefs) => api.patch("/notifications/prefs", prefs),
 };
 export const publicAPI = {
-  map: () => api.get("/public/map"),
-  stats: () => api.get("/public/stats"),
+  getMap: () => api.get("/public/map"),
+  getStats: () => api.get("/public/stats"),
 };
 export const iotAPI = {
   sensors: (cityId) => api.get(`/iot/sensors/${cityId}`),

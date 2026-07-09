@@ -30,13 +30,26 @@ const verifySelfie = async (riderId, selfieBase64) => {
 
   const selfieUrl = `https://gigshield-kyc.s3.amazonaws.com/selfies/${riderId}_${Date.now()}.jpg`;
 
+  // Selfie/liveness is tracked independently via selfieUrl/livenessScore — it must
+  // never regress the overall kyc.status enum, which only ever moves forward through
+  // PHONE_VERIFIED -> AADHAAR_VERIFIED -> BANK_VERIFIED -> FULL. Previously this
+  // unconditionally reset status back to PHONE_VERIFIED, which could downgrade a
+  // rider who had already completed Aadhaar/bank verification.
+  const existingUser = await User.findById(riderId).select('kyc.status bankDetails.verified').lean();
+  const currentStatus = existingUser?.kyc?.status || KYC_STATUS.PHONE_VERIFIED;
+  const hasAadhaar = [KYC_STATUS.AADHAAR_VERIFIED, KYC_STATUS.BANK_VERIFIED, KYC_STATUS.FULL].includes(currentStatus);
+  const hasBank = existingUser?.bankDetails?.verified;
+  const nextStatus = hasAadhaar && hasBank ? KYC_STATUS.FULL
+    : hasAadhaar ? KYC_STATUS.AADHAAR_VERIFIED
+    : currentStatus;
+
   await User.findByIdAndUpdate(riderId, {
     $set: {
       profilePhoto: selfieUrl,
       'kyc.selfieUrl': selfieUrl,
       'kyc.livenessScore': livenessScore,
       'kyc.livenessVerifiedAt': new Date(),
-      'kyc.status': KYC_STATUS.PHONE_VERIFIED, // move to next step
+      'kyc.status': nextStatus,
     },
   });
 

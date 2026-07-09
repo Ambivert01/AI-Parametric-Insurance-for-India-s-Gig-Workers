@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { authActions } from "../../store/index";
-import { authAPI, policyAPI } from "../../services/api";
+import { authAPI, policyAPI, kycAPI } from "../../services/api";
 
 const PLATFORMS = [
   { id: "zomato", label: "Zomato", emoji: "🍕" },
@@ -15,31 +15,41 @@ const PLATFORMS = [
   { id: "dunzo", label: "Dunzo", emoji: "🏃" },
   { id: "other", label: "Other", emoji: "🛺" },
 ];
+
+// Full 10-city list — must match backend SUPPORTED_CITIES exactly, or
+// onboarding fails Joi validation server-side.
 const CITIES = [
   { id: "mumbai", label: "Mumbai" },
   { id: "delhi", label: "Delhi NCR" },
   { id: "bengaluru", label: "Bengaluru" },
   { id: "hyderabad", label: "Hyderabad" },
   { id: "chennai", label: "Chennai" },
-  { id: "pune", label: "Pune" },
   { id: "kolkata", label: "Kolkata" },
+  { id: "pune", label: "Pune" },
   { id: "ahmedabad", label: "Ahmedabad" },
+  { id: "jaipur", label: "Jaipur" },
+  { id: "lucknow", label: "Lucknow" },
 ];
 
+// Must match backend VEHICLE_TYPES exactly ('cycle' is not a valid backend
+// value — it's 'bicycle' — and 'auto' / 'on_foot' were missing entirely,
+// so selecting either previously made onboarding impossible).
 const VEHICLES = [
   { id: "bike", label: "Bike", emoji: "🏍️" },
   { id: "scooter", label: "Scooter", emoji: "🛵" },
-  { id: "cycle", label: "Cycle", emoji: "🚲" },
+  { id: "bicycle", label: "Bicycle", emoji: "🚲" },
+  { id: "auto", label: "Auto", emoji: "🛺" },
   { id: "car", label: "Car", emoji: "🚗" },
+  { id: "on_foot", label: "On Foot", emoji: "🚶" },
 ];
 
 const SHIFTS = [
-  { id: "morning", label: "Morning", emoji: "🌅" },
-  { id: "afternoon", label: "Afternoon", emoji: "☀️" },
-  { id: "evening", label: "Evening", emoji: "🌆" },
-  { id: "night", label: "Night", emoji: "🌙" },
-  { id: "full_day", label: "Full day", emoji: "💪" },
-  { id: "split", label: "Split shift", emoji: "⏱️" },
+  { id: "morning", label: "Morning", emoji: "🌅", time: "06:00 – 12:00" },
+  { id: "afternoon", label: "Afternoon", emoji: "☀️", time: "12:00 – 18:00" },
+  { id: "evening", label: "Evening", emoji: "🌆", time: "18:00 – 00:00" },
+  { id: "night", label: "Night", emoji: "🌙", time: "00:00 – 06:00" },
+  { id: "full_day", label: "Full day", emoji: "💪", time: "06:00 – 22:00" },
+  { id: "split", label: "Split shift", emoji: "⏱️", time: "Custom hours" },
 ];
 
 const INCOME = [
@@ -48,12 +58,16 @@ const INCOME = [
   { id: 750, label: "₹600–₹900", sub: "Good days" },
   { id: 1100, label: "Over ₹900", sub: "Top earner" },
 ];
-const TIERS = [
-  { id: "BASIC", emoji: "🔵", price: 38, daily: 200 },
-  { id: "STANDARD", emoji: "🟠", price: 72, daily: 350, tag: "POPULAR" },
-  { id: "PRO", emoji: "🟣", price: 110, daily: 500 },
-  { id: "ELITE", emoji: "⭐", price: 148, daily: 700, tag: "BEST" },
-];
+
+const TIER_META = {
+  BASIC: { emoji: "🔵" },
+  STANDARD: { emoji: "🟠" },
+  PRO: { emoji: "🟣" },
+  ELITE: { emoji: "⭐" },
+};
+
+const TOTAL_WIZARD_STEPS = 9; // steps 3..11
+const WIZARD_STEP_IDS = [3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export default function AuthPage() {
   const dispatch = useDispatch();
@@ -75,7 +89,15 @@ export default function AuthPage() {
 
   const [tier, setTier] = useState("STANDARD");
   const [autoRenew, setAutoRenew] = useState(false);
-  const [riskScore, setRiskScore] = useState(null);
+  const [recommendation, setRecommendation] = useState(null); // { riskScore, riskLabel, riskFactors, recommendedTier, tiers }
+  const [purchasing, setPurchasing] = useState(false);
+
+  // Step 11 — KYC (skippable, unlocks payouts)
+  const [aadhaar, setAadhaar] = useState("");
+  const [upiId, setUpiId] = useState("");
+  const [kycLoading, setKycLoading] = useState(false);
+  const [kycDone, setKycDone] = useState({ aadhaar: false, bank: false });
+
   const otpRefs = useRef([]);
 
   const handleOTP = (i, v) => {
@@ -117,97 +139,117 @@ export default function AuthPage() {
         hasMockApps: false,
       });
 
-      console.log("LOGIN RESPONSE", res);
-
-      if (!res.success) {
-        throw new Error("OTP failed");
-      }
-
-      const { accessToken, refreshToken, user } = res.data;
+      const { accessToken, refreshToken, user } = res.data.data;
 
       dispatch(authActions.setTokens({ accessToken, refreshToken }));
-
       dispatch(authActions.setUser(user));
 
       if (user.isNewUser || !user.onboardingComplete) {
         setIsNew(true);
-
         setStep(3);
       } else {
         navigate(user.role === "admin" ? "/admin" : "/dashboard");
       }
     } catch (err) {
       console.error(err);
-
-      toast.error("Invalid OTP");
-
+      toast.error(err.response?.data?.error?.message || "Invalid OTP");
       setOtp(["", "", "", "", "", ""]);
-
       otpRefs.current[0]?.focus();
     } finally {
       setLoading(false);
     }
   };
 
-  const calcRisk = async () => {
+  // Step 1 (Registration) completes here, then Steps 2-3 of the Worker
+  // Journey (AI Risk Assessment + Personalized Plan Recommendation) run
+  // against the real backend — this used to call a nonexistent
+  // policyAPI.getQuote() and silently fall back to a hardcoded 65% for
+  // every single rider regardless of profile.
+  const submitProfileAndAssess = async () => {
     setLoading(true);
     try {
-      const res = await policyAPI.getQuote("STANDARD");
-      setRiskScore(res.data.data?.premiumBreakdown?.riskScore || 0.65);
-    } catch {
-      setRiskScore(0.65);
-    } finally {
-      setLoading(false);
-      setStep(9);
-    }
-  };
-
-  const finish = async () => {
-    setLoading(true);
-
-    try {
-      const res = await authAPI.onboard({
+      const onboardRes = await authAPI.onboard({
         name,
-
         language: "hi",
-
         platform,
-
         vehicleType: vehicle,
-
         shiftPattern: shift,
-
         declaredDailyIncome: income,
-
         cityId: city,
       });
+      dispatch(authActions.setUser(onboardRes.data.data.user));
 
-      toast.success("🎉 Welcome to GigShield!");
-
-      dispatch(authActions.setUser(res.data.user));
-
-      navigate("/dashboard");
+      const recRes = await policyAPI.recommend();
+      const rec = recRes.data.data;
+      setRecommendation(rec);
+      setTier(rec.recommendedTier);
+      setStep(9);
     } catch (err) {
       console.error(err);
-
-      toast.error("Setup failed");
+      toast.error(err.response?.data?.error?.message || "Couldn't complete your profile — try again");
     } finally {
       setLoading(false);
     }
   };
 
+  // Step 4 (Policy Purchase) — previously this step didn't exist at all:
+  // onboarding saved a profile and dropped straight to the dashboard with
+  // zero active policy. This actually creates the policy and confirms
+  // payment, matching the same flow used on the Policies page.
+  const purchasePolicy = async () => {
+    setPurchasing(true);
+    try {
+      const createRes = await policyAPI.create(tier, autoRenew);
+      const { policy, paymentOrder } = createRes.data.data;
+      // In production: open Razorpay checkout. For demo: auto-confirm.
+      await policyAPI.confirmPayment(policy._id, `pay_mock_${Date.now()}`, "mock_sig", paymentOrder.orderId);
+      toast.success(`🛡️ ${tier} Shield activated!`);
+      setStep(11);
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.error?.message || "Purchase failed");
+    } finally {
+      setPurchasing(false);
+    }
+  };
+
+  const verifyAadhaarNum = async () => {
+    if (aadhaar.replace(/\D/g, "").length !== 12)
+      return toast.error("Enter a valid 12-digit Aadhaar number");
+    setKycLoading(true);
+    try {
+      await kycAPI.verifyAadhaar(aadhaar, name);
+      setKycDone((d) => ({ ...d, aadhaar: true }));
+      toast.success("Aadhaar verified ✓");
+    } catch (err) {
+      toast.error(err.response?.data?.error?.message || "Verification failed");
+    } finally {
+      setKycLoading(false);
+    }
+  };
+
+  const verifyUpi = async () => {
+    if (!upiId.includes("@")) return toast.error("Enter a valid UPI ID");
+    setKycLoading(true);
+    try {
+      await kycAPI.verifyBank(upiId);
+      setKycDone((d) => ({ ...d, bank: true }));
+      toast.success("Bank/UPI verified — payouts unlocked ✓");
+    } catch (err) {
+      toast.error(err.response?.data?.error?.message || "Verification failed");
+    } finally {
+      setKycLoading(false);
+    }
+  };
+
+  const goToDashboard = () => {
+    toast.success("🎉 Welcome to GigShield!");
+    navigate("/dashboard");
+  };
+
+  const riskScore = recommendation?.riskScore ?? 0;
   const riskColor =
-    riskScore > 0.7
-      ? "var(--red-400)"
-      : riskScore > 0.4
-        ? "var(--amber-400)"
-        : "var(--green-400)";
-  const riskLabel =
-    riskScore > 0.7
-      ? "HIGH RISK"
-      : riskScore > 0.4
-        ? "MODERATE RISK"
-        : "LOW RISK";
+    riskScore > 0.7 ? "var(--red-400)" : riskScore > 0.4 ? "var(--amber-400)" : "var(--green-400)";
 
   return (
     <div
@@ -275,12 +317,12 @@ export default function AuthPage() {
           </p>
         </div>
 
-        {isNew && step > 2 && step < 9 && (
+        {isNew && step > 2 && step < 12 && (
           <div style={{ marginBottom: "var(--s5)" }}>
             <div className="progress-bar">
               <div
                 className="progress-fill"
-                style={{ width: `${((step - 3) / 6) * 100}%` }}
+                style={{ width: `${((step - 3) / (TOTAL_WIZARD_STEPS - 1)) * 100}%` }}
               />
             </div>
             <p
@@ -291,7 +333,7 @@ export default function AuthPage() {
                 textAlign: "center",
               }}
             >
-              Step {step - 2} of 8
+              Step {step - 2} of {TOTAL_WIZARD_STEPS}
             </p>
           </div>
         )}
@@ -675,7 +717,7 @@ export default function AuthPage() {
               className="btn btn-primary btn-full"
               onClick={() => {
                 if (!income) return toast.error("Select income");
-                calcRisk();
+                submitProfileAndAssess();
               }}
               disabled={!income || loading}
             >
@@ -694,7 +736,7 @@ export default function AuthPage() {
           </div>
         )}
 
-        {step === 9 && (
+        {step === 9 && recommendation && (
           <div className="page-enter">
             <div
               className="card"
@@ -710,13 +752,21 @@ export default function AuthPage() {
                   marginBottom: "var(--s2)",
                 }}
               >
-                {Math.round((riskScore || 0.65) * 100)}
+                {Math.round(riskScore * 100)}
               </div>
-              <span className="badge badge-orange">{riskLabel}</span>
-              <p style={{ fontSize: "0.875rem", marginTop: "var(--s3)" }}>
-                Based on {city}, {platform}, and seasonal patterns.
-              </p>
+              <span className="badge badge-orange">{recommendation.riskLabel}</span>
+              <div style={{ textAlign: "left", marginTop: "var(--s4)", display: "flex", flexDirection: "column", gap: "var(--s2)" }}>
+                {recommendation.riskFactors.map((f) => (
+                  <div key={f.label} style={{ fontSize: "0.8125rem" }}>
+                    <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>{f.label}: </span>
+                    <span style={{ color: "var(--text-muted)" }}>{f.detail}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+            <p style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginBottom: "var(--s3)", textAlign: "center" }}>
+              Based on your risk profile, we recommend:
+            </p>
             <div
               style={{
                 display: "flex",
@@ -725,14 +775,14 @@ export default function AuthPage() {
                 marginBottom: "var(--s5)",
               }}
             >
-              {TIERS.map((t) => (
+              {Object.entries(recommendation.tiers).map(([tierId, t]) => (
                 <button
-                  key={t.id}
-                  onClick={() => setTier(t.id)}
+                  key={tierId}
+                  onClick={() => setTier(tierId)}
                   style={{
                     background:
-                      tier === t.id ? "rgba(255,107,43,0.1)" : "var(--bg-card)",
-                    border: `1.5px solid ${tier === t.id ? "var(--orange-500)" : "var(--border)"}`,
+                      tier === tierId ? "rgba(255,107,43,0.1)" : "var(--bg-card)",
+                    border: `1.5px solid ${tier === tierId ? "var(--orange-500)" : "var(--border)"}`,
                     borderRadius: "var(--r-md)",
                     padding: "var(--s4)",
                     cursor: "pointer",
@@ -749,7 +799,7 @@ export default function AuthPage() {
                       gap: "var(--s3)",
                     }}
                   >
-                    <span style={{ fontSize: "1.5rem" }}>{t.emoji}</span>
+                    <span style={{ fontSize: "1.5rem" }}>{TIER_META[tierId].emoji}</span>
                     <div style={{ textAlign: "left" }}>
                       <div
                         style={{
@@ -760,13 +810,13 @@ export default function AuthPage() {
                           gap: "var(--s2)",
                         }}
                       >
-                        {t.id}{" "}
-                        {t.tag && (
+                        {tierId}{" "}
+                        {tierId === recommendation.recommendedTier && (
                           <span
                             className="badge badge-orange"
                             style={{ fontSize: "0.625rem" }}
                           >
-                            {t.tag}
+                            RECOMMENDED
                           </span>
                         )}
                       </div>
@@ -776,7 +826,7 @@ export default function AuthPage() {
                           color: "var(--text-muted)",
                         }}
                       >
-                        ₹{t.daily}/day coverage
+                        ₹{t.tierDetails.daily_coverage_inr}/day coverage
                       </div>
                     </div>
                   </div>
@@ -787,12 +837,12 @@ export default function AuthPage() {
                         fontWeight: 900,
                         fontSize: "1.25rem",
                         color:
-                          tier === t.id
+                          tier === tierId
                             ? "var(--orange-400)"
                             : "var(--text-primary)",
                       }}
                     >
-                      ₹{t.price}
+                      ₹{t.premiumAmountInr}
                     </div>
                     <div
                       style={{
@@ -808,27 +858,103 @@ export default function AuthPage() {
             </div>
             <button
               className="btn btn-primary btn-full btn-lg"
-              onClick={finish}
-              disabled={loading}
+              onClick={() => setStep(10)}
             >
-              {loading ? (
-                <>
-                  <div
-                    className="spinner"
-                    style={{ width: 18, height: 18, borderTopColor: "white" }}
-                  />
-                  Setting up...
-                </>
-              ) : (
-                `Start with ${tier} Shield 🛡️`
-              )}
+              Continue with {tier} Shield →
             </button>
           </div>
         )}
 
-        {isNew && step > 2 && step < 9 && (
+        {step === 10 && recommendation && (
+          <div className="card page-enter">
+            <h2 style={{ marginBottom: "var(--s2)" }}>Activate your cover</h2>
+            <p style={{ marginBottom: "var(--s5)", fontSize: "0.875rem", color: "var(--text-muted)" }}>
+              Coverage starts the moment payment is confirmed.
+            </p>
+            <div style={{ background: "var(--bg-secondary)", borderRadius: "var(--r-md)", padding: "var(--s4)", marginBottom: "var(--s4)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--s3)" }}>
+                <span style={{ fontSize: "1.5rem" }}>{TIER_META[tier].emoji}</span>
+                <div>
+                  <div style={{ fontWeight: 700, color: "var(--text-primary)" }}>{recommendation.tiers[tier].tierDetails.label}</div>
+                  <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>₹{recommendation.tiers[tier].tierDetails.daily_coverage_inr}/day · up to ₹{recommendation.tiers[tier].tierDetails.weekly_max_inr}/week</div>
+                </div>
+              </div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 900, fontSize: "1.25rem", color: "var(--orange-400)" }}>
+                ₹{recommendation.tiers[tier].premiumAmountInr}<span style={{fontSize:"0.75rem", color:"var(--text-muted)", fontWeight:400}}>/wk</span>
+              </div>
+            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: "var(--s2)", marginBottom: "var(--s5)", fontSize: "0.875rem", cursor: "pointer" }}>
+              <input type="checkbox" checked={autoRenew} onChange={(e) => setAutoRenew(e.target.checked)} />
+              Auto-renew every week
+            </label>
+            <button
+              className="btn btn-primary btn-full btn-lg"
+              onClick={purchasePolicy}
+              disabled={purchasing}
+              style={{ marginBottom: "var(--s3)" }}
+            >
+              {purchasing ? (
+                <>
+                  <div className="spinner" style={{ width: 18, height: 18, borderTopColor: "white" }} />
+                  Processing...
+                </>
+              ) : (
+                `Activate ${tier} Shield →`
+              )}
+            </button>
+            <p style={{ textAlign: "center", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+              🔒 Secured via Razorpay
+            </p>
+          </div>
+        )}
+
+        {step === 11 && (
+          <div className="card page-enter">
+            <h2 style={{ marginBottom: "var(--s2)" }}>Unlock instant payouts</h2>
+            <p style={{ marginBottom: "var(--s5)", fontSize: "0.875rem", color: "var(--text-muted)" }}>
+              You're protected already. Verify Aadhaar and UPI now so a confirmed claim can pay out straight to your account — or do this later from your Profile.
+            </p>
+
+            <div style={{ marginBottom: "var(--s4)" }}>
+              <div style={{ display: "flex", gap: "var(--s2)" }}>
+                <input
+                  className="form-input"
+                  placeholder="12-digit Aadhaar number"
+                  maxLength={14}
+                  value={aadhaar}
+                  onChange={(e) => setAadhaar(e.target.value.replace(/\D/g, "").slice(0, 12))}
+                  disabled={kycDone.aadhaar}
+                />
+                <button className="btn" style={{ background: kycDone.aadhaar ? "var(--green-400)" : "var(--bg-secondary)", border: "1.5px solid var(--border)", color: kycDone.aadhaar ? "white" : "var(--text-primary)", flexShrink: 0, padding: "0 var(--s4)" }} onClick={verifyAadhaarNum} disabled={kycLoading || kycDone.aadhaar}>
+                  {kycDone.aadhaar ? "✓ Verified" : "Verify"}
+                </button>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: "var(--s5)" }}>
+              <div style={{ display: "flex", gap: "var(--s2)" }}>
+                <input
+                  className="form-input"
+                  placeholder="yourname@upi"
+                  value={upiId}
+                  onChange={(e) => setUpiId(e.target.value)}
+                  disabled={kycDone.bank}
+                />
+                <button className="btn" style={{ background: kycDone.bank ? "var(--green-400)" : "var(--bg-secondary)", border: "1.5px solid var(--border)", color: kycDone.bank ? "white" : "var(--text-primary)", flexShrink: 0, padding: "0 var(--s4)" }} onClick={verifyUpi} disabled={kycLoading || kycDone.bank}>
+                  {kycDone.bank ? "✓ Verified" : "Verify"}
+                </button>
+              </div>
+            </div>
+
+            <button className="btn btn-primary btn-full btn-lg" onClick={goToDashboard} style={{ marginBottom: "var(--s3)" }}>
+              {kycDone.aadhaar && kycDone.bank ? "Go to Dashboard →" : "Skip for now — Go to Dashboard →"}
+            </button>
+          </div>
+        )}
+
+        {isNew && step > 2 && step < 12 && (
           <div className="step-dots" style={{ marginTop: "var(--s6)" }}>
-            {[3, 4, 5, 6, 7, 8, 9].map((s, i) => (
+            {WIZARD_STEP_IDS.map((s, i) => (
               <div
                 key={i}
                 className={`step-dot ${step === s ? "active" : step > s ? "done" : ""}`}

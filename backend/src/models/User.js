@@ -45,6 +45,18 @@ const KYCSchema = new mongoose.Schema({
   digiLockerRef:   { type: String },
 }, { _id: false });
 
+const RiskProfileSchema = new mongoose.Schema({
+  cityId:              { type: String },
+  incomeBand:          { type: String, enum: ['LOW', 'MEDIUM', 'HIGH'] },
+  incomeBandScore:     { type: Number },          // 0-1
+  shiftPattern:        { type: String },
+  accountAgeHours:     { type: Number, default: 0 },
+  claimHistoryCount:   { type: Number, default: 0 },
+  lastFraudCheckAt:    { type: Date },
+  initialTrustScore:   { type: Number },
+  onboardingCompletedAt: { type: Date },
+}, { _id: false });
+
 const RiderProfileSchema = new mongoose.Schema({
   platform:        { type: String, enum: Object.values(PLATFORMS), required: true },
   platformRiderId: { type: String },                   // ID on Zomato/Swiggy if available
@@ -89,6 +101,9 @@ const UserSchema = new mongoose.Schema({
   fraudScore:    { type: Number, default: 0, min: 0, max: 100 },
   fraudFlags:    { type: [String], default: [] },       // list of fraud signals detected
   isUnderReview: { type: Boolean, default: false },
+  trustScore:    { type: Number, default: 70, min: 0, max: 100 },
+  riskProfile:   { type: RiskProfileSchema, default: () => ({}) },
+  segmentTags:   { type: [String], default: [] },       // platform/vehicle/shift/city segmentation for analytics
 
   // ─── Loyalty & Rewards ────────────────────────────────
   safeWeekStreak:     { type: Number, default: 0 },    // consecutive weeks with no claim

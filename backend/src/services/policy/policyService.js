@@ -31,19 +31,71 @@ const getPremiumFromML = async (riderData) => {
   }
 };
 
+// ─── City base risk (mirrors ml-service CITY_RISK; kept here too so the
+//     fallback path — used whenever the ML service is unreachable — is a
+//     genuine per-city estimate instead of a flat constant) ──────────────
+const CITY_BASE_RISK = {
+  mumbai: 0.85, delhi: 0.80, kolkata: 0.75, chennai: 0.70,
+  hyderabad: 0.60, bengaluru: 0.55, pune: 0.50,
+  ahmedabad: 0.45, jaipur: 0.40, lucknow: 0.45,
+};
+
+// Shift patterns with longer/odd-hour exposure carry more weather/safety risk
+const SHIFT_RISK = {
+  night: 1.15, full_day: 1.12, evening: 1.08,
+  split: 1.05, afternoon: 1.0, morning: 0.95,
+};
+
+/**
+ * Composite 0-1 risk score used both for pricing and for the rider-facing
+ * "AI Risk Assessment" screen. Deterministic and explainable on purpose —
+ * this is the fallback path used whenever the ML service is unreachable,
+ * so it must stand on its own as a real (if simpler) risk model rather than
+ * a placeholder.
+ */
+const calculateRiskScore = (cityId, shiftPattern, declaredDailyIncome, date = new Date()) => {
+  const cityRisk = CITY_BASE_RISK[cityId?.toLowerCase()] ?? 0.5;
+  const seasonal = getSeasonalMultiplier(date, cityId); // ~1.0-1.3
+  const shiftRisk = SHIFT_RISK[shiftPattern] ?? 1.0;
+  // Lower declared income => a missed day hurts more => higher effective exposure
+  const incomeExposure = declaredDailyIncome < 300 ? 1.15 : declaredDailyIncome < 800 ? 1.0 : 0.9;
+
+  const raw = cityRisk * ((seasonal - 1) * 0.6 + 1) * shiftRisk * incomeExposure;
+  return Math.max(0.05, Math.min(0.98, Math.round(raw * 100) / 100));
+};
+
+const riskFactorBreakdown = (cityId, shiftPattern, declaredDailyIncome, date = new Date()) => {
+  const cityRisk = CITY_BASE_RISK[cityId?.toLowerCase()] ?? 0.5;
+  const seasonal = getSeasonalMultiplier(date, cityId);
+  return [
+    { label: 'City Risk', detail: `${(cityRisk * 100).toFixed(0)}/100 baseline hazard for ${cityId}` },
+    { label: 'Seasonal Trend', detail: seasonal > 1.1 ? 'Elevated — peak monsoon/heat season' : seasonal > 1.0 ? 'Slightly elevated' : 'Normal' },
+    { label: 'Shift Pattern', detail: `${(shiftPattern || 'unspecified').replace(/_/g, ' ')} shift exposure` },
+    { label: 'Income Band', detail: declaredDailyIncome < 300 ? 'Lower daily income — missed days hurt more' : declaredDailyIncome < 800 ? 'Medium daily income' : 'Higher daily income' },
+  ];
+};
+
+// Recommend a tier from risk + income — transparent, deterministic rule
+const recommendTierFor = (riskScore, declaredDailyIncome) => {
+  if (riskScore < 0.34) return declaredDailyIncome >= 800 ? 'STANDARD' : 'BASIC';
+  if (riskScore < 0.67) return declaredDailyIncome >= 1000 ? 'PRO' : 'STANDARD';
+  return declaredDailyIncome >= 1000 ? 'ELITE' : 'PRO';
+};
+
 // ─── Fallback premium calculation (no ML) ────────────────
-const calculatePremiumFallback = (cityId, tier, platform, month) => {
+const calculatePremiumFallback = (cityId, tier, platform, declaredDailyIncome = 500, shiftPattern = 'full_day', date = new Date()) => {
   const tierConfig = COVERAGE_TIERS[tier];
   const base = tierConfig.daily_coverage_inr * 0.12; // 12% of daily coverage as base
-  const seasonal = getSeasonalMultiplier(new Date(), cityId);
+  const seasonal = getSeasonalMultiplier(date, cityId);
+  const riskScore = calculateRiskScore(cityId, shiftPattern, declaredDailyIncome, date);
 
-  // Zone risk: hardcoded known high-risk zones
-  const highRisk = ['mumbai', 'kolkata', 'delhi', 'chennai'];
-  const zoneRisk = highRisk.includes(cityId?.toLowerCase()) ? 1.2 : 1.0;
+  // Zone risk derived from the same per-city baseline used in the risk score,
+  // instead of a separate hardcoded high/low list that could disagree with it.
+  const zoneRisk = Math.round((0.9 + riskScore * 0.4) * 100) / 100;
 
   return {
     basePremium: Math.round(base),
-    riskScore: 0.5,
+    riskScore,
     seasonalMultiplier: seasonal,
     zoneRiskMultiplier: zoneRisk,
     loyaltyDiscount: 0,
@@ -91,7 +143,7 @@ const getPremiumQuote = async (userId, tier) => {
   // Try ML service first
   let premiumData = await getPremiumFromML(riderData);
   if (!premiumData) {
-    premiumData = calculatePremiumFallback(riderData.cityId, tier, riderData.platform);
+    premiumData = calculatePremiumFallback(riderData.cityId, tier, riderData.platform, riderData.declaredDailyIncome, riderData.shiftPattern);
   }
 
   // Apply loyalty discount
@@ -118,6 +170,57 @@ const getPremiumQuote = async (userId, tier) => {
       endDate: weekEnd.toDate(),
     },
     autoRenewAvailable: true,
+  };
+};
+
+/**
+ * AI Risk Assessment + Personalized Plan Recommendation
+ * (Worker Journey Steps 2-3). Called once the rider's profile (Step 1) is
+ * saved but before they've committed to a tier — returns a genuine
+ * per-profile risk score, plain-language risk factors, a recommended tier,
+ * and live quotes for all four tiers so the rider can compare before buying.
+ */
+const getRiskAssessmentAndRecommendation = async (userId) => {
+  const user = await User.findById(userId).lean();
+  if (!user?.riderProfile?.cityId) {
+    throw Object.assign(new Error('Complete your profile before requesting a risk assessment'), { statusCode: 400 });
+  }
+
+  const { cityId, shiftPattern, declaredDailyIncome } = user.riderProfile;
+  const now = new Date();
+
+  const tiers = {};
+  for (const tier of Object.keys(COVERAGE_TIERS)) {
+    const riderData = {
+      cityId, platform: user.riderProfile.platform, vehicleType: user.riderProfile.vehicleType,
+      shiftPattern, declaredDailyIncome, tier,
+      safeWeekStreak: user.safeWeekStreak, avgWeeklyOrders: user.riderProfile.avgWeeklyOrders,
+    };
+    let premiumData = await getPremiumFromML(riderData);
+    if (!premiumData) {
+      premiumData = calculatePremiumFallback(cityId, tier, riderData.platform, declaredDailyIncome, shiftPattern, now);
+    }
+    const loyaltyDiscount = user.loyaltyDiscount || 0;
+    premiumData.loyaltyDiscount = loyaltyDiscount;
+    premiumData.finalPremium = Math.round(premiumData.finalPremium * (1 - loyaltyDiscount));
+
+    tiers[tier] = {
+      tierDetails: COVERAGE_TIERS[tier],
+      premiumBreakdown: premiumData,
+      premiumAmountInr: premiumData.finalPremium,
+    };
+  }
+
+  const riskScore = tiers.STANDARD.premiumBreakdown.riskScore;
+  const riskLabel = riskScore > 0.7 ? 'HIGH RISK' : riskScore > 0.4 ? 'MODERATE RISK' : 'LOW RISK';
+  const recommendedTier = recommendTierFor(riskScore, declaredDailyIncome);
+
+  return {
+    riskScore,
+    riskLabel,
+    riskFactors: riskFactorBreakdown(cityId, shiftPattern, declaredDailyIncome, now),
+    recommendedTier,
+    tiers,
   };
 };
 
@@ -158,7 +261,7 @@ const createPolicy = async (userId, tier, paymentOrderId, isAutoRenew = false) =
 
   let premiumData = await getPremiumFromML(riderData);
   if (!premiumData) {
-    premiumData = calculatePremiumFallback(riderData.cityId, tier, riderData.platform);
+    premiumData = calculatePremiumFallback(riderData.cityId, tier, riderData.platform, riderData.declaredDailyIncome, riderData.shiftPattern);
   }
 
   const loyaltyDiscount = user.loyaltyDiscount || 0;
@@ -295,6 +398,7 @@ const lapseUnpaidPolicies = async () => {
 
 module.exports = {
   getPremiumQuote,
+  getRiskAssessmentAndRecommendation,
   createPolicy,
   activatePolicy,
   getActivePolicyForRider,

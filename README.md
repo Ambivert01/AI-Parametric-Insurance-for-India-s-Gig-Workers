@@ -6,6 +6,8 @@
 
 **Protecting Income. Not Just Lives.**
 
+An AI-driven, fully automated parametric insurance platform that protects gig workers against income loss caused by heavy rain, floods, extreme heat, air pollution, traffic shutdowns, government restrictions, and platform outages.
+
 Built for **Guidewire DEVTrails 2026**
 
 ![Status](https://img.shields.io/badge/Status-Live-success)
@@ -13,22 +15,68 @@ Built for **Guidewire DEVTrails 2026**
 ![License](https://img.shields.io/badge/License-MIT-orange)
 ![AI-Powered](https://img.shields.io/badge/AI-Powered-purple)
 ![Blockchain](https://img.shields.io/badge/Blockchain-Enabled-yellow)
+![InsurTech](https://img.shields.io/badge/InsurTech-Platform-red)
 
 </div>
 
 ---
 
-## What is GigShield?
+## Vision
 
-India has ~12 million gig delivery workers. When heavy rain, an AQI spike, a curfew, or a platform outage prevents them from working — they earn nothing. No insurance product covers this.
+Millions of India's gig workers lose income every year because of events beyond their control — heavy rain, floods, extreme heat, air pollution, curfews, platform outages. Current insurance products protect vehicles, health, or life. They do **not** protect lost earnings.
 
-GigShield is a fully automated parametric insurance platform that:
+GigShield changes that. Workers receive compensation **automatically** whenever verified external disruptions prevent them from earning. No paperwork. No claim forms. No waiting.
 
-- **Pays out automatically** when a verified external event occurs — no claim filing needed
-- **Prices weekly** (₹30–₹150/week) — aligned with gig workers' earning cycles
-- **Settles in under 15 minutes** — trigger detected → fraud checked → UPI payout
-- **Uses ML** to compute personalized premiums per rider, zone, and season
-- **Logs every payout on-chain** for transparent, immutable audit trails
+---
+
+## Problem
+
+India has ~12 million platform-based gig delivery workers. They earn per order — miss a shift, earn nothing. A single rainy day can wipe out 20–30% of weekly income. No insurance product covers this gap.
+
+| Traditional Insurance | GigShield |
+|---|---|
+| File a claim manually | Zero-touch — auto-triggered |
+| Submit proof of loss | Objective data = proof |
+| Wait 3–15 days for settlement | Payout in under 15 minutes |
+| Requires employment proof | No employment proof needed |
+| Annual, one-size-fits-all | Weekly, AI-personalized premium |
+
+---
+
+## Solution
+
+GigShield combines AI, parametric insurance, real-time weather intelligence, fraud detection, blockchain transparency, and instant UPI payouts into one autonomous income protection platform.
+
+**How it works:**
+
+```
+External Event (Rain / AQI / Curfew / Outage)
+        ↓
+Trigger Engine detects + dual-source verifies
+        ↓
+Policy match → Fraud screening (14 signals)
+        ↓
+Payout calculated → UPI transfer initiated
+        ↓
+Blockchain logged → Rider notified
+   (under 15 minutes, zero manual steps)
+```
+
+---
+
+## Key Features
+
+| Feature | Description |
+|---|---|
+| **AI Risk Assessment** | Personalized weekly premiums per rider, zone, platform, season |
+| **Automatic Trigger Detection** | Real-time monitoring — Rain, AQI, Heat, Curfew, Outage |
+| **Zero-Touch Claims** | No manual submission — auto-detected and auto-paid |
+| **AI Fraud Detection** | 14 signals: GPS, physics, device, behavior, network collusion |
+| **Income Bridge** | Advance payout on high-confidence triggers before full verification |
+| **Micro-Shift Insurance** | Hourly coverage for individual work sessions |
+| **Blockchain Transparency** | Immutable on-chain record of every trigger, claim, and payout |
+| **Loyalty Pool** | Community mutual pool — 10% of unclaimed premiums redistributed |
+| **Analytics Dashboards** | Rider, Admin, Executive, Fraud dashboards with real-time data |
 
 ---
 
@@ -40,11 +88,29 @@ GigShield is a fully automated parametric insurance platform that:
 | **Backend API** | https://gigshield-backend-4wmh.onrender.com/health |
 | **ML Service** | https://gigshield-ml-swb3.onrender.com/health |
 
-**Demo login:** Phone `9821000001` → get OTP from backend logs → Ravi Kumar's dashboard
+> Free tier — first load may take 30–60 seconds (cold start)
+
+**Demo login:** Phone `9821000001` → OTP from backend logs → Ravi Kumar's dashboard
 
 **Admin login:** Phone `9800000001`
 
-> Free tier — first load may take 30–60 seconds (cold start)
+---
+
+## Demo Accounts
+
+| Phone | Rider | Scenario |
+|---|---|---|
+| `9821000001` | Ravi Kumar | Happy path — GREEN claim, paid, blockchain-logged |
+| `9821000002` | Priya Sharma | Income Bridge advance → reconciled after selfie |
+| `9821000003` | Amit Singh | RED fraud — mock location detected — appeal pending |
+| `9821000004` | Sunita Devi | Gold loyalty tier, 11-week streak |
+| `9821000005` | Mohammed Farhan | KYC in progress, referred by Sunita |
+| `9821000006` | Deepak Yadav | Active Micro-Shift policy |
+| `9821000009` | Lakshmi Nair | Income Bridge → clawback (verification timeout) |
+| `9821000010` | Rajesh Patel | Fresh empty-state account |
+| `9800000001` | Admin | Full admin + fraud + executive dashboard |
+
+OTP appears in backend terminal: `[DEV] OTP for ***0001: 482913`
 
 ---
 
@@ -52,11 +118,30 @@ GigShield is a fully automated parametric insurance platform that:
 
 | Layer | Technologies |
 |---|---|
-| Frontend | React 18, Vite, Redux Toolkit, TailwindCSS, Socket.IO |
-| Backend | Node.js, Express, MongoDB (Atlas), Redis (Upstash), Bull queues |
-| ML Service | Python, FastAPI, scikit-learn, XGBoost |
-| Blockchain | Solidity, Hardhat, Ethereum Sepolia |
-| Infrastructure | Render (PaaS), MongoDB Atlas, Upstash Redis |
+| **Frontend** | React 18, Vite, Redux Toolkit, TailwindCSS, Socket.IO, Framer Motion |
+| **Backend** | Node.js, Express, MongoDB Atlas, Redis (Upstash), Bull queues, Socket.IO |
+| **ML Service** | Python, FastAPI, scikit-learn, XGBoost, LightGBM |
+| **Blockchain** | Solidity, Hardhat, Ethereum Sepolia, Ethers.js |
+| **Infrastructure** | Render (PaaS), MongoDB Atlas, Upstash Redis, GitHub Actions |
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│                 GIGSHIELD PLATFORM               │
+├───────────────┬────────────────┬─────────────────┤
+│   FRONTEND    │    BACKEND     │   ML SERVICE    │
+│  React + Vite │ Node + Express │ Python FastAPI  │
+│  Redux + WS   │ Bull + Cron    │ XGBoost + IF    │
+└───────┬───────┴───────┬────────┴────────┬────────┘
+        │               │                 │
+        ▼               ▼                 ▼
+   Render CDN    MongoDB Atlas      Render Docker
+                 Upstash Redis
+                 Blockchain (Sepolia)
+```
 
 ---
 
@@ -69,10 +154,10 @@ gigshield/
 ├── ml-service/     Python FastAPI — ML risk & fraud models
 ├── blockchain/     Solidity smart contracts (Hardhat)
 ├── nginx/          Reverse proxy config
-├── Docs/           Full project documentation
-├── SETUP.md        Local development guide
-├── DEPLOYMENT.md   Production deploy guide (Render)
-└── .env.example    Environment configuration template
+├── Docs/           Full project documentation (30+ files)
+├── SETUP.md        → Local development guide
+├── DEPLOYMENT.md   → Production deploy guide (Render)
+└── .env.example    → Environment configuration template
 ```
 
 ---
@@ -81,87 +166,90 @@ gigshield/
 
 ### Local Development
 
-See **[SETUP.md](./SETUP.md)** for complete step-by-step guide including:
-- All prerequisites and install steps
-- Account creation for MongoDB Atlas, OpenWeatherMap, AQICN
-- Environment variable configuration
-- Running all 3 services locally
-- Seeding demo data
-- Troubleshooting
-
-Quick start:
+See **[SETUP.md](./SETUP.md)** — complete guide with account creation, API keys, and troubleshooting.
 
 ```bash
+# 1. Clone + install
 git clone https://github.com/Ambivert01/AI-Parametric-Insurance-for-India-s-Gig-Workers.git
 cd AI-Parametric-Insurance-for-India-s-Gig-Workers
-cp .env.example .env && ln -s ../.env backend/.env
+cd backend && npm install && cd ../frontend && npm install && cd ..
+
+# 2. Setup environment
+cp .env.example .env
+ln -s ../.env backend/.env
 # Edit .env — fill MONGO_URI, JWT secrets, ENCRYPTION_KEY
-cd backend && npm install && npm run seed
-```
 
-Then start 3 terminals:
+# 3. Seed demo data
+cd backend && npm run seed
 
-```bash
-cd backend && npm run dev          # API on :5000
-cd frontend && npm install && npm run dev   # UI on :3000
+# 4. Start services (3 terminals)
+cd backend && npm run dev                    # API → :5000
+cd frontend && npm run dev                   # UI  → :3000
 cd ml-service && source venv/bin/activate && uvicorn main:app --reload --port 8000
 ```
 
 ### Production Deployment
 
-See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete Render deployment guide including:
-- MongoDB Atlas + Upstash Redis setup
-- All 3 Render service configurations
-- Environment variables for production
-- Post-deploy verification
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** — Render deployment guide with MongoDB Atlas, Upstash Redis, all 3 services.
 
 ---
 
-## Demo Accounts
+## Security
 
-| Phone | Rider | Scenario |
-|---|---|---|
-| `9821000001` | Ravi Kumar | Happy path — GREEN claim, paid, blockchain-logged |
-| `9821000002` | Priya Sharma | Income Bridge advance → reconciled |
-| `9821000003` | Amit Singh | RED fraud — mock location — appeal pending |
-| `9821000004` | Sunita Devi | Gold loyalty, 11-week streak |
-| `9821000010` | Rajesh Patel | Fresh empty-state account |
-| `9800000001` | Admin | Full admin + fraud dashboard |
+- JWT authentication with refresh tokens
+- Phone + OTP login (no passwords)
+- Role-based access control (Rider / Admin / Insurer)
+- AES-256 encryption for bank/UPI details
+- Rate limiting (per endpoint + edge)
+- Fraud scoring on every claim (14 signals)
+- Audit logging on all mutations
+- Blockchain immutability for payouts
 
-OTP appears in backend terminal: `[DEV] OTP for ***0001: 482913`
+---
+
+## Future Roadmap
+
+- Mobile apps (iOS + Android)
+- IoT sensor network integration
+- WhatsApp AI assistant
+- Satellite weather data
+- Embedded insurance APIs for platforms
+- DAO governance for loyalty pool
+- International expansion
 
 ---
 
 ## Documentation
 
-Full project documentation is in the [`Docs/`](./Docs/) folder:
+Full technical and business documentation in [`Docs/`](./Docs/):
 
 | File | Contents |
 |---|---|
-| [PROJECT_DOCUMENTATION.md](./Docs/PROJECT_DOCUMENTATION.md) | Complete technical + business documentation |
-| [00_PROJECT_VISION.md](./Docs/00_PROJECT_VISION.md) | Vision and problem statement |
+| [PROJECT_DOCUMENTATION.md](./Docs/PROJECT_DOCUMENTATION.md) | Complete business + technical master doc |
 | [01_SYSTEM_ARCHITECTURE.md](./Docs/01_SYSTEM_ARCHITECTURE.md) | System architecture |
-| [04_BACKEND_ARCHITECTURE.md](./Docs/04_BACKEND_ARCHITECTURE.md) | Backend design |
-| [05_FRONTEND_ARCHITECTURE.md](./Docs/05_FRONTEND_ARCHITECTURE.md) | Frontend design |
 | [06_AI_ML_SYSTEM.md](./Docs/06_AI_ML_SYSTEM.md) | ML models and risk engine |
+| [07_TRIGGER_ENGINE.md](./Docs/07_TRIGGER_ENGINE.md) | Trigger detection system |
 | [08_FRAUD_ENGINE.md](./Docs/08_FRAUD_ENGINE.md) | Fraud detection system |
 | [30_MASTER_INDEX.md](./Docs/30_MASTER_INDEX.md) | Full docs index |
 
 ---
 
-## Key Innovation Points
+## Development Principles
 
-- **Zero-touch claims** — riders never file anything; the system detects and pays automatically
-- **Dual-source verification** — every trigger cross-checked across 2 independent data sources
-- **4-tier fraud scoring** — 14 signals from GPS physics to behavioral biometrics
-- **Income Bridge** — partial advance paid instantly for high-confidence events before full verification
-- **Micro-Shift policies** — hourly coverage for individual work sessions
-- **On-chain audit** — every trigger and payout logged to Ethereum (mock in demo, real when configured)
+- Clean Architecture + SOLID Principles
+- Event-Driven Communication (Bull queues + Socket.IO)
+- AI-Assisted Decisions (ML scoring on every claim)
+- Zero-Trust Security (fail-closed everywhere)
+- Documentation-First Development
 
 ---
 
-## License
+<div align="center">
 
-MIT — Built with ❤️ for India's gig workers.
+**GigShield — Protecting Every Delivery. Protecting Every Income.**
 
-*Guidewire DEVTrails 2026 — AI-Powered InsurTech for India's Gig Economy*
+*Built with ❤️ for India's 12 million gig workers*
+
+*Guidewire DEVTrails 2026*
+
+</div>

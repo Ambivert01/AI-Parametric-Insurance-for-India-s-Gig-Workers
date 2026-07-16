@@ -99,6 +99,8 @@ export const kycAPI = {
 export const analyticsAPI = {
   riderDashboard: () => api.get("/analytics/dashboard"),
   getAdminDashboard: () => api.get("/admin/dashboard"),
+  getExecutiveDashboard: () => api.get("/admin/executive-dashboard"),
+  getWeeklyTrend: () => api.get("/admin/weekly-trend"),
   getHeatmap: () => api.get("/admin/heatmap"),
   predictions: () => api.get("/admin/predictions"),
   triggers: (p = 1) => api.get("/admin/triggers", { params: { page: p } }),
@@ -132,6 +134,9 @@ export const notifAPI = {
 export const publicAPI = {
   getMap: () => api.get("/public/map"),
   getStats: () => api.get("/public/stats"),
+};
+export const advisoryAPI = {
+  get: () => api.get("/advisory"),
 };
 export const iotAPI = {
   sensors: (cityId) => api.get(`/iot/sensors/${cityId}`),

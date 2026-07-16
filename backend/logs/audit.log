@@ -835,3 +835,320 @@
 {"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T06:45:02.117Z"}
 {"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T06:45:02.270Z"}
 {"level":"info","message":"◼ Trigger cycle complete: detected=0, errors=0","timestamp":"2026-03-31T06:45:02.416Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.051Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:02.052Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-07-11T11:35:02.052Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.153Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:02.153Z"}
+{"level":"info","message":"Redis reconnecting in 200ms","timestamp":"2026-07-11T11:35:02.153Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.355Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:02.355Z"}
+{"level":"info","message":"Redis reconnecting in 300ms","timestamp":"2026-07-11T11:35:02.355Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.656Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:02.657Z"}
+{"level":"info","message":"Redis reconnecting in 400ms","timestamp":"2026-07-11T11:35:02.657Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:03.058Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:03.058Z"}
+{"level":"info","message":"Redis reconnecting in 500ms","timestamp":"2026-07-11T11:35:03.058Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:03.560Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:03.560Z"}
+{"level":"info","message":"Redis reconnecting in 600ms","timestamp":"2026-07-11T11:35:03.560Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:04.162Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:04.162Z"}
+{"level":"info","message":"Redis reconnecting in 700ms","timestamp":"2026-07-11T11:35:04.162Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:04.864Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:04.864Z"}
+{"level":"info","message":"Redis reconnecting in 800ms","timestamp":"2026-07-11T11:35:04.864Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:05.666Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:05.666Z"}
+{"level":"info","message":"Redis reconnecting in 900ms","timestamp":"2026-07-11T11:35:05.666Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:06.567Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:06.568Z"}
+{"level":"info","message":"Redis reconnecting in 1000ms","timestamp":"2026-07-11T11:35:06.568Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:07.569Z"}
+{"level":"error","message":"Redis max retries reached","timestamp":"2026-07-11T11:35:07.570Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-11T11:35:07.570Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:21.061Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:21.063Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:21.065Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:21.065Z","userId":"rider4"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:58.513Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:58.514Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:58.515Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-11T11:35:58.516Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0x66fa087ddaa0768ba79fea4b1e96fdd9898dd3c2a7e1bbfa6f2352ba817b1bab","timestamp":"2026-07-12T04:23:03.084Z"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0x44ab27719617bbabe8d1306647b6b8490ae37ad0dc6a366b1595764ccb6d3336","timestamp":"2026-07-12T04:24:20.313Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T04:24:23.280Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T04:24:23.281Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T04:24:23.283Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T04:24:23.284Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0x103569a89f879c9bc121bff3aed234f3b055d57f72f2b9ba52d2f4519731b443","timestamp":"2026-07-12T09:30:31.504Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T09:30:33.406Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T09:30:33.407Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T09:30:33.408Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T09:30:33.409Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0x1085fae8e19aec96b1ef9046a6e4fe2d45ee3ef6a8707c380a66760e69714ffa","timestamp":"2026-07-12T17:15:15.218Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T17:15:15.965Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T17:15:15.967Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T17:15:15.969Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-12T17:15:15.970Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0xfb5d2a6dd1563ad22a7be9669d075d67aee45f2fd1c8f1b8629b9c0ebd427512","timestamp":"2026-07-14T08:36:16.158Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-14T08:36:17.428Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-14T08:36:17.430Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-14T08:36:17.431Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-14T08:36:17.432Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0xd828a3a0147c1fc67199cf9d1b19beaf07ae6ad771115ed435cf3c152a61a93d","timestamp":"2026-07-15T05:22:54.330Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T05:22:56.951Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T05:22:56.953Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T05:22:56.955Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T05:22:56.956Z","userId":"rider4"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0xc25715e19ef96ea38a9c81c2704f2cd47d7fe637e7d3456aa636f5484c41a358","timestamp":"2026-07-15T11:06:48.408Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T11:06:51.542Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T11:06:51.543Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T11:06:51.544Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-15T11:06:51.544Z","userId":"rider4"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-02.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:11:01.734Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:01.743Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:01.744Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-07-16T12:11:01.744Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:01.846Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:01.846Z"}
+{"level":"info","message":"Redis reconnecting in 200ms","timestamp":"2026-07-16T12:11:01.847Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:02.048Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:02.049Z"}
+{"level":"info","message":"Redis reconnecting in 300ms","timestamp":"2026-07-16T12:11:02.049Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:02.350Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-02.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:11:21.472Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.481Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:21.482Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-07-16T12:11:21.482Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.594Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:21.595Z"}
+{"level":"info","message":"Redis reconnecting in 200ms","timestamp":"2026-07-16T12:11:21.595Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.796Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:11:21.797Z"}
+{"level":"info","message":"Redis reconnecting in 300ms","timestamp":"2026-07-16T12:11:21.797Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:22.098Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-02.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:13:03.698Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:03.709Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:13:03.710Z"}
+{"level":"info","message":"Redis reconnecting in 100ms","timestamp":"2026-07-16T12:13:03.710Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:03.811Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:13:03.812Z"}
+{"level":"info","message":"Redis reconnecting in 200ms","timestamp":"2026-07-16T12:13:03.812Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:04.013Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T12:13:04.013Z"}
+{"level":"info","message":"Redis reconnecting in 300ms","timestamp":"2026-07-16T12:13:04.013Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:04.314Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-01.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:14:05.415Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-07-16T12:14:05.423Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-07-16T12:14:05.429Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-07-16T12:14:05.433Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-07-16T12:14:05.434Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-07-16T12:14:05.435Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-07-16T12:14:05.435Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-07-16T12:14:05.436Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-07-16T12:14:05.436Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-07-16T12:14:05.436Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-07-16T12:14:05.474Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-07-16T12:14:05.474Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-07-16T12:14:05.475Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:14:44.553Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-07-16T12:14:44.562Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-07-16T12:14:44.565Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-07-16T12:14:44.569Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-07-16T12:14:44.570Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-07-16T12:14:44.570Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-07-16T12:14:44.571Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-07-16T12:14:44.571Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-07-16T12:14:44.572Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-07-16T12:14:44.572Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-07-16T12:14:44.587Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-07-16T12:14:44.587Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-07-16T12:14:44.588Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1784204100586-97000f24","timestamp":"2026-07-16T12:15:00.587Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T12:15:00.902Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T12:15:01.788Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T12:15:01.993Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.275Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.497Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.858Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.006Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.379Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.581Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.796Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, confirmed=0, watching=0, discarded=0, errors=0","timestamp":"2026-07-16T12:15:03.926Z"}
+{"level":"info","message":"[DEV] OTP for ******0001: 512746","timestamp":"2026-07-16T12:16:32.202Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******0001","timestamp":"2026-07-16T12:16:32.202Z","userId":null}
+{"body":{"phone":"9821000001"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-07-16T12:16:32.202Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******0001","timestamp":"2026-07-16T12:16:55.205Z","userId":"7231726176696b756d617200"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0"},"otp":"[REDACTED]","phone":"9821000001"},"duration":124,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [124ms]","query":{},"statusCode":200,"timestamp":"2026-07-16T12:16:55.206Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:16:55.232Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:16:55.585Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:16:55.592Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:16:55.600Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:16:55.643Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:03.332Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:03.340Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:03.861Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:04.025Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:04.032Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:05.536Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:06.309Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:06.485Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:06.493Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:06.512Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:06.578Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:08.314Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:08.382Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:08.383Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:09.326Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:10.085Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:10.389Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:10.578Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:10.633Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:11.406Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:11.407Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:11.480Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:11.592Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:12.127Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:12.819Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T12:17:13.190Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.344Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.441Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.712Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.713Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:13.748Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T12:17:13.755Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/analytics/dashboard","timestamp":"2026-07-16T12:17:14.358Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/analytics/dashboard → 429 [0ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.359Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/advisory","timestamp":"2026-07-16T12:17:14.362Z"}
+{"body":{},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/advisory → 429 [1ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.362Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/wallet/balance","timestamp":"2026-07-16T12:17:14.362Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/wallet/balance → 429 [0ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.362Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/auth/me","timestamp":"2026-07-16T12:17:14.364Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/auth/me → 429 [0ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.364Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/community/stats","timestamp":"2026-07-16T12:17:14.365Z"}
+{"body":{},"duration":1,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/community/stats → 429 [1ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.366Z"}
+{"level":"warn","message":"Rate limit hit: ::ffff:127.0.0.1 → /v1/community/stats","timestamp":"2026-07-16T12:17:14.367Z"}
+{"body":{},"duration":0,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /v1/community/stats → 429 [0ms]","query":{},"statusCode":429,"timestamp":"2026-07-16T12:17:14.367Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:14.641Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:18:24.870Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T12:18:24.878Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-07-16T12:18:24.889Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-07-16T12:18:24.894Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-07-16T12:18:24.899Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-07-16T12:18:24.900Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-07-16T12:18:24.901Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-07-16T12:18:24.902Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-07-16T12:18:24.902Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-07-16T12:18:24.903Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-07-16T12:18:24.903Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-07-16T12:18:24.922Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-07-16T12:18:24.922Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-07-16T12:18:24.923Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-07-16T13:34:19.959Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1784216700708-38d96a0d","timestamp":"2026-07-16T15:45:00.709Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T15:45:00.800Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.524Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.659Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.804Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.954Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.094Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.242Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.385Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.531Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.676Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, confirmed=0, watching=0, discarded=0, errors=0","timestamp":"2026-07-16T15:45:02.805Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1784217600099-bffb8c52","timestamp":"2026-07-16T16:00:00.100Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T16:00:00.239Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T16:00:01.599Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T16:00:02.970Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T16:00:03.786Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.504Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.697Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.835Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.971Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T16:00:05.187Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T16:00:05.334Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, confirmed=0, watching=0, discarded=0, errors=0","timestamp":"2026-07-16T16:00:05.496Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1784218500524-c100864d","timestamp":"2026-07-16T16:15:00.524Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T16:15:00.632Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T16:15:00.993Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.137Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.289Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.458Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.607Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.753Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.908Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T16:15:02.056Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T16:15:02.208Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, confirmed=0, watching=0, discarded=0, errors=0","timestamp":"2026-07-16T16:15:02.343Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-07-16T16:16:26.054Z"}
+{"level":"info","message":"MongoDB reconnected","timestamp":"2026-07-16T16:16:36.502Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T16:19:54.838Z"}
+{"level":"info","message":"[MOCK BLOCKCHAIN] TRIGGER: {\"triggerId\":\"trigger123\",\"type\":\"HEAVY_RAIN\",\"city\":\"mumbai\"} → txHash: 0xdf87df9b80f1c7f453f124e94f65a5d6f8cfd2780a662f18aefe09ed5ea4f7a2","timestamp":"2026-07-16T16:20:53.902Z"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-16T16:20:54.154Z","userId":"rider1"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-16T16:20:54.157Z","userId":"rider2"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-16T16:20:54.159Z","userId":"rider3"}
+{"action":"SELFIE_VERIFIED","audit":true,"level":"info","livenessScore":95,"message":"AUDIT: SELFIE_VERIFIED","passed":true,"timestamp":"2026-07-16T16:20:54.161Z","userId":"rider4"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T16:29:16.321Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-07-16T16:29:16.332Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-07-16T16:29:16.337Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-07-16T16:29:16.341Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-07-16T16:29:16.342Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-07-16T16:29:16.342Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-07-16T16:29:16.343Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-07-16T16:29:16.343Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-07-16T16:29:16.344Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-07-16T16:29:16.344Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-07-16T16:29:16.360Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-07-16T16:29:16.360Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-07-16T16:29:16.361Z"}
+{"level":"info","message":"▶ Trigger engine cycle started: cycle-1784219400370-5c3dbdab","timestamp":"2026-07-16T16:30:00.371Z"}
+{"level":"info","message":"◼ Trigger cycle complete: detected=0, confirmed=0, watching=0, discarded=0, errors=0","timestamp":"2026-07-16T16:30:05.833Z"}
+{"level":"info","message":"[DEV] OTP for ******0001: 030454","timestamp":"2026-07-16T16:30:14.124Z"}
+{"action":"OTP_SENT","audit":true,"level":"info","message":"AUDIT: OTP_SENT","phone":"******0001","timestamp":"2026-07-16T16:30:14.124Z","userId":null}
+{"body":{"phone":"9821000001"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/send → 200 [3ms]","query":{},"statusCode":200,"timestamp":"2026-07-16T16:30:14.125Z"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0"},"otp":"[REDACTED]","phone":"9821000001"},"duration":3,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /api/v1/auth/otp/verify → 400 [3ms]","query":{},"statusCode":400,"timestamp":"2026-07-16T16:30:40.647Z"}
+{"action":"USER_LOGIN","audit":true,"isNewUser":false,"level":"info","message":"AUDIT: USER_LOGIN","phone":"******0001","timestamp":"2026-07-16T16:30:51.291Z","userId":"7231726176696b756d617200"}
+{"body":{"deviceData":{"hasMockApps":false,"isEmulator":false,"isMockLocation":false,"isRooted":false,"os":"web","userAgent":"Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0"},"otp":"[REDACTED]","phone":"9821000001"},"duration":166,"ip":"::ffff:127.0.0.1","level":"info","message":"POST /otp/verify → 200 [166ms]","query":{},"statusCode":200,"timestamp":"2026-07-16T16:30:51.292Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T16:30:51.334Z"}
+{"level":"info","message":"Socket disconnected: 7231726176696b756d617200","timestamp":"2026-07-16T16:30:52.214Z"}
+{"level":"info","message":"Socket connected: 7231726176696b756d617200 [rider]","timestamp":"2026-07-16T16:31:34.847Z"}
+{"body":{},"duration":47,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [47ms]","query":{"tier":"PRO"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.145Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":58,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [58ms]","query":{"tier":"BASIC"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.148Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":51,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [51ms]","query":{"tier":"STANDARD"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.151Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":61,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [61ms]","query":{"tier":"BASIC"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.152Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":41,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [41ms]","query":{"tier":"ELITE"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.192Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":35,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [35ms]","query":{"tier":"ELITE"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.198Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":162,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [162ms]","query":{"tier":"PRO"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.268Z","userId":"7231726176696b756d617200"}
+{"body":{},"duration":225,"ip":"::ffff:127.0.0.1","level":"info","message":"GET /api/v1/policies/quote → 409 [225ms]","query":{"tier":"STANDARD"},"statusCode":409,"timestamp":"2026-07-16T16:31:41.321Z","userId":"7231726176696b756d617200"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T17:58:24.869Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T17:58:24.893Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T17:58:24.914Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T17:58:34.390Z"}
+{"level":"error","message":"Force exit after 30s","timestamp":"2026-07-16T17:58:54.869Z"}
+{"level":"info","message":"MongoDB connected: ac-9g9mk6x-shard-00-00.ndyl4hv.mongodb.net [Pool: 20]","timestamp":"2026-07-16T18:19:18.450Z"}
+{"level":"info","message":"✅ Redis connected","timestamp":"2026-07-16T18:19:18.753Z"}
+{"level":"info","message":"✅ Redis ready","timestamp":"2026-07-16T18:19:18.839Z"}
+{"level":"info","message":"✅ Fraud worker started (concurrency: 5)","timestamp":"2026-07-16T18:19:18.844Z"}
+{"level":"info","message":"✅ Payout worker started (concurrency: 3)","timestamp":"2026-07-16T18:19:18.845Z"}
+{"level":"info","message":"✅ Notification worker started (concurrency: 10)","timestamp":"2026-07-16T18:19:18.847Z"}
+{"level":"info","message":"✅ Claim worker started (concurrency: 2)","timestamp":"2026-07-16T18:19:18.848Z"}
+{"level":"info","message":"✅ Blockchain worker started (concurrency: 1)","timestamp":"2026-07-16T18:19:18.849Z"}
+{"level":"info","message":"✅ Analytics worker started","timestamp":"2026-07-16T18:19:18.849Z"}
+{"level":"info","message":"🚀 All queue workers running","timestamp":"2026-07-16T18:19:18.850Z"}
+{"level":"info","message":"📅 All cron jobs registered","timestamp":"2026-07-16T18:19:18.866Z"}
+{"level":"info","message":"✅ GigShield backend fully operational","timestamp":"2026-07-16T18:19:18.866Z"}
+{"level":"info","message":"🚀 GigShield API running on port 5000 [development]","timestamp":"2026-07-16T18:19:18.867Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T18:19:51.928Z"}
+{"level":"warn","message":"MongoDB disconnected. Attempting reconnect...","timestamp":"2026-07-16T18:19:51.938Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-07-16T18:19:51.938Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T18:19:51.951Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-07-16T18:19:51.951Z"}
+{"level":"info","message":"SIGINT received. Shutting down gracefully...","timestamp":"2026-07-16T18:19:51.972Z"}
+{"level":"info","message":"MongoDB connection closed gracefully","timestamp":"2026-07-16T18:19:51.973Z"}
+{"level":"info","message":"Redis connections closed gracefully","timestamp":"2026-07-16T18:19:52.259Z"}
+{"level":"warn","message":"⚠️  Redis connection closed","timestamp":"2026-07-16T18:19:52.259Z"}
+{"level":"info","message":"All queues closed","timestamp":"2026-07-16T18:19:52.433Z"}

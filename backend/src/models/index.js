@@ -27,6 +27,7 @@ const PayoutSchema = new mongoose.Schema({
 
   // ─── Status ────────────────────────────────────────────
   status:         { type: String, enum: Object.values(PAYMENT_STATUS), default: PAYMENT_STATUS.PENDING },
+  payoutType:     { type: String, enum: ['final', 'advance'], default: 'final' }, // Income Bridge advances vs normal/final settlement
   retryCount:     { type: Number, default: 0 },
   maxRetries:     { type: Number, default: 3 },
   failReason:     { type: String },
@@ -37,6 +38,7 @@ const PayoutSchema = new mongoose.Schema({
 
   // ─── Blockchain ────────────────────────────────────────
   blockchainTxHash: { type: String },
+  onChainNetwork:   { type: String, default: 'mock' },
   onChainLogged:    { type: Boolean, default: false },
 
   idempotencyKey: { type: String, unique: true },
@@ -53,12 +55,12 @@ const PayoutSchema = new mongoose.Schema({
   },
 });
 
-PayoutSchema.index({ payoutRef: 1 }, { unique: true });
+// (payoutRef and idempotencyKey indexes come from `unique: true` on the fields above)
 PayoutSchema.index({ riderId: 1, status: 1 });
 PayoutSchema.index({ claimId: 1 });
 PayoutSchema.index({ gatewayPayoutId: 1 }, { sparse: true });
 PayoutSchema.index({ status: 1, retryCount: 1 });
-PayoutSchema.index({ idempotencyKey: 1 }, { unique: true });
+
 
 PayoutSchema.pre('save', function (next) {
   if (this.isNew) {
@@ -135,7 +137,7 @@ const LoyaltyPoolSchema = new mongoose.Schema({
   onChainLogged:       { type: Boolean, default: false },
 }, { timestamps: true });
 
-LoyaltyPoolSchema.index({ weekId: 1 }, { unique: true });
+// (weekId index comes from `unique: true` on the field above)
 
 const LoyaltyPool = mongoose.model('LoyaltyPool', LoyaltyPoolSchema);
 

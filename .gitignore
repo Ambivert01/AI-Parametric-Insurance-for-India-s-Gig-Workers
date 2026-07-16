@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+# Build output
+dist/
+build/
+.vite/
+
+# Blockchain build artifacts
+blockchain/artifacts/
+blockchain/cache/
+blockchain/typechain/
+
+# ML model artifacts (regenerated on first run — see ml-service/main.py)
+ml-service/models/saved/*.pkl
+
+# Env files — never commit real secrets
+.env
+.env.local
+*.env.local
+
+# SSL certificates — never commit real ones
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+
+# Editor/OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+.nyc_output/

@@ -214,6 +214,24 @@ adminRouter.get('/dashboard', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// GET /api/v1/admin/executive-dashboard — leadership/investor view (doc §45)
+adminRouter.get('/executive-dashboard', async (req, res, next) => {
+  try {
+    const { getExecutiveDashboard } = require('../services/analytics/analyticsService');
+    const data = await getExecutiveDashboard();
+    sendSuccess(res, data);
+  } catch (err) { next(err); }
+});
+
+// GET /api/v1/admin/weekly-trend — real daily snapshot history (replaces the frontend's random-data chart)
+adminRouter.get('/weekly-trend', async (req, res, next) => {
+  try {
+    const { getWeeklyTrend } = require('../services/analytics/analyticsService');
+    const data = await getWeeklyTrend();
+    sendSuccess(res, data);
+  } catch (err) { next(err); }
+});
+
 // GET /api/v1/admin/heatmap
 adminRouter.get('/heatmap', async (req, res, next) => {
   try {

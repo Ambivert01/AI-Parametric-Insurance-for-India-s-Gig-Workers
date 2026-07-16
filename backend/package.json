@@ -6,17 +6,20 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
+    "seed": "node seed/seed.js",
+    "seed:fresh": "node seed/seed.js --clear",
     "test": "jest --runInBand --detectOpenHandles",
     "test:coverage": "jest --coverage --runInBand",
     "lint": "eslint src/ --ext .js",
     "lint:fix": "eslint src/ --ext .js --fix",
-    "seed": "node src/scripts/seed.js",
     "migrate": "node src/scripts/migrate.js"
   },
   "dependencies": {
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "bull": "^4.16.5",
+    "firebase-admin": "^14.1.0",
+    "twilio": "^6.0.2",
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

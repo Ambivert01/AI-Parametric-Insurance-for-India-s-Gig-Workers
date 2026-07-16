@@ -150,7 +150,7 @@ contract GigShieldPolicy {
             payoutPercent: payoutPercent,
             dataSourceHash: dataSourceHash,
             timestamp: block.timestamp,
-            verified: true,
+            verified: true
         });
 
         emit TriggerLogged(eventId, triggerType, cityId, triggerValue, block.timestamp);
@@ -188,7 +188,7 @@ contract GigShieldPolicy {
             timestamp: block.timestamp,
             status: status,
             fraudTier: fraudTier,
-            txRef: txRef,
+            txRef: txRef
         });
 
         _riderClaims[offChainRiderId].push(claimId);
@@ -223,7 +223,7 @@ contract GigShieldPolicy {
             cityId: cityId,
             weekNumber: weekNumber,
             premiumAmountInr: premiumAmountInr,
-            createdAt: block.timestamp,
+            createdAt: block.timestamp
         });
 
         emit PolicyLogged(policyId, offChainRiderId, tier, weekNumber);

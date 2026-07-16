@@ -518,8 +518,23 @@ adminExtRouter.get('/health/apis', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// ══════════════════════════════════════════════════════════
+// ADVISORY ROUTER — AI Advisory System (doc §35)
+// ══════════════════════════════════════════════════════════
+const advisoryRouter = express.Router();
+const { getAdvisoryForRider } = require('../services/advisory/advisoryService');
+
+// GET /api/v1/advisory — preventive, personalized risk advisories for the rider's own city/shift
+advisoryRouter.get('/', authenticate, async (req, res, next) => {
+  try {
+    const result = await getAdvisoryForRider(req.user._id);
+    sendSuccess(res, result);
+  } catch (err) { next(err); }
+});
+
 module.exports = {
   communityRouter, walletRouter, referralRouter,
   notificationsRouter, kycRouter, claimsExtRouter,
   shiftRouter, iotRouter, publicRouter, adminExtRouter,
+  advisoryRouter,
 };

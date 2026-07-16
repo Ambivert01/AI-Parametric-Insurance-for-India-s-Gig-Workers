@@ -16,6 +16,7 @@ contract GigShieldLoyaltyPool {
     struct WeeklyPool {
         uint256 weekNumber;
         uint256 balanceInr;           // total INR in pool (tracked off-chain, logged here)
+        uint256 totalContributedInr;  // cumulative contributions this week (never decremented by disbursements, unlike balanceInr)
         uint256 contributionsCount;   // number of riders who contributed
         uint256 disbursedInr;         // total disbursed from pool this week
         uint256 beneficiariesCount;
@@ -92,6 +93,7 @@ contract GigShieldLoyaltyPool {
         if (pool.weekNumber == 0) pool.weekNumber = weekNumber;
 
         pool.balanceInr += amountInr;
+        pool.totalContributedInr += amountInr;
         pool.contributionsCount++;
         globalPoolBalanceInr += amountInr;
 
@@ -101,7 +103,7 @@ contract GigShieldLoyaltyPool {
             offChainRiderId: offChainRiderId,
             weekNumber: weekNumber,
             amountInr: amountInr,
-            timestamp: block.timestamp,
+            timestamp: block.timestamp
         }));
 
         emit ContributionLogged(offChainRiderId, weekNumber, amountInr);
@@ -132,7 +134,7 @@ contract GigShieldLoyaltyPool {
             weekNumber: weekNumber,
             bonusInr: bonusInr,
             claimRef: claimRef,
-            timestamp: block.timestamp,
+            timestamp: block.timestamp
         }));
 
         emit BonusDisbursed(offChainRiderId, weekNumber, bonusInr, claimRef);
@@ -153,7 +155,7 @@ contract GigShieldLoyaltyPool {
         uint256 nextWeek = weekNumber + 1;
         pools[nextWeek].balanceInr += carryForwardInr;
 
-        emit WeekClosed(weekNumber, pool.contributionsCount, pool.disbursedInr, carryForwardInr);
+        emit WeekClosed(weekNumber, pool.totalContributedInr, pool.disbursedInr, carryForwardInr);
     }
 
     // View functions

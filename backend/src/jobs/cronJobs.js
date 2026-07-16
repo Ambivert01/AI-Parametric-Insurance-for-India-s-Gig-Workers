@@ -186,6 +186,26 @@ const startCronJobs = (io) => {
     }
   });
 
+  // ─── 9. Expire unverified selfie-hold claims: every 10 minutes ──
+  cron.schedule('*/10 * * * *', async () => {
+    try {
+      const { expirePendingVerificationClaims } = require('../services/claims/claimsService');
+      await expirePendingVerificationClaims();
+    } catch (err) {
+      logger.error(`Claim verification expiry cron failed: ${err.message}`);
+    }
+  }, { timezone: 'Asia/Kolkata' });
+
+  // ─── 10. Compute daily analytics snapshot: 23:55 IST ──────
+  cron.schedule('55 23 * * *', async () => {
+    try {
+      const { computeDailySnapshot } = require('../services/analytics/analyticsService');
+      await computeDailySnapshot();
+    } catch (err) {
+      logger.error(`Daily snapshot cron failed: ${err.message}`);
+    }
+  }, { timezone: 'Asia/Kolkata' });
+
   logger.info('📅 All cron jobs registered');
 };
 

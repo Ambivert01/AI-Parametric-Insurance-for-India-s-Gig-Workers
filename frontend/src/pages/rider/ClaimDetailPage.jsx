@@ -85,6 +85,16 @@ export default function ClaimDetailPage() {
           )}
         </div>
 
+        {claim.advanceInr > 0 && (
+          <div style={{ background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 'var(--r-md)', padding: 'var(--s3) var(--s4)', marginTop: 'var(--s4)', fontSize: '0.8125rem' }}>
+            <span style={{ fontWeight: 600 }}>⚡ Income Bridge advance:</span>{' '}
+            ₹{claim.advanceInr} sent instantly while your claim was verified
+            {claim.advanceStatus === 'issued' && ' — remaining balance pending verification.'}
+            {claim.advanceStatus === 'reconciled' && ` — remaining ₹${claim.finalPayoutInr - claim.advanceInr} has since been settled.`}
+            {claim.advanceStatus === 'clawback_pending' && ' — this claim did not verify in time; the advance will be recovered from a future payout.'}
+          </div>
+        )}
+
         <div className="grid-2">
           {[
             { label: 'City', val: claim.cityId },
@@ -185,10 +195,14 @@ export default function ClaimDetailPage() {
                 {claim.blockchainTxHash.slice(0,20)}...{claim.blockchainTxHash.slice(-8)}
               </div>
             </div>
-            <a href={`https://sepolia.etherscan.io/tx/${claim.blockchainTxHash}`} target="_blank" rel="noreferrer"
-              className="btn btn-ghost btn-sm" style={{ textDecoration: 'none' }}>
-              Verify ↗
-            </a>
+            {claim.onChainNetwork && claim.onChainNetwork !== 'mock' ? (
+              <a href={`https://${claim.onChainNetwork}.etherscan.io/tx/${claim.blockchainTxHash}`} target="_blank" rel="noreferrer"
+                className="btn btn-ghost btn-sm" style={{ textDecoration: 'none' }}>
+                Verify ↗
+              </a>
+            ) : (
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>Demo mode</span>
+            )}
           </div>
         </div>
       )}

@@ -1,5 +1,417 @@
 {
-  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  "network": "sepolia_mock",
-  "abi": []
+  "address": null,
+  "network": "not_deployed",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_oracle",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "offChainRiderId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "bonusInr",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "claimRef",
+          "type": "bytes32"
+        }
+      ],
+      "name": "BonusDisbursed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "offChainRiderId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountInr",
+          "type": "uint256"
+        }
+      ],
+      "name": "ContributionLogged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalContributionsInr",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalDisbursedInr",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "carryForwardInr",
+          "type": "uint256"
+        }
+      ],
+      "name": "WeekClosed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "carryForwardInr",
+          "type": "uint256"
+        }
+      ],
+      "name": "closeWeek",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "currentWeek",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offChainRiderId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRiderStats",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalContributed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalReceived",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "netImpact",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "getWeekPool",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "weekNumber",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "balanceInr",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalContributedInr",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "contributionsCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "disbursedInr",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "beneficiariesCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "isClosed",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "closedAt",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "carryForwardInr",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct GigShieldLoyaltyPool.WeeklyPool",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "globalPoolBalanceInr",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offChainRiderId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountInr",
+          "type": "uint256"
+        }
+      ],
+      "name": "logContribution",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offChainRiderId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "bonusInr",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "claimRef",
+          "type": "bytes32"
+        }
+      ],
+      "name": "logDisbursement",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "oracle",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "pools",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "weekNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balanceInr",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalContributedInr",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "contributionsCount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "disbursedInr",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "beneficiariesCount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isClosed",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "closedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "carryForwardInr",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "riderTotalContributedInr",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "riderTotalReceivedInr",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
 }

@@ -32,9 +32,13 @@ MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
 ML_SECRET = os.getenv("ML_SERVICE_SECRET", "dev_secret")
 
+ML_SERVICE_TESTING = os.getenv("ML_SERVICE_TESTING", "false").lower() == "true"
+
 # ─── Auth dependency ──────────────────────────────────────
 def verify_secret(x_service_secret: str = Header(default="")):
-    if x_service_secret != ML_SECRET and os.getenv("NODE_ENV") not in ("test", None):
+    if ML_SERVICE_TESTING:
+        return  # explicit opt-in for automated tests only — never the default
+    if x_service_secret != ML_SECRET:
         raise HTTPException(status_code=401, detail="Invalid service secret")
 
 # PREMIUM MODEL
@@ -456,4 +460,7 @@ async def startup():
     print("✅ ML models ready (premium + fraud + predictive)")
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=2)
+    # reload=True only supports a single worker — uvicorn disallows reload
+    # together with workers>1. Production runs via `uvicorn main:app` in the
+    # Dockerfile CMD instead, which doesn't hit this path at all.
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -119,6 +119,21 @@ describe("GigShieldLoyaltyPool", function () {
     expect(nextWeek.balanceInr).to.equal(300);
   });
 
+  it("emits WeekClosed with the actual INR total contributed, not the contributor headcount", async function () {
+    // Regression guard: this event used to emit pool.contributionsCount (a
+    // small integer headcount) in the slot documented as totalContributionsInr
+    // (a currency amount) — with two contributions of 1000 and 500, the old
+    // code would have emitted 2 here instead of 1500.
+    const rider1 = ethers.keccak256(ethers.toUtf8Bytes("rider_a"));
+    const rider2 = ethers.keccak256(ethers.toUtf8Bytes("rider_b"));
+    await pool.connect(oracle).logContribution(rider1, 202612, 1000);
+    await pool.connect(oracle).logContribution(rider2, 202612, 500);
+
+    await expect(pool.connect(oracle).closeWeek(202612, 0))
+      .to.emit(pool, "WeekClosed")
+      .withArgs(202612, 1500, 0, 0);
+  });
+
   it("tracks rider lifetime stats", async function () {
     const riderId = ethers.keccak256(ethers.toUtf8Bytes("rider_stats"));
     const claimRef = ethers.keccak256(ethers.toUtf8Bytes("c1"));

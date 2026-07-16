@@ -22,6 +22,7 @@ const PolicySchema = new mongoose.Schema({
 
   // ─── Coverage ─────────────────────────────────────────
   tier:          { type: String, required: true, enum: Object.keys(COVERAGE_TIERS) },
+  policyType:    { type: String, enum: ['WEEKLY', 'SHIFT'], default: 'WEEKLY' },
   tierDetails: {
     dailyCoverageInr:  { type: Number, required: true },
     weeklyMaxInr:      { type: Number, required: true },
@@ -80,11 +81,14 @@ const PolicySchema = new mongoose.Schema({
 });
 
 // ─── Indexes ──────────────────────────────────────────────
-PolicySchema.index({ riderId: 1, weekId: 1 }, { unique: true }); // one policy per rider per week
+PolicySchema.index(
+  { riderId: 1, weekId: 1 },
+  { unique: true, partialFilterExpression: { policyType: 'WEEKLY' } }
+); // one WEEKLY policy per rider per week — SHIFT policies are exempt (a rider can hold several per week, e.g. a morning shift and a separate evening shift)
 PolicySchema.index({ riderId: 1, status: 1 });
 PolicySchema.index({ cityId: 1, status: 1 });                    // for trigger matching
 PolicySchema.index({ cityId: 1, status: 1, 'tierDetails.triggers': 1 }); // compound for trigger engine
-PolicySchema.index({ policyNumber: 1 }, { unique: true });
+// (policyNumber index comes from `unique: true` on the field above)
 PolicySchema.index({ weekId: 1, status: 1 });
 PolicySchema.index({ paymentId: 1 }, { sparse: true });
 PolicySchema.index({ startDate: 1, endDate: 1, status: 1 });

@@ -136,19 +136,49 @@ const checkTemporalBurst = async (cityId, triggerType) => {
 };
 
 /**
- * S12: Weather correlation (does claimed location match actual rain data?)
+ * S12: Weather correlation — does the rider's actual GPS location fall
+ * within the trigger event's real affected radius? This used to be a pure
+ * stub that always returned +10 regardless of any input — it didn't even
+ * reference its own parameters. Now genuinely checks distance from the
+ * trigger's center point using the centerLat/centerLon/radiusKm fields.
  */
-const checkWeatherCorrelation = async (cityId, triggerType, triggerValue) => {
-  // If we have the trigger event, we already confirmed weather data
-  // This checks if the rider's sub-zone correlates with event
-  return { score: 10, reason: 'weather_event_confirmed_for_city' };
+const checkWeatherCorrelation = (riderLat, riderLon, triggerCenterLat, triggerCenterLon, triggerRadiusKm) => {
+  if (!riderLat || !riderLon || !triggerCenterLat || !triggerCenterLon) {
+    return { score: 0, valid: null, reason: 'insufficient_location_data_for_correlation' };
+  }
+  const geolib = require('geolib');
+  const distanceKm = geolib.getDistance(
+    { latitude: riderLat, longitude: riderLon },
+    { latitude: triggerCenterLat, longitude: triggerCenterLon }
+  ) / 1000;
+  const radius = triggerRadiusKm || 25;
+  if (distanceKm <= radius) return { score: 10, valid: true, reason: 'inside_trigger_radius' };
+  if (distanceKm <= radius * 1.5) return { score: -10, valid: false, reason: `just_outside_trigger_radius_${Math.round(distanceKm)}km` };
+  return { score: -30, valid: false, reason: `far_outside_trigger_radius_${Math.round(distanceKm)}km` };
+};
+
+/**
+ * S14: Device fingerprint collusion check (Doc §9 Graph Intelligence —
+ * "Shared Devices" relationship). Previously entirely unimplemented: the
+ * result object had a hardcoded `networkCluster: 0` placeholder and no
+ * signal ever computed it.
+ */
+const checkDeviceCollusion = async (riderId, deviceFingerprint) => {
+  if (!deviceFingerprint) return { score: 0, reason: 'no_device_fingerprint' };
+  const count = await User.countDocuments({
+    'devices.fingerprint': deviceFingerprint,
+    _id: { $ne: riderId },
+  });
+  if (count >= 3) return { score: -50, valid: false, reason: `device_shared_by_${count}_other_accounts` };
+  if (count >= 1) return { score: -20, valid: false, reason: `device_shared_by_${count}_other_account` };
+  return { score: 10, valid: true, reason: 'unique_device' };
 };
 
 /**
  * S13: Historical fraud score of the rider
  */
-const checkRiderFraudHistory = (riderFraudScore, fraudFlags) => {
-  if (riderFraudScore >= 80) return { score: -40, reason: 'high_historical_fraud_score' };
+const checkRiderFraudHistory = (riderFraudScore, fraudFlags, redFlagCount = 0) => {
+  if (redFlagCount >= 3) return { score: -40, reason: 'repeat_offender_3plus_red_flags' };
   if (riderFraudScore >= 50) return { score: -20, reason: 'elevated_fraud_history' };
   if (fraudFlags?.includes('mock_location_app_detected')) return { score: -25, reason: 'mock_app_registered' };
   return { score: 10, reason: 'clean_history' };
@@ -177,17 +207,18 @@ const getMLFraudScore = async (features) => {
 const assessClaim = async ({
   riderId, policyId, eventId, cityId, triggerType, triggerValue,
   riderLat, riderLon, riderCellTower, accelerometerData, gpsReadings,
+  triggerCenterLat, triggerCenterLon, triggerRadiusKm,
   platformWasActive, hadOrderPings, policyStartDate, isRainEvent = false,
 }) => {
-  const rider = await User.findById(riderId).select('createdAt fraudScore fraudFlags devices bankDetails').lean();
+  const rider = await User.findById(riderId).select('createdAt fraudScore fraudFlags redFlagCount devices bankDetails').lean();
   if (!rider) throw new Error('Rider not found');
 
   const device = rider.devices?.[rider.devices.length - 1]; // most recent device
 
-  // ─── Run all 13 rule-based signals ────────────────────
+  // ─── Run all 14 rule-based signals ────────────────────
   const [
     s1, s2, s3, s4, s5, s6, s7, s8,
-    s9, s10, s11, s12, s13,
+    s9, s10, s11, s12, s13, s14,
   ] = await Promise.all([
     Promise.resolve(checkGPSInZone(null, cityId, riderLat, riderLon)),
     Promise.resolve(checkCellTower(cityId, riderCellTower)),
@@ -200,11 +231,12 @@ const assessClaim = async ({
     checkDuplicateClaim(riderId, eventId),
     checkUPIReuse(riderId, rider.bankDetails?.upiId),
     checkTemporalBurst(cityId, triggerType),
-    checkWeatherCorrelation(cityId, triggerType, triggerValue),
-    Promise.resolve(checkRiderFraudHistory(rider.fraudScore, rider.fraudFlags)),
+    Promise.resolve(checkWeatherCorrelation(riderLat, riderLon, triggerCenterLat, triggerCenterLon, triggerRadiusKm)),
+    Promise.resolve(checkRiderFraudHistory(rider.fraudScore, rider.fraudFlags, rider.redFlagCount)),
+    checkDeviceCollusion(riderId, device?.fingerprint),
   ]);
 
-  const signals = { s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13 };
+  const signals = { s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14 };
 
   // ─── Compute aggregate score ──────────────────────────
   // Start from 70 (benefit of the doubt)
@@ -223,7 +255,7 @@ const assessClaim = async ({
   const hardRejects = [];
   if (s4.valid === false) hardRejects.push('mock_location_app');
   if (s9.valid === false) hardRejects.push('duplicate_claim');
-  if (s10.valid === false && s10.reason?.includes('2_accounts')) hardRejects.push('upi_reuse');
+  if (s10.valid === false && s10.score <= -50) hardRejects.push('upi_reuse'); // 2+ accounts sharing a UPI (checkUPIReuse scores -50 at 2+, -20 at exactly 1 prior match) — was previously matched via `.includes('2_accounts')`, a substring check that silently missed 3, 4, 5+ account rings
 
   if (hardRejects.length > 0) {
     trustScore = Math.min(trustScore, 15); // force RED
@@ -276,13 +308,14 @@ const assessClaim = async ({
       deviceRegistered: !!device,
       accountAge: s7.score,
       policyMaturity: s8.score,
-      behavioralAnomaly: 0,
+      behavioralAnomaly: 0, // Doc §8 Behavioral Intelligence not implemented — needs a per-rider historical baseline (login times, typing pattern, session duration) that isn't tracked anywhere yet
       claimBurst: s11.score,
       duplicateClaim: s9.valid === false,
-      networkCluster: 0,
+      networkCluster: s14.score,
       upiReuse: s10.valid === false,
       gpsSpoof: s5.score,
       weatherCorrelation: s12.score,
+      deviceCollusion: s14.valid === false,
     },
     reasons,
     mlModelVersion: mlScore !== null ? 'v1_blended' : 'rules_only',
@@ -309,8 +342,16 @@ const assessClaim = async ({
   // ─── Update rider's fraud score (rolling max) ─────────
   if (tier === 'RED') {
     await User.findByIdAndUpdate(riderId, {
-      $max: { fraudScore: Math.min(100, trustScore + 20) },
+      // Previously Math.min(100, trustScore+20) — since RED means trustScore
+      // was just clamped to <=15 by the hard-override above, this expression
+      // could never exceed ~35, no matter how many times or how severely a
+      // rider was flagged. checkRiderFraudHistory's >=50/>=80 thresholds were
+      // permanently unreachable as a result. A RED flag is elevated risk on
+      // its own merit — floor it at 50 — and track redFlagCount separately
+      // so genuine repeat offenders are distinguishable from a first flag.
+      $max: { fraudScore: Math.min(100, Math.max(50, trustScore + 20)) },
       $addToSet: { fraudFlags: reasons[0] },
+      $inc: { redFlagCount: 1 },
     });
   }
 
@@ -324,10 +365,16 @@ const mapReasonToType = (reason) => {
   if (reason?.includes('duplicate')) return 'duplicate_claim';
   if (reason?.includes('burst')) return 'claim_burst';
   if (reason?.includes('upi')) return 'upi_reuse';
+  if (reason?.includes('device_shared')) return 'multi_account';
+  if (reason?.includes('trigger_radius')) return 'weather_mismatch';
   if (reason?.includes('platform')) return 'platform_inactive';
   if (reason?.includes('physics')) return 'physics_anomaly';
   if (reason?.includes('account_under')) return 'account_too_new';
   return 'behavioral_anomaly';
 };
 
-module.exports = { assessClaim };
+module.exports = {
+  assessClaim,
+  // Exported for unit testing — pure/near-pure functions.
+  checkWeatherCorrelation, checkRiderFraudHistory, mapReasonToType,
+};

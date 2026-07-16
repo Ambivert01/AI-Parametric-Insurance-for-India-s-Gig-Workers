@@ -32,9 +32,15 @@ const getShiftQuote = async (riderId, lat, lon) => {
     throw Object.assign(new Error('Complete your profile first'), { statusCode: 400 });
   }
 
-  // Check no active weekly policy (shift is for riders without weekly)
+  // Check no active weekly policy (shift is for riders without weekly) — this
+  // used to fetch weeklyPolicy and then never check it, so the message below
+  // was dead code and a rider with full weekly cover could still be quoted
+  // (and, worse, could actually activate) redundant shift cover.
   const weekId = getPolicyWeekId();
-  const weeklyPolicy = await Policy.findOne({ riderId, weekId, status: POLICY_STATUS.ACTIVE });
+  const weeklyPolicy = await Policy.findOne({ riderId, weekId, policyType: 'WEEKLY', status: POLICY_STATUS.ACTIVE });
+  if (weeklyPolicy) {
+    throw Object.assign(new Error('You already have an active weekly policy — shift cover is for riders without one'), { statusCode: 409 });
+  }
 
   const nearestCity = getNearestCity(lat, lon);
   const isPeak = isInPeakHours();
@@ -63,8 +69,21 @@ const getShiftQuote = async (riderId, lat, lon) => {
 const activateShift = async (riderId, tier, lat, lon, paymentRef) => {
   const existing = await redis.get(shiftKey(riderId));
   if (existing) {
+    // redis.get already JSON-parses — existing is an object here, not a
+    // string, so calling JSON.parse(existing) on it throws instead of
+    // returning the friendly 409 message this was clearly meant to give.
     throw Object.assign(new Error('You already have an active shift. It expires in ' +
-      Math.ceil((JSON.parse(existing).expiresAt - Date.now()) / 3600000) + ' hours'), { statusCode: 409 });
+      Math.ceil((existing.expiresAt - Date.now()) / 3600000) + ' hours'), { statusCode: 409 });
+  }
+
+  // Same weekly-conflict rule as getShiftQuote — this had no check at all,
+  // so a rider with an active weekly policy could activate a shift and hit
+  // a MongoDB duplicate-key error on save (WEEKLY policies are unique per
+  // rider per week).
+  const weekId = getPolicyWeekId();
+  const weeklyPolicy = await Policy.findOne({ riderId, weekId, policyType: 'WEEKLY', status: POLICY_STATUS.ACTIVE });
+  if (weeklyPolicy) {
+    throw Object.assign(new Error('You already have an active weekly policy — shift cover is for riders without one'), { statusCode: 409 });
   }
 
   const nearestCity = getNearestCity(lat, lon);
@@ -92,10 +111,10 @@ const activateShift = async (riderId, tier, lat, lon, paymentRef) => {
   await redis.set(shiftKey(riderId), shiftData, SHIFT_DURATION_HOURS * 3600);
 
   // Also create a lightweight policy record
-  const weekId = getPolicyWeekId();
   const shiftPolicy = new Policy({
     riderId,
     tier: tier.toUpperCase(),
+    policyType: 'SHIFT',
     tierDetails: {
       dailyCoverageInr: shiftData.coverageInr,
       weeklyMaxInr: shiftData.coverageInr,
@@ -154,17 +173,23 @@ const deactivateShift = async (riderId) => {
 };
 
 /**
- * Get active shift policies in a city (for trigger matching)
+ * Get active shift policies in a city (for trigger matching). Note:
+ * getActivePoliciesInCity() in policyService already matches shift policies
+ * too (it has no policyType filter), so this is only needed when something
+ * specifically wants shift-only results — e.g. an admin breakdown view.
  */
-const getActiveShiftPoliciesInCity = async (cityId) => {
-  const keys = await redis.flushPattern(`shift:active:*`); // can't enumerate easily — use Policy model
-  return Policy.find({
+const getActiveShiftPoliciesInCity = async (cityId, triggerType) => {
+  const query = {
     cityId,
+    policyType: 'SHIFT',
     status: POLICY_STATUS.ACTIVE,
+    startDate: { $lte: new Date() },
     endDate: { $gte: new Date() },
-    'tierDetails.dailyCoverageInr': { $lte: 600 }, // shift policies have lower coverage
-    startDate: { $gte: new Date(Date.now() - SHIFT_DURATION_HOURS * 3600000) },
-  }).lean();
+  };
+  if (triggerType) query['tierDetails.triggers'] = triggerType;
+  return Policy.find(query)
+    .populate('riderId', 'name phone riderProfile devices notificationPrefs bankDetails')
+    .lean();
 };
 
 module.exports = {

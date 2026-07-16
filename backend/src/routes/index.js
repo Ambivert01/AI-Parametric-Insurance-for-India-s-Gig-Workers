@@ -24,5 +24,6 @@ router.use('/kyc',            ext.kycRouter);
 router.use('/claims',         ext.claimsExtRouter);
 router.use('/iot',            ext.iotRouter);
 router.use('/public',         ext.publicRouter);
+router.use('/advisory',       ext.advisoryRouter);
 
 module.exports = router;

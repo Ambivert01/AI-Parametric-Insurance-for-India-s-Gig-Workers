@@ -26,6 +26,7 @@ const PaymentsPage = lazy(() => import("./pages/rider/PaymentsPageImpl"));
 const CommunityPage = lazy(() => import("./pages/rider/CommunityPage"));
 const ProfilePage = lazy(() => import("./pages/rider/ProfilePage"));
 const AdminClaimsPage = lazy(() => import("./pages/admin/AdminClaimsPage"));
+const ExecutiveDashboardPage = lazy(() => import("./pages/admin/ExecutiveDashboardPage"));
 const AdminRidersPage = lazy(() => import("./pages/admin/AdminRidersPage"));
 const AdminFraudPage = lazy(() => import("./pages/admin/AdminFraudPage"));
 const AdminMapPage = lazy(() => import("./pages/admin/AdminMapPage"));
@@ -164,6 +165,14 @@ function AppRoutes() {
         }
       >
         <Route index element={<AdminDashboard />} />
+        <Route
+          path="executive"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <ExecutiveDashboardPage />
+            </Suspense>
+          }
+        />
         <Route
           path="claims"
           element={

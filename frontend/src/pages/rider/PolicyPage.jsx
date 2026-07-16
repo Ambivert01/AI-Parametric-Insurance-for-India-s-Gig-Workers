@@ -248,10 +248,16 @@ export default function PolicyPage({ mode }) {
                     <span style={{ fontSize: '0.8125rem', color: 'var(--navy-400)' }}>
                       On-chain: {activePolicy.blockchainTxHash.slice(0, 16)}...
                     </span>
-                    <a href={`https://sepolia.etherscan.io/tx/${activePolicy.blockchainTxHash}`} target="_blank" rel="noreferrer"
-                      style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--navy-400)', fontWeight: 600 }}>
-                      Verify ↗
-                    </a>
+                    {activePolicy.onChainNetwork && activePolicy.onChainNetwork !== 'mock' ? (
+                      <a href={`https://${activePolicy.onChainNetwork}.etherscan.io/tx/${activePolicy.blockchainTxHash}`} target="_blank" rel="noreferrer"
+                        style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--navy-400)', fontWeight: 600 }}>
+                        Verify ↗
+                      </a>
+                    ) : (
+                      <span style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                        Demo mode
+                      </span>
+                    )}
                   </div>
                 )}
               </div>

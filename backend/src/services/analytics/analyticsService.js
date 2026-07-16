@@ -4,7 +4,7 @@ const User = require('../../models/User');
 const TriggerEvent = require('../../models/TriggerEvent');
 const { Payout, FraudLog, LoyaltyPool, Analytics } = require('../../models/index');
 const { redis, KEYS } = require('../../config/redis');
-const { POLICY_STATUS, CLAIM_STATUS, PAYMENT_STATUS } = require('../../config/constants');
+const { POLICY_STATUS, CLAIM_STATUS, PAYMENT_STATUS, CITIES } = require('../../config/constants');
 const { getPolicyWeekId } = require('../../utils/dateTime');
 const logger = require('../../utils/logger');
 
@@ -226,11 +226,59 @@ const getPredictedClaims = async () => {
     byCity[city].totals.push(h.totalInr);
   }
 
-  return Object.entries(byCity).map(([city, data]) => ({
+  const heuristicResult = Object.entries(byCity).map(([city, data]) => ({
     cityId: city,
     predictedClaims: Math.round(data.counts.reduce((a, b) => a + b, 0) / data.counts.length),
     predictedPayoutInr: Math.round(data.totals.reduce((a, b) => a + b, 0) / data.totals.length),
   })).sort((a, b) => b.predictedClaims - a.predictedClaims);
+
+  // The ML service has a real per-city seasonal model (/ml/predict/zone-risk —
+  // actual monthly probability curves, e.g. Mumbai's monsoon peak, adjusted
+  // by recent claim trends) that was built and fully working but never once
+  // called from Node — this function reimplemented a cruder flat 4-week
+  // average instead. Try the real model per city; fall back to the heuristic
+  // above (still useful, just less precise) if the ML service is unreachable.
+  try {
+    const axios = require('axios');
+    const activeCounts = await Policy.aggregate([
+      { $match: { status: POLICY_STATUS.ACTIVE } },
+      { $group: { _id: '$cityId', count: { $sum: 1 } } },
+    ]);
+    const activeByCity = Object.fromEntries(activeCounts.map((c) => [c._id, c.count]));
+
+    const mlResults = await Promise.all(
+      Object.keys(CITIES).map(async (cityId) => {
+        const lower = cityId.toLowerCase();
+        try {
+          const { data } = await axios.post(
+            `${process.env.ML_SERVICE_URL}/api/v1/ml/predict/zone-risk`,
+            {
+              cityId: lower,
+              activePolicies: activeByCity[lower] || 0,
+              historicalClaimsLast4Weeks: byCity[lower]?.counts || [],
+            },
+            { headers: { 'x-service-secret': process.env.ML_SERVICE_SECRET }, timeout: 3000 }
+          );
+          return {
+            cityId: lower,
+            predictedClaims: data.predictedClaimsNextWeek,
+            predictedPayoutInr: data.expectedPayoutInr,
+            riskLevel: data.riskLevel,
+            confidence: data.confidence,
+          };
+        } catch {
+          return null;
+        }
+      })
+    );
+
+    const validResults = mlResults.filter(Boolean).sort((a, b) => b.predictedClaims - a.predictedClaims);
+    if (validResults.length) return validResults;
+  } catch (err) {
+    logger.warn(`ML zone-risk prediction unavailable, using heuristic fallback: ${err.message}`);
+  }
+
+  return heuristicResult;
 };
 
 // ─── Compute and persist daily analytics snapshot ─────────
@@ -287,8 +335,197 @@ const computeDailySnapshot = async () => {
   logger.info(`Daily analytics snapshot computed for ${today}`);
 };
 
+// ─── Executive Dashboard (doc §45) ────────────────────────
+// "Designed for insurance leadership, investors, senior management —
+// instead of operational details, high-level business intelligence."
+//
+// Built on top of the daily Analytics snapshots (computeDailySnapshot,
+// now actually scheduled — see cronJobs.js) for trend data, plus live
+// aggregations for current-state totals. A few doc-listed metrics have no
+// real data source anywhere in the system (Customer Satisfaction, AI Model
+// Accuracy against ground truth, Recommendation Adoption, Operating Cost)
+// — these are returned with `available: false` rather than a fabricated
+// number, so this dashboard never shows leadership a number nobody can
+// actually back up.
+const getExecutiveDashboard = async () => {
+  const cacheKey = 'executive:dashboard';
+  const cached = await redis.get(cacheKey);
+  if (cached) return cached;
+
+  const { ROLES } = require('../../config/constants');
+  const now = new Date();
+  const period30Start = new Date(now - 30 * 24 * 3600000);
+  const period60Start = new Date(now - 60 * 24 * 3600000);
+  const weekId = getPolicyWeekId();
+  const prevWeekId = getPolicyWeekId(new Date(now - 7 * 24 * 3600000));
+
+  const [
+    totalWorkers, activeRiderIds,
+    newRegs30, newRegsPrev30,
+    premium30, payouts30,
+    heatmap, forecast,
+    triggerFrequency,
+    autoRenewCount, activePolicyCount,
+    thisWeekRiderIds, prevWeekRiderIds,
+    claims30ByTier, claimsRejected30, fraudLossClaims,
+    manualInvestigations,
+  ] = await Promise.all([
+    User.countDocuments({ role: ROLES.RIDER }),
+    Policy.distinct('riderId', { status: POLICY_STATUS.ACTIVE }),
+
+    User.countDocuments({ role: ROLES.RIDER, createdAt: { $gte: period30Start } }),
+    User.countDocuments({ role: ROLES.RIDER, createdAt: { $gte: period60Start, $lt: period30Start } }),
+
+    Policy.aggregate([
+      { $match: { paidAt: { $gte: period30Start } } },
+      { $group: { _id: null, total: { $sum: '$premiumAmountInr' } } },
+    ]),
+    Payout.aggregate([
+      { $match: { status: PAYMENT_STATUS.COMPLETED, completedAt: { $gte: period30Start } } },
+      { $group: { _id: null, total: { $sum: '$amountInr' } } },
+    ]),
+
+    getRiskHeatmap(),
+    getPredictedClaims(),
+
+    TriggerEvent.aggregate([
+      { $match: { detectedAt: { $gte: period30Start }, status: { $in: ['confirmed'] } } },
+      { $group: { _id: '$triggerType', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]),
+
+    Policy.countDocuments({ status: POLICY_STATUS.ACTIVE, isAutoRenew: true }),
+    Policy.countDocuments({ status: POLICY_STATUS.ACTIVE }),
+
+    Policy.distinct('riderId', { weekId }),
+    prevWeekId ? Policy.distinct('riderId', { weekId: prevWeekId }) : Promise.resolve([]),
+
+    Claim.aggregate([
+      { $match: { createdAt: { $gte: period30Start }, 'fraudCheck.tier': { $exists: true } } },
+      { $group: { _id: '$fraudCheck.tier', count: { $sum: 1 } } },
+    ]),
+    Claim.countDocuments({ createdAt: { $gte: period30Start }, status: CLAIM_STATUS.REJECTED }),
+    Claim.aggregate([
+      { $match: { createdAt: { $gte: period30Start }, status: CLAIM_STATUS.REJECTED, 'fraudCheck.tier': 'RED' } },
+      { $group: { _id: null, total: { $sum: '$finalPayoutInr' }, count: { $sum: 1 } } },
+    ]),
+    Claim.countDocuments({ status: CLAIM_STATUS.PENDING_VERIFICATION }),
+  ]);
+
+  const premiumRevenue = premium30[0]?.total || 0;
+  const totalPayouts = payouts30[0]?.total || 0;
+  const lossRatio = premiumRevenue > 0 ? Math.round((totalPayouts / premiumRevenue) * 100) / 100 : 0;
+  // Pure underwriting margin (premium minus claims paid) — explicitly not
+  // "gross margin" in the accounting sense, since operating costs (server
+  // infra, payment gateway fees, staff) aren't tracked anywhere in this
+  // system and folding them in would be a guess dressed up as a number.
+  const underwritingMarginPercent = premiumRevenue > 0
+    ? Math.round(((premiumRevenue - totalPayouts) / premiumRevenue) * 10000) / 100
+    : 0;
+
+  const monthlyGrowthPercent = newRegsPrev30 > 0
+    ? Math.round(((newRegs30 - newRegsPrev30) / newRegsPrev30) * 10000) / 100
+    : (newRegs30 > 0 ? 100 : 0);
+
+  const retainedRiders = prevWeekRiderIds.length
+    ? thisWeekRiderIds.filter((id) => prevWeekRiderIds.some((p) => p.toString() === id.toString())).length
+    : null;
+  const retentionRatePercent = retainedRiders !== null && prevWeekRiderIds.length > 0
+    ? Math.round((retainedRiders / prevWeekRiderIds.length) * 10000) / 100
+    : null;
+
+  const tierCounts = Object.fromEntries(claims30ByTier.map((t) => [t._id, t.count]));
+  const totalClaims30 = Object.values(tierCounts).reduce((a, b) => a + b, 0);
+  const autoApprovalRatePercent = totalClaims30 > 0
+    ? Math.round(((tierCounts.GREEN || 0) / totalClaims30) * 10000) / 100
+    : 0;
+  const fraudPreventionRatePercent = totalClaims30 > 0
+    ? Math.round((((tierCounts.ORANGE || 0) + (tierCounts.RED || 0)) / totalClaims30) * 10000) / 100
+    : 0;
+
+  const highRiskCities = heatmap.filter((c) => c.riskLevel === 'high');
+  const activePoliciesInHighRiskCities = highRiskCities.reduce((sum, c) => sum + c.activePolicies, 0);
+  const climateExposurePercent = activePolicyCount > 0
+    ? Math.round((activePoliciesInHighRiskCities / activePolicyCount) * 10000) / 100
+    : 0;
+
+  const dashboard = {
+    growth: {
+      totalWorkers,
+      activeWorkers: activeRiderIds.length,
+      newRegistrations30d: newRegs30,
+      monthlyGrowthPercent,
+    },
+    financial: {
+      premiumRevenue30dInr: premiumRevenue,
+      totalPayouts30dInr: totalPayouts,
+      lossRatio,
+      underwritingMarginPercent,
+      operatingCost: { available: false, note: 'Not tracked anywhere in the system — no cost-accounting data source exists.' },
+    },
+    risk: {
+      highRiskCities: highRiskCities.map((c) => ({ cityId: c.cityId, name: c.name, riskScore: c.riskScore })),
+      triggerFrequency30d: triggerFrequency.map((t) => ({ triggerType: t._id, count: t.count })),
+      claimForecastNextPeriod: forecast.slice(0, 5),
+      climateExposurePercent,
+    },
+    customer: {
+      policyRenewalRatePercent: activePolicyCount > 0 ? Math.round((autoRenewCount / activePolicyCount) * 10000) / 100 : 0,
+      retentionRatePercent,
+      churnRatePercent: retentionRatePercent !== null ? Math.round((100 - retentionRatePercent) * 100) / 100 : null,
+      customerSatisfaction: { available: false, note: 'No CSAT/NPS survey mechanism exists in the product yet.' },
+    },
+    ai: {
+      autoApprovalRatePercent,
+      fraudPreventionRatePercent,
+      modelAccuracy: { available: false, note: 'No ground-truth-labeled outcome data exists to score fraud/risk model accuracy against.' },
+      recommendationAdoption: { available: false, note: 'Policies don\'t currently record whether the AI-recommended tier was the one purchased — needs a tracking field added at purchase time.' },
+    },
+    fraud: {
+      fraudLossPreventedInr: fraudLossClaims[0]?.total || 0,
+      fraudBlockedClaimsCount: fraudLossClaims[0]?.count || 0,
+      suspiciousClaims30d: (tierCounts.ORANGE || 0) + (tierCounts.RED || 0),
+      manualInvestigationsOpen: manualInvestigations,
+      claimsRejected30d: claimsRejected30,
+    },
+    geographic: heatmap.map((c) => ({
+      cityId: c.cityId, name: c.name, lat: c.lat, lon: c.lon,
+      activePolicies: c.activePolicies, riskScore: c.riskScore, riskLevel: c.riskLevel,
+    })),
+    generatedAt: new Date().toISOString(),
+  };
+
+  await redis.set(cacheKey, dashboard, 15 * 60); // 15 min cache — this is a heavier query set than the operational dashboard
+  return dashboard;
+};
+
+// ─── Real weekly trend (backs the admin dashboard chart, which was
+//     previously rendering Math.random() on every load) ──────────────────
+const getWeeklyTrend = async () => {
+  const { Analytics } = require('../../models/index');
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(Date.now() - i * 24 * 3600000);
+    days.push(d.toISOString().slice(0, 10));
+  }
+
+  const snapshots = await Analytics.find({ type: 'daily', period: { $in: days } }).lean();
+  const byPeriod = Object.fromEntries(snapshots.map((s) => [s.period, s.metrics]));
+
+  const dayLabel = (isoDate) => new Date(isoDate).toLocaleDateString('en-US', { weekday: 'short' });
+
+  return days.map((period) => ({
+    day: dayLabel(period),
+    date: period,
+    claims: byPeriod[period]?.claimsInitiated ?? 0,
+    policies: byPeriod[period]?.newPolicies ?? 0,
+    hasData: !!byPeriod[period],
+  }));
+};
+
 module.exports = {
   getAdminDashboard, getRiderDashboard,
   getRiskHeatmap, getPredictedClaims,
-  computeDailySnapshot,
+  computeDailySnapshot, getExecutiveDashboard,
+  getWeeklyTrend,
 };

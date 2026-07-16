@@ -1,23 +1,24 @@
-const Redis = require('ioredis');
-const logger = require('../utils/logger');
+const Redis = require("ioredis");
+const logger = require("../utils/logger");
 
 let redisClient = null;
 let subscriberClient = null;
 
 const REDIS_CONFIG = {
-  host: process.env.REDIS_HOST || 'localhost',
+  host: process.env.REDIS_HOST || "localhost",
   port: parseInt(process.env.REDIS_PORT) || 6379,
-  password: process.env.REDIS_PASS,
+  password: process.env.REDIS_PASS || undefined,
+  tls: process.env.REDIS_TLS === "true" ? {} : undefined,
   maxRetriesPerRequest: 3,
   retryStrategy: (times) => {
     if (times > 10) {
-      logger.error('Redis max retries reached');
+      logger.error("Redis max retries reached");
       return null; // stop retrying
     }
     return Math.min(times * 100, 3000); // retry delay in ms
   },
   reconnectOnError: (err) => {
-    const targetError = 'READONLY';
+    const targetError = "READONLY";
     if (err.message.includes(targetError)) return true;
     return false;
   },
@@ -29,10 +30,14 @@ const getRedisClient = () => {
   if (!redisClient) {
     redisClient = new Redis(REDIS_CONFIG);
 
-    redisClient.on('connect', () => logger.info('✅ Redis connected'));
-    redisClient.on('error', (err) => logger.error(`Redis error: ${err.message}`));
-    redisClient.on('close', () => logger.warn('⚠️  Redis connection closed'));
-    redisClient.on('reconnecting', (ms) => logger.info(`Redis reconnecting in ${ms}ms`));
+    redisClient.on("connect", () => logger.info("✅ Redis connected"));
+    redisClient.on("error", (err) =>
+      logger.error(`Redis error: ${err.message}`),
+    );
+    redisClient.on("close", () => logger.warn("⚠️  Redis connection closed"));
+    redisClient.on("reconnecting", (ms) =>
+      logger.info(`Redis reconnecting in ${ms}ms`),
+    );
   }
   return redisClient;
 };
@@ -41,27 +46,31 @@ const getRedisClient = () => {
 const getSubscriberClient = () => {
   if (!subscriberClient) {
     subscriberClient = new Redis(REDIS_CONFIG);
-    subscriberClient.on('connect', () => logger.info('✅ Redis subscriber connected'));
-    subscriberClient.on('error', (err) => logger.error(`Redis subscriber error: ${err.message}`));
+    subscriberClient.on("connect", () =>
+      logger.info("✅ Redis subscriber connected"),
+    );
+    subscriberClient.on("error", (err) =>
+      logger.error(`Redis subscriber error: ${err.message}`),
+    );
   }
   return subscriberClient;
 };
 
 // ─── Key helpers ─────────────────────────────────────────────────────────────
 const KEYS = {
-  session:        (userId)    => `session:${userId}`,
-  blacklist:      (token)     => `blacklist:${token}`,
-  otpAttempts:    (phone)     => `otp:attempts:${phone}`,
-  otpCode:        (phone)     => `otp:code:${phone}`,
-  rateLimit:      (ip, route) => `rl:${ip}:${route}`,
-  triggerCache:   (zone, type)=> `trigger:${zone}:${type}`,
-  weatherCache:   (zone)      => `weather:${zone}`,
-  aqiCache:       (zone)      => `aqi:${zone}`,
-  policyCount:    (zone)      => `policy:count:${zone}`,
-  claimLock:      (riderId, eventId) => `claim:lock:${riderId}:${eventId}`,
-  fraudScore:     (riderId)   => `fraud:score:${riderId}`,
-  dashboardStats: ()          => `dashboard:stats:global`,
-  loyaltyPool:    ()          => `loyalty:pool:balance`,
+  session: (userId) => `session:${userId}`,
+  blacklist: (token) => `blacklist:${token}`,
+  otpAttempts: (phone) => `otp:attempts:${phone}`,
+  otpCode: (phone) => `otp:code:${phone}`,
+  rateLimit: (ip, route) => `rl:${ip}:${route}`,
+  triggerCache: (zone, type) => `trigger:${zone}:${type}`,
+  weatherCache: (zone) => `weather:${zone}`,
+  aqiCache: (zone) => `aqi:${zone}`,
+  policyCount: (zone) => `policy:count:${zone}`,
+  claimLock: (riderId, eventId) => `claim:lock:${riderId}:${eventId}`,
+  fraudScore: (riderId) => `fraud:score:${riderId}`,
+  dashboardStats: () => `dashboard:stats:global`,
+  loyaltyPool: () => `loyalty:pool:balance`,
   refreshToken: (userId) => `refresh_token:${userId}`,
 };
 
@@ -70,12 +79,17 @@ const redis = {
   get: async (key) => {
     const val = await getRedisClient().get(key);
     if (!val) return null;
-    try { return JSON.parse(val); } catch { return val; }
+    try {
+      return JSON.parse(val);
+    } catch {
+      return val;
+    }
   },
   set: async (key, value, ttlSeconds = null) => {
-    const serialized = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    const serialized =
+      typeof value === "object" ? JSON.stringify(value) : String(value);
     if (ttlSeconds) {
-      return getRedisClient().set(key, serialized, 'EX', ttlSeconds);
+      return getRedisClient().set(key, serialized, "EX", ttlSeconds);
     }
     return getRedisClient().set(key, serialized);
   },
@@ -90,7 +104,8 @@ const redis = {
   sadd: async (key, ...members) => getRedisClient().sadd(key, ...members),
   smembers: async (key) => getRedisClient().smembers(key),
   sismember: async (key, member) => getRedisClient().sismember(key, member),
-  publish: async (channel, message) => getRedisClient().publish(channel, JSON.stringify(message)),
+  publish: async (channel, message) =>
+    getRedisClient().publish(channel, JSON.stringify(message)),
   flushPattern: async (pattern) => {
     const client = getRedisClient();
     const keys = await client.keys(pattern);
@@ -102,7 +117,13 @@ const redis = {
 const disconnectRedis = async () => {
   if (redisClient) await redisClient.quit();
   if (subscriberClient) await subscriberClient.quit();
-  logger.info('Redis connections closed gracefully');
+  logger.info("Redis connections closed gracefully");
 };
 
-module.exports = { getRedisClient, getSubscriberClient, redis, KEYS, disconnectRedis };
+module.exports = {
+  getRedisClient,
+  getSubscriberClient,
+  redis,
+  KEYS,
+  disconnectRedis,
+};

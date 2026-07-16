@@ -219,3 +219,92 @@
 {"level":"error","message":"Weather API failed for AHMEDABAD: Invalid URL","timestamp":"2026-03-31T06:45:01.966Z"}
 {"level":"error","message":"Weather API failed for JAIPUR: Invalid URL","timestamp":"2026-03-31T06:45:02.117Z"}
 {"level":"error","message":"Weather API failed for LUCKNOW: Invalid URL","timestamp":"2026-03-31T06:45:02.270Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.048Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.153Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.355Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:02.656Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:03.058Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:03.560Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:04.162Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:04.864Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:05.666Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:06.567Z"}
+{"level":"error","message":"Redis error: connect ECONNREFUSED 127.0.0.1:6379","timestamp":"2026-07-11T11:35:07.569Z"}
+{"level":"error","message":"Redis max retries reached","timestamp":"2026-07-11T11:35:07.569Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:01.743Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:01.846Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:02.048Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:02.350Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.481Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.594Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:21.796Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:11:22.098Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:03.709Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:03.811Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:04.013Z"}
+{"level":"error","message":"Redis error: getaddrinfo ENOTFOUND redis","timestamp":"2026-07-16T12:13:04.314Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T12:15:00.902Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T12:15:01.788Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T12:15:01.993Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.275Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.497Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T12:15:02.858Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.006Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.379Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.581Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T12:15:03.796Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:16:55.584Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:16:55.592Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:16:55.643Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:03.332Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:03.861Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:04.025Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:05.536Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:06.485Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:06.493Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:06.578Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:08.382Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:08.383Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:10.389Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:10.633Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:11.406Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:11.407Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.344Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.441Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.712Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:13.713Z"}
+{"level":"error","message":"AQI API failed for mumbai: ","timestamp":"2026-07-16T12:17:13.748Z"}
+{"level":"error","message":"Forecast API failed for mumbai: Request failed with status code 401","timestamp":"2026-07-16T12:17:14.641Z"}
+{"level":"error","message":"Uncaught Exception: EIO: i/o error, write","timestamp":"2026-07-16T12:18:24.873Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T15:45:00.800Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.524Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.659Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.804Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T15:45:01.954Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.094Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.242Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.385Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.531Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T15:45:02.676Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T16:00:00.239Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T16:00:01.599Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T16:00:02.970Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T16:00:03.786Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.504Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.697Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.835Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T16:00:04.971Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T16:00:05.187Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T16:00:05.334Z"}
+{"level":"error","message":"Weather API failed for MUMBAI: Request failed with status code 401","timestamp":"2026-07-16T16:15:00.632Z"}
+{"level":"error","message":"Weather API failed for DELHI: Request failed with status code 401","timestamp":"2026-07-16T16:15:00.993Z"}
+{"level":"error","message":"Weather API failed for BENGALURU: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.137Z"}
+{"level":"error","message":"Weather API failed for HYDERABAD: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.288Z"}
+{"level":"error","message":"Weather API failed for CHENNAI: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.458Z"}
+{"level":"error","message":"Weather API failed for PUNE: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.607Z"}
+{"level":"error","message":"Weather API failed for KOLKATA: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.753Z"}
+{"level":"error","message":"Weather API failed for AHMEDABAD: Request failed with status code 401","timestamp":"2026-07-16T16:15:01.908Z"}
+{"level":"error","message":"Weather API failed for JAIPUR: Request failed with status code 401","timestamp":"2026-07-16T16:15:02.056Z"}
+{"level":"error","message":"Weather API failed for LUCKNOW: Request failed with status code 401","timestamp":"2026-07-16T16:15:02.208Z"}
+{"level":"error","message":"Uncaught Exception: write EIO","timestamp":"2026-07-16T16:19:54.842Z"}
+{"level":"error","message":"Force exit after 30s","timestamp":"2026-07-16T17:58:54.869Z"}

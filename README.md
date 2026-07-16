@@ -25,6 +25,7 @@
 18. [Adversarial Defense & Anti-Spoofing Strategy](#18-adversarial-defense--anti-spoofing-strategy)
 19. [WORKFLOW VISUALIZATION](#workflow-visualization)
 20. [Conclusion](#20-conclusion)
+21. [Implementation Status & Getting Started](#21-implementation-status--getting-started)
 
 ---
 
@@ -1505,6 +1506,83 @@ The research is validated. The precedent exists (SEWA, Bajaj Allianz, Etherisc).
 | Genuine rider falsely flagged | Tiered response + Rain-adaptive scoring + Human appeal | 🟢 Very High |
 
 **The beta platform that was drained had one check: "Is GPS in zone?" We have seventeen.** No single signal can be faked to pass all seventeen simultaneously. The cost of mounting a successful attack against GigShield's layered defense exceeds the potential payout — making it economically irrational for syndicates to target us.
+
+---
+
+## 21. Implementation Status & Getting Started
+
+The sections above describe the full product vision. This section is the honest, current state of the actual codebase — what's built and verified, what's a deliberate scope decision, and what's genuinely blocked on external credentials — plus how to actually run it.
+
+### 21.1 What's implemented and verified
+
+| Area | Status | Notes |
+|---|---|---|
+| Landing page, onboarding, auth | ✅ Done | Real AI risk assessment (not a placeholder), real policy purchase flow |
+| Trigger engine | ✅ Done | Confidence-scored (Low/Medium/High), rain/heat/AQI/cyclone auto-detected; curfew/platform-outage/traffic/bandh via verified manual injection (no free live data source exists for these — see §21.4) |
+| Fraud engine | ✅ Done | 14 signals: GPS/cell-tower/physics/mock-location/spoofing/platform-activity/account-age/policy-maturity/duplicate-claim/UPI-reuse/claim-burst/weather-correlation/history/device-collusion |
+| Claims + payout engine | ✅ Done | All 4 fraud tiers wired to real outcomes; idempotent payouts; KYC/blocked-rider payout gating |
+| Income Bridge | ✅ Done | Partial advance on high-confidence triggers ahead of identity verification; reconciled on success, clawed back from future payouts on failure |
+| Micro-Shift Insurance | ✅ Done | Purchase, activation, conflict handling, trigger matching |
+| AI Advisory | ✅ Done | Real forecast-driven, shift-aware preventive alerts |
+| Executive Dashboard | ✅ Done | Real metrics; anything without a genuine data source (customer satisfaction, model accuracy, recommendation adoption) is explicitly marked unavailable rather than filled with a plausible-looking number |
+| Blockchain contracts | ✅ Done | `GigShieldPolicy.sol` + `GigShieldLoyaltyPool.sol` compile cleanly (verified via direct `solc` invocation) and are ABI-integrated with the backend oracle; real on-chain calls fire when configured, an honestly-labeled mock otherwise |
+| ML service | ✅ Done | 6 endpoints (premium, fraud, zone-risk prediction, rain-image detection, sensor fusion, health), all wired to real callers, fail-closed auth |
+| Deployment | ✅ Done | Dockerfiles for all 3 services, `.env.example`, `docker-compose.yml` |
+| Automated tests | ✅ Done | 95 backend unit/schema tests, all passing (`cd backend && npm test`) |
+| Community Intelligence, Loyalty Pool | 🟡 Partial | Functional; not given a full doc-vs-code line-by-line pass |
+| Notification engine | 🟡 Partial | Real Twilio (SMS/WhatsApp) + Firebase (push) integration with mock fallback; no email channel (WhatsApp-first was a deliberate call for this user base) |
+| UI/UX polish | 🟡 Partial | Functional and consistent with the design system; no dedicated accessibility/mobile-breakpoint audit pass |
+| Embedded Insurance Platform | ⛔ Not built | Needs a specific partner platform's API/webhook contract — nothing to integrate against yet |
+| WhatsApp AI Assistant | ⛔ Not built | Needs Meta/Twilio Business API credentials |
+| Real blockchain deployment | ⛔ Not deployed | Needs funded Sepolia testnet keys — the contracts are ready (`npm run deploy:local` works against a local Hardhat node today; `deploy:sepolia` needs real keys) |
+
+### 21.2 Running it locally
+
+**With Docker (recommended):**
+```bash
+cp .env.example .env        # fill in at least MONGO_PASS, REDIS_PASS, JWT secrets
+docker-compose up --build
+```
+This starts MongoDB, Redis, the backend API, the ML service, the frontend, and nginx.
+
+**Without Docker**, run each service separately:
+```bash
+# Backend (needs a running MongoDB + Redis)
+cd backend && npm install && npm run dev
+
+# ML service
+cd ml-service && pip install -r requirements.txt && uvicorn main:app --reload
+
+# Frontend
+cd frontend && npm install && npm run dev
+```
+
+### 21.3 Demo dataset
+
+```bash
+cd backend
+npm run seed          # populate a fresh database
+npm run seed:fresh    # wipe existing GigShield data first, then populate
+```
+
+This seeds 10 riders + an admin + an insurer account, covering the full workflow end to end — not a handful of disconnected sample rows:
+
+- **Every KYC stage** — from phone-verified-only (Rajesh, brand new) through fully verified with Aadhaar + selfie + bank (most riders) to Aadhaar-only mid-flow (Mohammed).
+- **All 4 coverage tiers plus a Micro-Shift policy** — real premiums computed by the actual pricing function, not hand-typed numbers.
+- **6 trigger events** spanning every confidence/status combination the trigger engine actually produces: high-confidence confirmed (rain, AQI, cyclone), a historical/expired heat event, and a medium-confidence curfew still genuinely awaiting corroboration (not artificially forced to "confirmed").
+- **All 4 fraud tiers** with real signal breakdowns — an auto-approved claim (Ravi), a soft-verified one (Sunita), an Income-Bridge-then-reconciled one (Priya), a rejected-with-pending-appeal one (Amit), and a rejected device/UPI collusion ring (Kavita + Sanjay, sharing one fingerprint).
+- **Income Bridge in both outcomes** — Priya's advance gets reconciled after successful selfie verification; Lakshmi's times out and becomes a real clawback debt on her account, netted against her next payout.
+- **A referral chain** (Sunita → Mohammed) and a **fresh empty-state account** (Rajesh) with zero claims yet.
+- **Loyalty pool history** (one closed week with a carry-forward, one open) and **7 days of analytics snapshots** to populate the dashboard trend charts immediately.
+
+Every document in this dataset is validated against the real Mongoose schemas as part of the test suite (`backend/tests/unit/seedData.test.js`) — including cross-collection referential integrity (every claim's payout total actually sums correctly against its policy) and regression guards tied to specific bugs fixed during development (e.g., a test that would fail if the old fake `Math.min(6, Math.max(1,3))` disruption-hours constant ever came back).
+
+### 21.4 Known, deliberate limitations
+
+A few things are flagged rather than faked, on purpose:
+- **Curfew, platform-outage, traffic-shutdown, and bandh triggers** have no free live public data source (confirmed — there is no public API for any of them). They're handled via the doc's own "Manual Override" trusted-source path, which requires the configured number of corroborating sources before a claim can proceed — not a workaround, the documented design.
+- **Executive Dashboard** metrics with no real data source anywhere in the system (customer satisfaction, ML model accuracy against ground truth, AI-recommendation adoption rate, operating cost) are returned as `{ available: false }` rather than a fabricated number.
+- **Blockchain** falls back to an honestly-labeled mock (`onChainNetwork: "mock"`) whenever `ETHEREUM_RPC_URL` / `ORACLE_PRIVATE_KEY` / `GIGSHIELD_CONTRACT_ADDRESS` aren't all configured — the frontend only shows a "Verify on Etherscan" link for genuinely real transactions.
 
 ---
 

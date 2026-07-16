@@ -7,7 +7,12 @@ import {
   selectDashboard,
   dashboardActions,
 } from "../../store/index";
-import { analyticsAPI, communityAPI, walletAPI } from "../../services/api";
+import {
+  analyticsAPI,
+  communityAPI,
+  walletAPI,
+  advisoryAPI,
+} from "../../services/api";
 import Icons from "../../components/shared/Icons";
 import dayjs from "dayjs";
 
@@ -36,9 +41,13 @@ const STAT = {
 };
 const LOYALTY = {
   none: { label: "Rider", icon: "🛵", color: "var(--text-muted)" },
+  silver: { label: "Silver", icon: "🥈", color: "var(--gray-300)" },
   silver_rider: { label: "Silver", icon: "🥈", color: "var(--gray-300)" },
+  gold: { label: "Gold", icon: "🥇", color: "var(--amber-400)" },
   gold_rider: { label: "Gold", icon: "🥇", color: "var(--amber-400)" },
+  elite: { label: "Elite", icon: "🏆", color: "var(--orange-400)" },
   elite_rider: { label: "Elite", icon: "🏆", color: "var(--orange-400)" },
+  legend: { label: "Legend", icon: "⭐", color: "var(--amber-400)" },
   legend_rider: { label: "Legend", icon: "⭐", color: "var(--amber-400)" },
 };
 
@@ -48,6 +57,7 @@ export default function RiderDashboard() {
   const user = useSelector(selectUser);
   const { riderData, communityStats } = useSelector(selectDashboard);
   const [loading, setLoading] = useState(true);
+  const [advisory, setAdvisory] = useState(null);
 
   useEffect(() => {
     Promise.allSettled([
@@ -62,13 +72,15 @@ export default function RiderDashboard() {
       walletAPI
         .balance()
         .then((r) => dispatch(dashboardActions.setWalletBalance(r.data.data))),
+
+      advisoryAPI.get().then((r) => setAdvisory(r.data.data)),
     ]).finally(() => setLoading(false));
   }, []);
 
   const data = riderData;
   const policy = data?.activePolicy;
   const loyalty = data?.loyalty;
-  const tc = LOYALTY[loyalty?.tier || "none"];
+  const tc = LOYALTY[loyalty?.tier || "none"] || LOYALTY.none;
 
   if (loading)
     return (
@@ -261,6 +273,96 @@ export default function RiderDashboard() {
           >
             Get Protected Now →
           </button>
+        </div>
+      )}
+
+      {advisory?.advisories?.length > 0 && (
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "var(--s3)" }}
+        >
+          <h3
+            style={{
+              fontSize: "1rem",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              gap: "var(--s2)",
+            }}
+          >
+            <span>🧠</span> Today's Advisory
+          </h3>
+          {advisory.advisories.map((a, i) => {
+            const sevColor =
+              a.severity === "high" ? "var(--red-400)" : "var(--amber-400)";
+            return (
+              <div
+                key={i}
+                style={{
+                  background: "var(--bg-card)",
+                  border: `1px solid ${sevColor}33`,
+                  borderLeft: `3px solid ${sevColor}`,
+                  borderRadius: "var(--r-md)",
+                  padding: "var(--s4)",
+                  display: "flex",
+                  gap: "var(--s3)",
+                }}
+              >
+                <span style={{ fontSize: "1.375rem" }}>{a.icon}</span>
+                <div>
+                  <div
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "0.9375rem",
+                      marginBottom: 2,
+                    }}
+                  >
+                    {a.headline}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.8125rem",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    {a.recommendation}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          {advisory.upgradeSuggestion && (
+            <div
+              style={{
+                background: "rgba(255,107,43,0.08)",
+                border: "1px solid rgba(255,107,43,0.25)",
+                borderRadius: "var(--r-md)",
+                padding: "var(--s4)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "var(--s3)",
+                flexWrap: "wrap",
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 600, fontSize: "0.875rem" }}>
+                  {advisory.upgradeSuggestion.headline}
+                </div>
+                <div
+                  style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}
+                >
+                  {advisory.upgradeSuggestion.recommendedTier} Shield — ₹
+                  {advisory.upgradeSuggestion.weeklyPriceInr}/week
+                </div>
+              </div>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => navigate("/policies")}
+              >
+                Upgrade →
+              </button>
+            </div>
+          )}
         </div>
       )}
 

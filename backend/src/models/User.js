@@ -100,10 +100,12 @@ const UserSchema = new mongoose.Schema({
   devices:       { type: [DeviceSchema], default: [] },
   fraudScore:    { type: Number, default: 0, min: 0, max: 100 },
   fraudFlags:    { type: [String], default: [] },       // list of fraud signals detected
+  redFlagCount:  { type: Number, default: 0 },          // count of RED-tier fraud events, for repeat-offender detection
   isUnderReview: { type: Boolean, default: false },
   trustScore:    { type: Number, default: 70, min: 0, max: 100 },
   riskProfile:   { type: RiskProfileSchema, default: () => ({}) },
   segmentTags:   { type: [String], default: [] },       // platform/vehicle/shift/city segmentation for analytics
+  outstandingAdvanceInr: { type: Number, default: 0 },   // Income Bridge debt, netted against future payouts
 
   // ─── Loyalty & Rewards ────────────────────────────────
   safeWeekStreak:     { type: Number, default: 0 },    // consecutive weeks with no claim
@@ -139,12 +141,12 @@ const UserSchema = new mongoose.Schema({
 });
 
 // ─── Indexes ──────────────────────────────────────────────
-UserSchema.index({ phone: 1 }, { unique: true });
+// (phone and referralCode indexes come from `unique`/`sparse` on the fields above)
 UserSchema.index({ role: 1, isActive: 1 });
 UserSchema.index({ 'riderProfile.cityId': 1, 'riderProfile.platform': 1 });
 UserSchema.index({ 'riderProfile.isActiveShift': 1, 'riderProfile.cityId': 1 });
 UserSchema.index({ 'devices.fingerprint': 1 });
-UserSchema.index({ referralCode: 1 }, { sparse: true });
+
 UserSchema.index({ createdAt: -1 });
 UserSchema.index({ 'bankDetails.upiId': 1 }, { sparse: true });  // fraud: upi reuse detection
 

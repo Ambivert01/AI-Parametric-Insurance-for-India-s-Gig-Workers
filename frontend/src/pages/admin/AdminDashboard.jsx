@@ -20,20 +20,24 @@ export default function AdminDashboard() {
   const [form, setForm] = useState({ cityId:'mumbai', triggerType:'HEAVY_RAIN', triggerValue:65 });
   const [apiHealth, setApiHealth] = useState(null);
 
+  const [weeklyTrend, setWeeklyTrend] = useState([]);
+
   const load = useCallback(async () => {
     try {
-      const [d,h,t,f,ah] = await Promise.allSettled([
+      const [d,h,t,f,ah,wt] = await Promise.allSettled([
         analyticsAPI.getAdminDashboard(),
         analyticsAPI.getHeatmap(),
         adminAPI.getTriggers(1),
         adminAPI.getFraudLogs(1),
         adminAPI.getAPIHealth(),
+        analyticsAPI.getWeeklyTrend(),
       ]);
       if(d.status==='fulfilled') dispatch(dashboardActions.setAdminDashboard(d.value.data.data));
       if(h.status==='fulfilled') dispatch(dashboardActions.setHeatmap(h.value.data.data));
       if(t.status==='fulfilled') dispatch(adminActions.setTriggers(t.value.data.data||[]));
       if(f.status==='fulfilled') dispatch(adminActions.setFraudLogs(f.value.data.data||[]));
       if(ah.status==='fulfilled') setApiHealth(ah.value.data.data);
+      if(wt.status==='fulfilled') setWeeklyTrend(wt.value.data.data||[]);
     } catch {} finally { setLoading(false); }
   }, []);
 
@@ -46,7 +50,6 @@ export default function AdminDashboard() {
   };
 
   const s = adminData?.summary;
-  const weeklyData = Array.from({length:7},(_,i)=>({day:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],claims:Math.floor(Math.random()*80+20),policies:Math.floor(Math.random()*200+800)}));
   const tierPie = (adminData?.tierBreakdown||[]).map((t,i)=>({name:t._id,value:t.count,fill:PIE_COLORS[i]}));
 
   if(loading) return (
@@ -109,7 +112,7 @@ export default function AdminDashboard() {
         <div className="card">
           <h3 style={{fontSize:'0.9375rem',marginBottom:'var(--s5)'}}>Claims This Week</h3>
           <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={weeklyData}>
+            <AreaChart data={weeklyTrend}>
               <defs>
                 <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#FF6B2B" stopOpacity={0.3}/><stop offset="95%" stopColor="#FF6B2B" stopOpacity={0}/>

@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_call: {}
+
+jobs:
+  backend-tests:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+
+  ml-service-check:
+    name: ML service — install + syntax check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ml-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -c "import ast; ast.parse(open('main.py').read())"
+
+  contracts-compile:
+    name: Solidity contracts compile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: blockchain
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm install solc@0.8.20 --no-save --no-audit --no-fund
+      # Compiles directly via the solc npm package rather than `hardhat
+      # compile` — Hardhat 3 insists on downloading its own managed solc
+      # binary from its own CDN, which isn't reliably available in every
+      # CI runner's network policy. This checks the same thing (does the
+      # actual Solidity source compile cleanly) without that dependency.
+      - run: |
+          node -e "
+          const solc = require('solc');
+          const fs = require('fs');
+          const files = ['GigShieldPolicy.sol', 'GigShieldLoyaltyPool.sol'];
+          const sources = {};
+          for (const f of files) sources[f] = { content: fs.readFileSync('contracts/' + f, 'utf8') };
+          const input = { language: 'Solidity', sources, settings: { outputSelection: { '*': { '*': ['abi'] } } } };
+          const output = JSON.parse(solc.compile(JSON.stringify(input)));
+          const errors = (output.errors || []).filter(e => e.severity === 'error');
+          if (errors.length) { errors.forEach(e => console.error(e.formattedMessage)); process.exit(1); }
+          console.log('Contracts compile cleanly.');
+          "

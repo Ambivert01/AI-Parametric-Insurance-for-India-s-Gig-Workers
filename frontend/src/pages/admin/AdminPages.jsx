@@ -35,8 +35,9 @@ export function AdminClaimsPage() {
   };
 
   const STATUS_COLORS = {
-    payout_completed: 'var(--green-400)', approved: 'var(--green-400)',
-    fraud_screening: 'var(--amber-400)', pending_verification: 'var(--orange-400)',
+    payout_completed: 'var(--green-400)', approved: 'var(--green-400)', appeal_approved: 'var(--green-400)',
+    fraud_screening: 'var(--amber-400)', appeal_pending: 'var(--amber-400)',
+    pending_verification: 'var(--orange-400)', payout_initiated: 'var(--blue-400)',
     rejected: 'var(--red-400)', detected: 'var(--text-muted)',
   };
 
@@ -66,7 +67,7 @@ export function AdminClaimsPage() {
               <thead>
                 <tr>
                   <th>Claim ID</th><th>Rider</th><th>City</th><th>Trigger</th>
-                  <th>Amount</th><th>Fraud Score</th><th>Status</th><th>Time</th><th>Actions</th>
+                  <th>Amount</th><th>Trust Score</th><th>Status</th><th>Time</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,7 +82,7 @@ export function AdminClaimsPage() {
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s2)' }}>
                           <div style={{ width: 40, height: 5, background: 'var(--bg-secondary)', borderRadius: 'var(--r-full)', overflow: 'hidden' }}>
-                            <div style={{ height: '100%', width: `${claim.mlFraudScore || claim.fraudCheck?.score || 0}%`, background: (claim.mlFraudScore || claim.fraudCheck?.score || 0) > 70 ? 'var(--red-500)' : (claim.mlFraudScore || claim.fraudCheck?.score || 0) > 40 ? 'var(--amber-500)' : 'var(--green-500)', borderRadius: 'var(--r-full)' }} />
+                            <div style={{ height: '100%', width: `${claim.mlFraudScore || claim.fraudCheck?.score || 0}%`, background: (claim.mlFraudScore || claim.fraudCheck?.score || 0) >= 70 ? 'var(--green-500)' : (claim.mlFraudScore || claim.fraudCheck?.score || 0) >= 45 ? 'var(--amber-500)' : 'var(--red-500)', borderRadius: 'var(--r-full)' }} />
                           </div>
                           <span style={{ fontSize: '0.8125rem' }}>{claim.fraudCheck?.score || 0}</span>
                         </div>
@@ -157,7 +158,7 @@ export function AdminRidersPage() {
       {loading ? <div className="skeleton" style={{ height: 300, borderRadius: 'var(--r-lg)' }} /> : (
         <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           <table className="data-table">
-            <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>Platform</th><th>Fraud Score</th><th>Status</th><th>Action</th></tr></thead>
+            <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>Platform</th><th>Trust Score</th><th>Status</th><th>Action</th></tr></thead>
             <tbody>
               {riders.map(rider => (
                 <tr key={rider._id}>
@@ -166,7 +167,7 @@ export function AdminRidersPage() {
                   <td>{rider.riderProfile?.cityId || '—'}</td>
                   <td style={{ textTransform: 'capitalize' }}>{rider.riderProfile?.platform || '—'}</td>
                   <td>
-                    <span style={{ color: (rider.fraudScore||0) > 70 ? 'var(--red-400)' : (rider.fraudScore||0) > 40 ? 'var(--amber-400)' : 'var(--green-400)', fontWeight: 700 }}>
+                    <span style={{ color: (rider.fraudScore||0) >= 70 ? 'var(--green-400)' : (rider.fraudScore||0) >= 45 ? 'var(--amber-400)' : 'var(--red-400)', fontWeight: 700 }}>
                       {rider.fraudScore || 0}
                     </span>
                   </td>

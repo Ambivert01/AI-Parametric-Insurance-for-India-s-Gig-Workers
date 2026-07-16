@@ -1,0 +1,2 @@
+Place fullchain.pem and privkey.pem here (see DEPLOYMENT.md §5-6).
+This directory is gitignored except for this file — never commit real certificates.

@@ -34,6 +34,7 @@ const TriggerEventSchema = new mongoose.Schema({
   threshold:      { type: Number, required: true },   // threshold that was breached
   severity:       { type: String, enum: ['partial', 'full', 'extreme'], default: 'full' },
   payoutPercent:  { type: Number, required: true },   // 60 or 100
+  confidence:     { type: Number, min: 0, max: 100, default: 50 }, // 0-30 Low, 31-70 Medium, 71-100 High — only High auto-proceeds to claims
 
   // ─── Data Sources ─────────────────────────────────────
   primarySource:   { type: DataSourceSchema, required: true },
@@ -66,6 +67,7 @@ const TriggerEventSchema = new mongoose.Schema({
   // ─── Blockchain ────────────────────────────────────────
   blockchainTxHash: { type: String },
   onChainEventId:   { type: String },
+  onChainNetwork:   { type: String, default: 'mock' }, // 'mock' | real network name — lets consumers tell a real tx from a simulated one
   loggedOnChain:    { type: Boolean, default: false },
 
   // ─── Metadata ─────────────────────────────────────────
@@ -77,7 +79,9 @@ const TriggerEventSchema = new mongoose.Schema({
 });
 
 // ─── Indexes ──────────────────────────────────────────────
-TriggerEventSchema.index({ eventId: 1 }, { unique: true });
+// (eventId index comes from `unique: true` on the field above — an explicit
+// duplicate schema.index({eventId:1}) here previously triggered a Mongoose
+// "duplicate schema index" warning on every startup.
 TriggerEventSchema.index({ cityId: 1, triggerType: 1, status: 1 });
 TriggerEventSchema.index({ cityId: 1, detectedAt: -1 });
 TriggerEventSchema.index({ status: 1, isVerified: 1 });

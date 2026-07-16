@@ -4,6 +4,7 @@
   --orange-500:#FF6B2B;--orange-400:#FF8A57;--orange-300:#FFB08C;--orange-600:#E5531A;
   --green-500:#00C48C;--green-400:#2DDBA8;--green-600:#009E72;--green-100:#E6FBF5;--green-900:#003D2C;
   --amber-500:#F59E0B;--amber-400:#FBBF24;--red-500:#EF4444;--red-400:#F87171;--red-100:#FEE2E2;
+  --blue-500:#3B82F6;--blue-400:#60A5FA;
   --gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--gray-600:#475569;--white:#FFFFFF;
   --bg-primary:var(--navy-900);--bg-secondary:var(--navy-800);--bg-card:var(--navy-700);--bg-elevated:var(--navy-600);
   --border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.15);

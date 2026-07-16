@@ -58,9 +58,9 @@ const startFraudWorker = (io) => {
 const startPayoutWorker = (io) => {
   const queue = getQueue(QUEUES.PAYOUT);
   queue.process('initiate-payout', 3, async (job) => { // concurrency 3
-    const { claimId, riderId, amountInr, channel } = job.data;
+    const { claimId, riderId, amountInr, channel, isAdvance } = job.data;
     const { initiatePayout } = require('../services/payment/paymentService');
-    const payout = await initiatePayout({ claimId, riderId, amountInr, channel });
+    const payout = await initiatePayout({ claimId, riderId, amountInr, channel, isAdvance });
 
     if (io) {
       io.to(`rider:${riderId}`).emit('payout:completed', {

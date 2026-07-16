@@ -405,4 +405,7 @@ module.exports = {
   getActivePoliciesInCity,
   processAutoRenewals,
   lapseUnpaidPolicies,
+  // Exported for unit testing — pure functions.
+  calculateRiskScore, recommendTierFor, riskFactorBreakdown, CITY_BASE_RISK,
+  calculatePremiumFallback,
 };

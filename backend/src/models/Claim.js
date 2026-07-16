@@ -64,6 +64,17 @@ const ClaimSchema = new mongoose.Schema({
   finalPayoutInr:      { type: Number, required: true },
   weeklyCapApplied:    { type: Boolean, default: false },
 
+  // ─── Income Bridge (doc §40) ──────────────────────────
+  // An emergency partial advance released while a claim sits in
+  // hold_quick_verify awaiting selfie confirmation, when the underlying
+  // trigger itself is high-confidence — the disruption is real even if the
+  // rider's specific claim still needs identity verification. Reconciled
+  // (remainder paid) on success, or converted to a recoverable debt on the
+  // User if the hold expires or verification fails.
+  advanceInr:      { type: Number, default: 0 },
+  advanceStatus:   { type: String, enum: ['none', 'issued', 'reconciled', 'clawback_pending'], default: 'none' },
+  advanceIssuedAt: { type: Date },
+
   // ─── Rider State at Event ─────────────────────────────
   riderLat:         { type: Number },
   riderLon:         { type: Number },
@@ -113,6 +124,7 @@ const ClaimSchema = new mongoose.Schema({
 
   // ─── Blockchain ────────────────────────────────────────
   blockchainTxHash: { type: String },
+  onChainNetwork:   { type: String, default: 'mock' },
   loggedOnChain:    { type: Boolean, default: false },
 
   // ─── Timing SLA ───────────────────────────────────────
@@ -139,7 +151,7 @@ const ClaimSchema = new mongoose.Schema({
 });
 
 // ─── Indexes ──────────────────────────────────────────────
-ClaimSchema.index({ claimId: 1 }, { unique: true });
+// (claimId index comes from `unique: true` on the field above)
 ClaimSchema.index({ riderId: 1, status: 1 });
 ClaimSchema.index({ riderId: 1, eventId: 1 }, { unique: true }); // one claim per rider per event
 ClaimSchema.index({ policyId: 1 });

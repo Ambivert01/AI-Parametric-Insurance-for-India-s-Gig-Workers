@@ -85,22 +85,41 @@ const verifyPremiumPayment = async (orderId, paymentId, signature) => {
 // ──────────────────────────────────────────────────────────
 // INITIATE PAYOUT (claim payout to rider's UPI/bank)
 // ──────────────────────────────────────────────────────────
-const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
+const initiatePayout = async ({ claimId, riderId, amountInr, channel, isAdvance = false }) => {
   const claim = await Claim.findById(claimId);
   const rider = await User.findById(riderId)
-    .select('bankDetails name phone notificationPrefs')
+    .select('bankDetails name phone notificationPrefs isBlocked kyc outstandingAdvanceInr')
     .lean();
 
   if (!claim || !rider) throw new Error('Claim or rider not found');
+  if (rider.isBlocked) {
+    throw Object.assign(new Error('Rider is blocked — payout held pending review'), { statusCode: 403 });
+  }
   if (!rider.bankDetails?.verified) {
     throw Object.assign(new Error('Rider bank details not verified'), { statusCode: 400 });
   }
 
-  // Idempotency: prevent double payout
-  const idempotencyKey = generateIdempotencyKey(`PAY-${claimId}`);
+  // Net out any outstanding Income Bridge clawback debt against this
+  // payout before it goes out, rather than trying to reverse money already
+  // sent on a prior claim that didn't end up verifying. The ledger itself
+  // is only decremented after the gateway call succeeds (below) — computing
+  // it here just determines how much this payout should actually transfer.
+  let netAmountInr = amountInr;
+  let clawedBackInr = 0;
+  if (rider.outstandingAdvanceInr > 0) {
+    clawedBackInr = Math.min(rider.outstandingAdvanceInr, amountInr);
+    netAmountInr = amountInr - clawedBackInr;
+  }
+
+  // Idempotency: prevent double payout — scoped per (claim, payout purpose)
+  // so an advance and its later final-settlement payout for the same claim
+  // don't collide under one key. This used to be `PAY-${claimId}` alone, so
+  // the reconciliation payout after selfie verification would look like a
+  // "duplicate" of the advance and silently never go out.
+  const idempotencyKey = generateIdempotencyKey(`PAY-${claimId}-${isAdvance ? 'advance' : 'final'}`);
   const existing = await Payout.findOne({ idempotencyKey });
   if (existing) {
-    logger.warn(`Duplicate payout attempt for claim ${claimId}`);
+    logger.warn(`Duplicate payout attempt for claim ${claimId} (${isAdvance ? 'advance' : 'final'})`);
     return existing;
   }
 
@@ -111,7 +130,8 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
     claimId: claim._id,
     riderId: rider._id || riderId,
     policyId: claim.policyId,
-    amountInr,
+    amountInr: netAmountInr,
+    payoutType: isAdvance ? 'advance' : 'final',
     channel: PAYMENT_CHANNELS.UPI,
     gateway: 'razorpay',
     upiId: encrypt(upiId || 'mock@upi'),
@@ -128,11 +148,15 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
 
   let gatewayResponse;
   try {
-    if (process.env.NODE_ENV === 'production' && process.env.RAZORPAY_KEY_ID) {
+    if (netAmountInr <= 0) {
+      // Fully absorbed by an outstanding advance clawback — nothing to
+      // actually transfer, but keep the audit trail.
+      gatewayResponse = { id: `absorbed_${payout.payoutRef}`, status: 'absorbed_by_clawback' };
+    } else if (process.env.NODE_ENV === 'production' && process.env.RAZORPAY_KEY_ID) {
       // Real Razorpay payout
       gatewayResponse = await getRazorpay().payouts.create({
         account_number: process.env.RAZORPAY_PAYOUT_ACCOUNT,
-        amount: amountInr * 100,
+        amount: netAmountInr * 100,
         currency: 'INR',
         mode: 'UPI',
         purpose: 'payout',
@@ -151,7 +175,7 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
       });
     } else {
       // Mock payout
-      gatewayResponse = await mockPayout(amountInr, upiId, `GigShield Claim ${claim.claimId}`);
+      gatewayResponse = await mockPayout(netAmountInr, upiId, `GigShield Claim ${claim.claimId}`);
     }
 
     // Success
@@ -167,7 +191,9 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
     claim.totalProcessingMs = claim.payoutCompletedAt - claim.detectedAt;
     await claim.save();
 
-    // Update policy payout total
+    // Update policy payout total — the gross claim value, not the net
+    // transfer, since this tracks coverage consumed against the weekly cap
+    // regardless of any unrelated debt recovery.
     await Policy.findByIdAndUpdate(claim.policyId, {
       $inc: { claimsCount: 1, totalPayoutInr: amountInr },
       $max: { lastClaimAt: new Date() },
@@ -176,14 +202,23 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
     // Update rider safe week streak (reset on claim)
     await User.findByIdAndUpdate(riderId, { $set: { safeWeekStreak: 0 } });
 
-    logger.payment(payout.payoutRef, amountInr, 'completed', { claimId, riderId });
+    // Only now that the transfer has actually succeeded, recover any
+    // outstanding advance debt — doing this before the gateway call would
+    // double-deduct on a failed-then-retried payout.
+    if (clawedBackInr > 0) {
+      await User.findByIdAndUpdate(riderId, { $inc: { outstandingAdvanceInr: -clawedBackInr } });
+      logger.info(`Netted ₹${clawedBackInr} outstanding advance debt off payout for claim ${claimId}`);
+    }
+
+    logger.payment(payout.payoutRef, netAmountInr, 'completed', { claimId, riderId });
 
     // Queue notifications
     const { getQueue } = require('../../workers/queueManager');
     await getQueue(QUEUES.NOTIFICATION).add('payout-success', {
       riderId: riderId.toString(),
       claimId: claimId.toString(),
-      amountInr,
+      amountInr: netAmountInr,
+      clawedBackInr,
       payoutRef: payout.payoutRef,
       utr: gatewayResponse.utr || gatewayResponse.id,
       triggerType: claim.triggerType,
@@ -194,7 +229,7 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
       claimId: claimId.toString(),
       payoutId: payout._id.toString(),
       riderId: riderId.toString(),
-      amountInr,
+      amountInr: netAmountInr,
     });
 
     return payout;
@@ -215,7 +250,7 @@ const initiatePayout = async ({ claimId, riderId, amountInr, channel }) => {
       const { getQueue } = require('../../workers/queueManager');
       const delay = Math.pow(2, payout.retryCount) * 30000; // 30s, 60s, 120s
       await getQueue(QUEUES.PAYOUT).add('initiate-payout', {
-        claimId: claimId.toString(), riderId: riderId.toString(), amountInr, channel,
+        claimId: claimId.toString(), riderId: riderId.toString(), amountInr, channel, isAdvance,
       }, { delay, attempts: 1 });
       logger.warn(`Payout retry ${payout.retryCount}/${payout.maxRetries} queued for ${claimId}`);
     }

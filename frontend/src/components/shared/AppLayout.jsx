@@ -15,6 +15,7 @@ const RIDER_NAV = [
 ];
 const ADMIN_NAV = [
   { to: '/admin',        icon: <Icons.BarChart2 />, label: 'Dashboard', end: true },
+  { to: '/admin/executive', icon: <Icons.TrendingUp />, label: 'Executive' },
   { to: '/admin/claims', icon: <Icons.FileText />, label: 'Claims' },
   { to: '/admin/riders', icon: <Icons.Users />, label: 'Riders' },
   { to: '/admin/fraud',  icon: <Icons.AlertTriangle />, label: 'Fraud' },

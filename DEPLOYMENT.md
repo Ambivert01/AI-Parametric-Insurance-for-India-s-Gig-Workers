@@ -1,229 +1,460 @@
-# DEPLOYMENT.md — Production Deployment
+# DEPLOYMENT.md — Production Deployment Guide (Render)
 
-For local development, see [`SETUP.md`](./SETUP.md) instead — this document is production only.
+Complete step-by-step guide to deploy GigShield to production using Render.
+For local development, see [SETUP.md](./SETUP.md).
 
 ---
 
-## 1. Hosting Platform
+## Table of Contents
 
-**Recommended: a single VPS running the provided `docker-compose.yml` directly.** This matches what's actually built (5-container stack: mongo, redis, backend, ml-service, frontend, nginx) with no adaptation needed. A 4 vCPU / 8GB RAM box (DigitalOcean, Hetzner, Linode, AWS Lightsail — any of them) comfortably runs the whole stack for moderate traffic.
+1. [Architecture Overview](#1-architecture-overview)
+2. [Create All External Accounts](#2-create-all-external-accounts)
+3. [MongoDB Atlas Setup](#3-mongodb-atlas-setup)
+4. [Upstash Redis Setup](#4-upstash-redis-setup)
+5. [Get API Keys](#5-get-api-keys)
+6. [Generate Production Secrets](#6-generate-production-secrets)
+7. [Push Code to GitHub](#7-push-code-to-github)
+8. [Deploy Backend on Render](#8-deploy-backend-on-render)
+9. [Deploy ML Service on Render](#9-deploy-ml-service-on-render)
+10. [Deploy Frontend on Render](#10-deploy-frontend-on-render)
+11. [Final Configuration Updates](#11-final-configuration-updates)
+12. [Seed Production Database](#12-seed-production-database)
+13. [Verify Deployment](#13-verify-deployment)
+14. [Production Checklist](#14-production-checklist)
+15. [Monitoring & Logs](#15-monitoring--logs)
+16. [Troubleshooting](#16-troubleshooting)
 
-**Alternative: split managed services**, if you outgrow a single box or want provider-managed scaling per component:
+---
 
-| Component | Where it could move | What changes |
+## 1. Architecture Overview
+
+GigShield deploys as 3 services on Render + 2 managed cloud databases:
+
+```
+Internet
+   │
+   ├── https://gigshield-frontend-xxxx.onrender.com  ← Render Static Site
+   │      React SPA (built by Vite, served as static files)
+   │
+   ├── https://gigshield-backend-xxxx.onrender.com   ← Render Web Service (Node)
+   │      Express API + Socket.IO + Workers + Cron Jobs
+   │      └── calls internally →
+   │             https://gigshield-ml-xxxx.onrender.com  ← Render Web Service (Docker/Python)
+   │
+   ├── MongoDB Atlas (cloud.mongodb.com)  ← Managed database
+   └── Upstash Redis (upstash.com)        ← Managed Redis
+```
+
+**Key points:**
+- ML service is never public-facing — only the backend calls it
+- Workers and cron jobs run inside the backend process (no separate worker service needed)
+- Frontend is a static build — no server needed, just file serving
+
+---
+
+## 2. Create All External Accounts
+
+Create accounts on all these platforms before starting. All have free tiers:
+
+| Platform | URL | Purpose | Free Tier |
+|---|---|---|---|
+| **Render** | https://render.com | Host backend, ML, frontend | 3 free services |
+| **MongoDB Atlas** | https://cloud.mongodb.com | Database | 512MB M0 cluster |
+| **Upstash** | https://upstash.com | Redis | 10K commands/day |
+| **OpenWeatherMap** | https://openweathermap.org | Weather data | 60 calls/min |
+| **AQICN** | https://aqicn.org/data-platform/token | AQI data | Free token |
+| **GitHub** | https://github.com | Host code for Render | Free |
+
+Optional (app works in mock mode without these):
+
+| Platform | URL | Purpose |
 |---|---|---|
-| MongoDB | MongoDB Atlas | Swap `MONGO_URI` to the Atlas connection string; drop the `mongo` service from `docker-compose.yml` |
-| Redis | Upstash / Redis Cloud | Swap `REDIS_HOST`/`REDIS_PASS`; drop the `redis` service |
-| Backend + ML service | Render, Railway, Fly.io | Each already has a working `Dockerfile` — deploy them as-is on any container-based PaaS |
-| Frontend | Vercel, Netlify, Cloudflare Pages | Static build output from `npm run build`; point `VITE_API_BASE_URL` at wherever the backend ends up |
-
-The single-VPS path is what the rest of this document assumes, since it requires zero code changes.
+| **Twilio** | https://twilio.com | Real SMS OTPs | $15 trial credit |
+| **Firebase** | https://console.firebase.google.com | Push notifications | Free |
+| **Razorpay** | https://razorpay.com | Real payments | Test mode free |
 
 ---
 
-## 2. Build Command
+## 3. MongoDB Atlas Setup
+
+1. Go to [cloud.mongodb.com](https://cloud.mongodb.com) → **Sign up / Log in**
+
+2. **Create a new project** → Name: `GigShield`
+
+3. **Build a Database** → Choose **M0 Free** tier → Region: **Mumbai (ap-south-1)**
+
+4. **Authentication** → Username + Password:
+   - Username: `gigshield` (or your choice)
+   - Password: Generate a strong password → **save it**
+   - Click **Create User**
+
+5. **Network Access** → **Add IP Address** → **Allow Access from Anywhere** (`0.0.0.0/0`)
+   > This is required because Render uses dynamic IPs
+
+6. Wait for cluster to provision (~2 minutes)
+
+7. Click **Connect** → **Connect your application** → Driver: **Node.js**, Version: **5.5 or later**
+
+8. Copy the connection string:
+   ```
+   mongodb+srv://gigshield:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   ```
+
+9. **Important — add database name:** Insert `/gigshield` before the `?`:
+   ```
+   mongodb+srv://gigshield:<password>@cluster0.xxxxx.mongodb.net/gigshield?retryWrites=true&w=majority&appName=Cluster0
+   ```
+
+10. Replace `<password>` with your actual password. **Save this full URI** — this is your `MONGO_URI`.
+
+---
+
+## 4. Upstash Redis Setup
+
+1. Go to [upstash.com](https://upstash.com) → **Sign up / Log in**
+
+2. Click **Create Database**:
+   - Name: `gigshield-redis`
+   - Type: **Regional**
+   - Region: **Asia Pacific (Mumbai)**
+   - Click **Create**
+
+3. Open the database → **Details** tab
+
+4. Copy these values:
+   - **Endpoint** → `REDIS_HOST` (e.g., `summary-raccoon-130780.upstash.io`)
+   - **Port** → `REDIS_PORT` (usually `6379`)
+   - **Password** → `REDIS_PASS`
+
+5. Also copy the full **REDIS_URL** (starts with `rediss://`):
+   ```
+   rediss://default:<password>@<endpoint>:6379
+   ```
+
+6. **Important:** Upstash always requires TLS → set `REDIS_TLS=true`
+
+---
+
+## 5. Get API Keys
+
+### OpenWeatherMap (Required for trigger engine)
+
+1. Sign up at [openweathermap.org](https://home.openweathermap.org/users/sign_up)
+2. Verify your email
+3. Go to **API Keys** tab in your account dashboard
+4. Copy the **Default** key
+5. Note: New keys take **10–15 minutes** to activate
+
+→ This is your `OPENWEATHER_API_KEY`
+
+### AQICN (Required for AQI triggers)
+
+1. Go to [aqicn.org/data-platform/token](https://aqicn.org/data-platform/token/)
+2. Enter your email → Submit
+3. Check inbox → copy the token
+
+→ This is your `AQICN_API_KEY`
+
+---
+
+## 6. Generate Production Secrets
+
+Run each command separately in your terminal:
 
 ```bash
-docker compose build
+# JWT_ACCESS_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# JWT_REFRESH_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# ENCRYPTION_KEY — ⚠️ CRITICAL: Set once, never change
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# ML_SERVICE_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Builds all three application images (`backend`, `frontend`, `ml-service`) from their Dockerfiles. Individually, if you need to rebuild just one:
-```bash
-docker compose build backend
-docker compose build frontend
-docker compose build ml-service
-```
+**Save all 4 values** — you'll need them when configuring Render env vars.
 
-The frontend's Dockerfile is a multi-stage build (`npm run build` via Vite, then served as static files by `serve`) — there's no separate "build step" to run outside Docker unless you're deploying the frontend to a static host (Vercel/Netlify), in which case their own build command is just `npm run build` with output in `frontend/dist/`.
+> ⚠️ **ENCRYPTION_KEY warning:** This key encrypts bank/UPI account details in the database. Once set and data is stored, changing this key makes all existing encrypted fields permanently unreadable. Generate it once, save it somewhere safe.
 
 ---
 
-## 3. Environment Variables
+## 7. Push Code to GitHub
 
-Same `.env` file, `env_file: .env` in `docker-compose.yml` for every service. Production-specific differences from local dev (§4 of `SETUP.md`):
-
-```bash
-NODE_ENV=production
-ALLOWED_ORIGINS=https://your-domain.com
-```
-
-**Before going live, fill in for real** (all safely mock in dev, none safe to leave mocked in production):
-- `OPENWEATHER_API_KEY`, `AQICN_API_KEY` — the trigger engine can't detect anything without these.
-- `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` / `RAZORPAY_PAYOUT_ACCOUNT` / `RAZORPAY_WEBHOOK_SECRET` — no real payments happen without these; also register your production webhook URL (`https://your-domain.com/api/v1/webhooks/razorpay`) in the Razorpay dashboard.
-- `TWILIO_*` — OTP delivery and WhatsApp/SMS notifications.
-- `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` / `ENCRYPTION_KEY` — generate fresh, strong random values for production; **never reuse dev secrets.**
-- `ML_SERVICE_SECRET` — same value must be set on both `backend` and `ml-service`; make sure `ML_SERVICE_TESTING` is **not** set (or explicitly `false`) — that flag disables ML service auth entirely.
-
-**Secrets management:** for anything beyond a single trusted operator, don't keep production secrets in a plain `.env` file on disk long-term. Use your platform's secret store (Docker Swarm/Kubernetes secrets, or at minimum restrict `.env`'s file permissions to `600` and keep it out of any backup that isn't itself encrypted). Rotate `JWT_ACCESS_SECRET`/`JWT_REFRESH_SECRET` periodically — rotating invalidates all existing sessions, so plan for a brief re-login wave.
-
-Optional, for real (not mock) blockchain logging:
-```bash
-ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/<your-key>   # or a mainnet/L2 RPC once you're past testnet
-ORACLE_PRIVATE_KEY=<funded wallet private key>
-GIGSHIELD_CONTRACT_ADDRESS=<from `npm run deploy:sepolia` output>
-LOYALTY_POOL_CONTRACT_ADDRESS=<same>
-```
-Leave all three unset and blockchain logging runs in mock mode — honestly labeled as such everywhere it's surfaced in the UI (see `PHASE5_CHANGELOG.md`), never presented as if it were real.
-
----
-
-## 4. Domain
-
-Point an A record (and AAAA if you have IPv6) at your VPS's public IP:
-```
-your-domain.com.       A     <VPS_IP>
-www.your-domain.com.   A     <VPS_IP>
-```
-Propagation is usually minutes, occasionally up to 24-48h depending on your registrar/DNS provider. Verify with `dig your-domain.com` before moving to SSL setup — certbot's domain validation will fail if DNS isn't live yet.
-
-If you split services across managed platforms (§1 alternative), each gets its own subdomain instead (`api.your-domain.com` → backend, `app.your-domain.com` → frontend), and `ALLOWED_ORIGINS`/`VITE_API_BASE_URL` need to reflect that split.
-
----
-
-## 5. SSL
-
-`nginx/nginx.conf` ships with the HTTP server block active and the HTTPS block commented out, so the stack runs on plain HTTP the moment you deploy it — HTTPS is a deliberate second step once your domain is live, not a blocker to first deploy.
-
-**Get a free certificate with certbot:**
-```bash
-# On the VPS, once nginx is already running via docker-compose (§7):
-sudo apt-get install -y certbot
-sudo certbot certonly --webroot -w /opt/gigshield/nginx/webroot \
-  -d your-domain.com -d www.your-domain.com
-
-# Copy the issued cert where nginx.conf expects it:
-sudo cp /etc/letsencrypt/live/your-domain.com/fullchain.pem nginx/ssl/
-sudo cp /etc/letsencrypt/live/your-domain.com/privkey.pem nginx/ssl/
-```
-
-Then in `nginx/nginx.conf`:
-1. Uncomment the `return 301 https://$host$request_uri;` line in the HTTP server block.
-2. Uncomment the entire HTTPS `server { listen 443 ssl; ... }` block.
-3. Replace `your-domain.com` in that block with your real domain.
-4. `docker compose restart nginx`.
-
-**Auto-renewal** (certs expire every 90 days):
-```bash
-sudo crontab -e
-# add:
-0 3 * * * certbot renew --quiet --deploy-hook "cp /etc/letsencrypt/live/your-domain.com/*.pem /opt/gigshield/nginx/ssl/ && docker compose -f /opt/gigshield/docker-compose.yml restart nginx"
-```
-
----
-
-## 6. Reverse Proxy
-
-`nginx/nginx.conf` (already in the repo) handles all external traffic:
-
-| Path | Routed to | Notes |
-|---|---|---|
-| `/api/*` | `backend:5000` | Rate-limited at the edge (20 req/s/IP, burst 40) in front of the backend's own per-endpoint limiters |
-| `/socket.io/*` | `backend:5000` | WebSocket upgrade headers included — real-time claim/trigger updates |
-| `/health` | `backend:5000/health` | For external uptime monitors |
-| `/*` | `frontend:3000` | Everything else — the React SPA |
-
-The **ML service is intentionally never exposed through nginx** — it's internal-network-only, reachable at `http://ml-service:8000` from the `backend` container via Docker's internal network, gated by `x-service-secret`. There's no reason for it to be internet-facing, and keeping it off the public path is a real security boundary, not an oversight.
-
-`client_max_body_size 15m` is set for KYC selfie/document uploads — raise it if you add larger upload types later.
-
----
-
-## 7. Docker
+Make sure your latest code is on GitHub:
 
 ```bash
-# First deploy
-git clone <your-repo-url> /opt/gigshield && cd /opt/gigshield
-cp .env.example .env   # fill in real production values (§3)
-docker compose up -d --build
-
-# Subsequent deploys
-git pull origin main
-docker compose up -d --build
-docker image prune -f   # clean up old image layers
+git add -A
+git commit -m "production ready"
+git push origin main
 ```
 
-All five services (`mongo`, `redis`, `backend`, `ml-service`, `frontend`) plus `nginx` are `restart: unless-stopped` — they come back automatically after a VPS reboot or crash, without manual intervention.
+Render will pull code directly from your GitHub repo.
 
-**Check everything's actually healthy:**
+---
+
+## 8. Deploy Backend on Render
+
+1. Go to [render.com](https://render.com) → Dashboard → **New +** → **Web Service**
+
+2. Connect GitHub → select your `AI-Parametric-Insurance-for-India-s-Gig-Workers` repo
+
+3. Configure the service:
+
+   | Field | Value |
+   |---|---|
+   | **Name** | `gigshield-backend` |
+   | **Root Directory** | `backend` |
+   | **Environment** | `Node` |
+   | **Build Command** | `npm install` |
+   | **Start Command** | `node src/app.js` |
+   | **Instance Type** | `Free` (or `Starter` for no sleep) |
+
+4. Scroll down to **Environment Variables** → add each one:
+
+   ```
+   NODE_ENV                = production
+   PORT                    = 5000
+   MONGO_URI               = mongodb+srv://gigshield:<pass>@cluster0.xxxxx.mongodb.net/gigshield?retryWrites=true&w=majority&appName=Cluster0
+   REDIS_HOST              = your-upstash-endpoint.upstash.io
+   REDIS_PORT              = 6379
+   REDIS_PASS              = your-upstash-password
+   REDIS_TLS               = true
+   REDIS_URL               = rediss://default:your-upstash-password@your-upstash-endpoint.upstash.io:6379
+   JWT_ACCESS_SECRET       = <generated in §6>
+   JWT_REFRESH_SECRET      = <generated in §6>
+   JWT_EXPIRE              = 15m
+   JWT_REFRESH_EXPIRE      = 7d
+   BCRYPT_ROUNDS           = 10
+   ENCRYPTION_KEY          = <generated in §6>
+   ML_SERVICE_SECRET       = <generated in §6>
+   ML_SERVICE_TESTING      = false
+   OPENWEATHER_API_KEY     = <from §5>
+   OPENWEATHER_BASE_URL    = https://api.openweathermap.org/data/2.5
+   AQICN_API_KEY           = <from §5>
+   ```
+
+   > Leave `ML_SERVICE_URL` and `ALLOWED_ORIGINS` **blank for now** — you'll add them after ML and Frontend are deployed.
+
+5. Click **Create Web Service**
+
+6. Wait for deploy to complete (~3–5 minutes). Watch the build logs.
+
+7. **Note your backend URL** — it will be something like:
+   ```
+   https://gigshield-backend-xxxx.onrender.com
+   ```
+
+---
+
+## 9. Deploy ML Service on Render
+
+1. Render → **New +** → **Web Service**
+
+2. Same repo → Configure:
+
+   | Field | Value |
+   |---|---|
+   | **Name** | `gigshield-ml` |
+   | **Root Directory** | `ml-service` |
+   | **Environment** | `Docker` |
+   | **Instance Type** | `Free` |
+
+3. **Environment Variables:**
+
+   ```
+   ML_SERVICE_SECRET   = <same value as backend's ML_SERVICE_SECRET>
+   ML_SERVICE_TESTING  = false
+   ```
+
+4. Click **Create Web Service**
+
+5. First deploy takes ~5–8 minutes (Docker build + model training)
+
+6. **Note your ML URL:**
+   ```
+   https://gigshield-ml-xxxx.onrender.com
+   ```
+
+---
+
+## 10. Deploy Frontend on Render
+
+1. Render → **New +** → **Static Site**
+
+2. Same repo → Configure:
+
+   | Field | Value |
+   |---|---|
+   | **Name** | `gigshield-frontend` |
+   | **Root Directory** | `frontend` |
+   | **Build Command** | `npm install && npm run build` |
+   | **Publish Directory** | `dist` |
+
+3. **Environment Variables:**
+
+   ```
+   VITE_API_BASE_URL = https://gigshield-backend-xxxx.onrender.com/api/v1
+   ```
+
+   > Replace `xxxx` with your actual backend URL suffix from §8.
+
+4. Click **Create Static Site**
+
+5. Wait for build (~2–3 minutes)
+
+6. **Note your frontend URL:**
+   ```
+   https://gigshield-frontend-xxxx.onrender.com
+   ```
+
+---
+
+## 11. Final Configuration Updates
+
+Now that all 3 services are deployed, go back and update the backend with the remaining 2 env vars:
+
+1. Render → `gigshield-backend` → **Environment** tab
+
+2. Add/Update:
+
+   ```
+   ML_SERVICE_URL  = https://gigshield-ml-xxxx.onrender.com
+   ALLOWED_ORIGINS = https://gigshield-frontend-xxxx.onrender.com
+   ```
+
+   > Use your actual Render URLs with the unique suffixes (e.g., `-4wmh`, `-swb3`, `-4ad7`)
+
+3. Click **Save Changes** → backend will auto-redeploy
+
+---
+
+## 12. Seed Production Database
+
+After all services are deployed and healthy, seed the demo data into Atlas from your local machine:
+
 ```bash
-docker compose ps                       # all should show "healthy" or "running"
-curl http://localhost/health             # via nginx
-curl http://localhost:5000/health        # backend directly
-curl http://localhost:8000/health        # ml-service directly
-docker compose logs -f backend           # tail logs for any service
+cd backend
+MONGO_URI="mongodb+srv://gigshield:<pass>@cluster0.xxxxx.mongodb.net/gigshield?retryWrites=true&w=majority&appName=Cluster0" node seed/seed.js
 ```
 
-**Persistent data** lives in two named Docker volumes (`mongo_data`, `redis_data`) — these survive `docker compose down` (but not `docker compose down -v`, which deletes volumes too — never run that in production without a fresh backup first).
+> Only do this for demos/presentations. Skip for a real production launch.
 
 ---
 
-## 8. CI/CD
+## 13. Verify Deployment
 
-`.github/workflows/ci.yml` runs on every push/PR to `main`/`develop`: backend test suite (95 tests), frontend build, ML service install + syntax check, and a real Solidity compile check (via the `solc` npm package directly, sidestepping Hardhat's own compiler-binary download so it isn't dependent on that CDN being reachable from the CI runner).
+### Health checks
 
-`.github/workflows/deploy.yml` is a ready-to-use **template** for continuous deployment: on every push to `main`, it runs the full CI suite first, then SSHes into your server and does `git pull && docker compose up -d --build`. It needs three GitHub repo secrets before it'll actually run (**Settings → Secrets and variables → Actions**):
+```bash
+# Backend health
+curl https://gigshield-backend-xxxx.onrender.com/health
+# Expected: {"status":"healthy","services":{"mongodb":"connected","redis":"connected"}}
 
-| Secret | Value |
-|---|---|
-| `DEPLOY_HOST` | Your VPS's IP or domain |
-| `DEPLOY_USER` | The SSH user with deploy access (don't use `root` — create a dedicated `deploy` user) |
-| `DEPLOY_SSH_KEY` | Private key for that user (add the matching public key to the server's `~/.ssh/authorized_keys`) |
+# ML service health
+curl https://gigshield-ml-xxxx.onrender.com/health
+# Expected: {"status":"ok","models":{"premium":true,"fraud":true}}
+```
 
-Until those three secrets are set, `deploy.yml` will fail at the SSH step — that's expected and safe (it won't silently do nothing, it'll show a clear failed run). Set them up when you're ready for push-to-deploy; until then, deploy manually via §7.
+### Frontend
 
----
+Open in browser: `https://gigshield-frontend-xxxx.onrender.com`
 
-## 9. Production Checklist
+### Test login
 
-Before pointing real users at this:
+1. Open the frontend URL
+2. Enter phone: `9821000001`
+3. Check backend logs on Render (Logs tab) for OTP:
+   ```
+   [DEV] OTP for ***0001: 482913
+   ```
+4. Enter the OTP → you should reach the rider dashboard
 
-- [ ] `.env` has real, unique, non-dev values for `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `ENCRYPTION_KEY`, `MONGO_PASS`, `REDIS_PASS` (all generated fresh — see the command in `SETUP.md` §4)
-- [ ] `NODE_ENV=production` set
-- [ ] `ALLOWED_ORIGINS` restricted to your real domain(s) only — not `*`, not `localhost`
-- [ ] Real `OPENWEATHER_API_KEY` + `AQICN_API_KEY` configured (trigger engine is inert without them)
-- [ ] Real Razorpay credentials configured, webhook registered and pointing at `https://your-domain.com/api/v1/webhooks/razorpay`
-- [ ] Real Twilio credentials configured (or accept that OTP/notifications stay console-logged, which is not viable for real users)
-- [ ] SSL certificate installed and HTTPS redirect active (§5)
-- [ ] `ML_SERVICE_SECRET` set and matching between `backend` and `ml-service`, `ML_SERVICE_TESTING` unset or `false`
-- [ ] MongoDB and Redis passwords are not the `.env.example` placeholders
-- [ ] `docker compose ps` shows every service healthy
-- [ ] Backend test suite passes (`cd backend && npm test` — 95/95)
-- [ ] Ran `npm run seed` **only if** you actually want demo data in production (you probably don't — it's for demos/testing, not real launch)
-- [ ] Confirmed a real end-to-end flow manually: register → OTP → onboard → buy a policy → (optionally) manually inject a test trigger as admin → see a claim process
-- [ ] Backup strategy in place for `mongo_data` (see §11)
-- [ ] Blockchain: either genuinely configured with a funded wallet (`ETHEREUM_RPC_URL`/`ORACLE_PRIVATE_KEY`/`GIGSHIELD_CONTRACT_ADDRESS`), or consciously accepted as mock-mode-only for now — don't leave it half-configured (e.g., an RPC URL set but no contract address), which would just cause every on-chain-logging attempt to fail
+> **Free tier cold start:** First request after 15 minutes of inactivity takes 30–60 seconds. This is normal for Render free tier. Subsequent requests are fast.
 
 ---
 
-## 10. Monitoring
+## 14. Production Checklist
 
-**Built-in health endpoints** (already wired into Docker healthchecks in `docker-compose.yml`):
-- `GET /health` on the backend (port 5000) — checks DB/Redis connectivity too, not just "process is up"
-- `GET /health` on the ml-service (port 8000) — confirms both ML models loaded
+Before sharing with real users:
 
-**Recommended, not currently integrated (nothing in this codebase does this yet):**
-- An uptime monitor (UptimeRobot, Better Stack, or similar) hitting `https://your-domain.com/health` every 1-5 minutes, alerting on failure.
-- An error-tracking service (Sentry is the common choice for a Node + React + Python stack) — none of the three services currently report errors anywhere external; right now, an error is only visible if someone is actively watching `docker compose logs`.
-- Structured log shipping (the backend already uses a structured logger — piping `docker compose logs` into something like Loki, CloudWatch Logs, or even just rotated files with `logrotate` beats relying on `docker logs` history, which is not infinite).
-
-**What to actually watch:**
-- Trigger-engine cron health — if `OPENWEATHER_API_KEY`/`AQICN_API_KEY` quota runs out or the keys expire, trigger detection silently stops working with no user-facing error. Watch backend logs for repeated `Weather API failed` / `AQI API failed` entries.
-- Bull queue depth — a growing backlog in the claim-processing or payout queues (visible via Redis, or add Bull Board if you want a UI for it) means something downstream is failing repeatedly and retrying.
-- Razorpay webhook delivery failures (visible in the Razorpay dashboard) — a missed webhook means a payment/payout status update never reached the backend.
+- [ ] All 3 Render services show **"Live"** status
+- [ ] Backend `/health` returns `{"status":"healthy"}`
+- [ ] `ENCRYPTION_KEY` is set and will never be changed
+- [ ] `NODE_ENV=production` is set
+- [ ] `ALLOWED_ORIGINS` is set to exact frontend Render URL (no trailing slash)
+- [ ] `ML_SERVICE_URL` points to ML Render URL
+- [ ] `ML_SERVICE_SECRET` is identical in both backend and ML service
+- [ ] `ML_SERVICE_TESTING=false` (never true in production)
+- [ ] `OPENWEATHER_API_KEY` and `AQICN_API_KEY` are set
+- [ ] MongoDB Atlas Network Access allows Render IPs (`0.0.0.0/0`)
+- [ ] Upstash Redis `REDIS_TLS=true` is set
+- [ ] JWT secrets are properly generated (not `changeme`)
+- [ ] Seed data run only if demo/presentation (not for real launch)
+- [ ] Test full flow: login → OTP → dashboard → policy → claim
 
 ---
 
-## 11. Scaling Notes
+## 15. Monitoring & Logs
 
-**The single most important thing to know before scaling horizontally: workers and cron jobs run in-process with the API server**, not as separate processes (see `SETUP.md` §9). If you naively run multiple `backend` replicas behind a load balancer:
-- Cron jobs (trigger polling, daily analytics snapshot, selfie-hold expiry) fire **once per replica**, not once total — N replicas means the weather API gets called N× as often, and the daily analytics snapshot gets computed (and upserted) N times.
-- Bull queue workers from every replica pull from the *same* Redis-backed queues, which Bull handles safely (no duplicate job processing) — this part scales fine.
+### Render Logs
 
-**Before scaling backend replicas**, split cron/worker responsibility out of the API-serving process: either (a) run exactly one replica with an env flag like `ENABLE_CRON=true` and the rest with it disabled, or (b) extract `workers/queueManager.js` and `jobs/cronJobs.js` into their own separate service/container that runs as a singleton, with the API-serving replicas only handling HTTP/WebSocket traffic. Neither exists yet in this codebase — this is a genuine "before you scale past one instance" task, not a hypothetical.
+For each service: Render Dashboard → service → **Logs** tab
 
-**Other scaling considerations:**
-- **Socket.IO** currently runs in-memory per backend instance. Multiple replicas need the [Redis adapter for Socket.IO](https://socket.io/docs/v4/redis-adapter/) so real-time events reach clients connected to a different replica than the one that emitted the event — not configured yet.
-- **MongoDB**: a single `mongo:7.0` container has no redundancy. For real production, move to a replica set (self-hosted 3-node, or MongoDB Atlas, which handles this for you) before you have data you can't afford to lose.
-- **Redis**: similarly single-instance here. Redis Cluster or a managed Redis (Upstash/Redis Cloud/ElastiCache) if queue/cache availability becomes critical.
-- **Frontend**: it's a static SPA after build — trivially scales by putting it behind a CDN (Cloudflare in front of nginx, or move it to Vercel/Netlify entirely per the §1 alternative) rather than running more `frontend` container replicas.
-- **ML service**: stateless per-request (models are loaded once at startup, read-only after that) — safe to run multiple replicas behind the same internal load balancing Docker Compose/Swarm/K8s gives you, with zero code changes.
+Watch for:
+- Backend: `Weather API failed` (means OpenWeather key issue)
+- Backend: `Redis error` (means Upstash connection issue)
+- ML: `ML models ready` (confirms startup success)
+
+### Health Endpoints
+
+```
+GET https://gigshield-backend-xxxx.onrender.com/health
+GET https://gigshield-ml-xxxx.onrender.com/health
+```
+
+### Free Tier Sleep
+
+Render free services sleep after 15 minutes of no traffic. First request after sleep takes 30–60 seconds. To prevent sleep:
+- Upgrade to **Starter** plan ($7/month per service)
+- Or use a free uptime monitor like [UptimeRobot](https://uptimerobot.com) to ping `/health` every 10 minutes
+
+---
+
+## 16. Troubleshooting
+
+**Backend crashes on startup**
+Check Render logs. Most common causes:
+- `MongoDB connection failed` → Check `MONGO_URI` and Atlas Network Access
+- `Redis error: ENOTFOUND` → Check `REDIS_HOST` (should be Upstash endpoint, not `redis` or `localhost`)
+- `Redis error: WRONGPASS` → Check `REDIS_PASS` matches Upstash password
+
+**`401 Invalid service secret` in backend logs**
+`ML_SERVICE_SECRET` doesn't match between backend and ML service. They must be exactly the same string.
+
+**CORS errors in browser console**
+`ALLOWED_ORIGINS` in backend must exactly match the frontend URL — no trailing slash, correct `https://` prefix, and the full Render URL with unique suffix (e.g., `https://gigshield-frontend-4ad7.onrender.com` not `https://gigshield-frontend.onrender.com`).
+
+**Frontend loads but shows blank white page**
+Check browser console. If JS files blocked with wrong MIME type:
+- Verify `frontend/public/_headers` file exists in your repo
+- Verify Render Static Site publish directory is `dist`
+- Trigger a manual redeploy
+
+**OTP not showing / can't login**
+Backend logs (Render → Logs tab) show the OTP:
+```
+[DEV] OTP for ***0001: 482913
+```
+If `TWILIO_ACCOUNT_SID` is set, it tries to send real SMS instead.
+
+**Frontend can't reach backend API**
+`VITE_API_BASE_URL` is a build-time variable — check it was set correctly BEFORE the frontend built. If you changed it after deploy, trigger a manual redeploy of the frontend.
+
+**ML service shows "unhealthy"**
+First startup trains models which takes ~1–2 minutes. If still failing after that, check Render logs for Python/pip errors during Docker build.
+
+**Weather triggers not firing**
+Check backend Render logs for `Weather API failed: 401` — OpenWeather key may not be activated yet (takes 10–15 min after signup) or key is wrong.

@@ -1536,26 +1536,44 @@ The sections above describe the full product vision. This section is the honest,
 | WhatsApp AI Assistant | ⛔ Not built | Needs Meta/Twilio Business API credentials |
 | Real blockchain deployment | ⛔ Not deployed | Needs funded Sepolia testnet keys — the contracts are ready (`npm run deploy:local` works against a local Hardhat node today; `deploy:sepolia` needs real keys) |
 
-### 21.2 Running it locally
+### 21.2 Running it
 
-**With Docker (recommended):**
+**Full documentation:**
+
+- 📖 **Local development** → [SETUP.md](./SETUP.md) — complete step-by-step guide including all account creation, API key instructions, and troubleshooting
+- 🚀 **Production deployment** → [DEPLOYMENT.md](./DEPLOYMENT.md) — Render deployment guide covering MongoDB Atlas, Upstash Redis, all 3 services, and environment configuration
+
+**Quick start (local):**
+
 ```bash
-cp .env.example .env        # fill in at least MONGO_PASS, REDIS_PASS, JWT secrets
-docker-compose up --build
+# 1. Clone and install
+git clone https://github.com/Ambivert01/AI-Parametric-Insurance-for-India-s-Gig-Workers.git
+cd AI-Parametric-Insurance-for-India-s-Gig-Workers
+cd backend && npm install && cd ../frontend && npm install && cd ..
+
+# 2. Setup env
+cp .env.example .env
+ln -s ../.env backend/.env
+# Edit .env — fill in MONGO_URI, JWT secrets, ENCRYPTION_KEY
+
+# 3. Start services (3 terminals)
+cd backend && npm run dev          # Terminal 1 — API on :5000
+cd frontend && npm run dev         # Terminal 2 — UI on :3000
+cd ml-service && source venv/bin/activate && uvicorn main:app --reload --port 8000  # Terminal 3
+
+# 4. Seed demo data
+cd backend && npm run seed
 ```
-This starts MongoDB, Redis, the backend API, the ML service, the frontend, and nginx.
 
-**Without Docker**, run each service separately:
-```bash
-# Backend (needs a running MongoDB + Redis)
-cd backend && npm install && npm run dev
+**Live production URLs:**
 
-# ML service
-cd ml-service && pip install -r requirements.txt && uvicorn main:app --reload
+| Service | URL |
+|---|---|
+| Frontend | https://gigshield-frontend-4ad7.onrender.com |
+| Backend API | https://gigshield-backend-4wmh.onrender.com |
+| ML Service | https://gigshield-ml-swb3.onrender.com |
 
-# Frontend
-cd frontend && npm install && npm run dev
-```
+**Demo login:** Phone `9821000001` → OTP in backend logs → Ravi Kumar's dashboard
 
 ### 21.3 Demo dataset
 
